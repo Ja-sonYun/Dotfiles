@@ -38,4 +38,4 @@ bind index                      za  collapse-thread
 bind index                      zA  collapse-all # Missing :folddisable/foldenable
 
 # something else
-bind index G imap-fetch-mail
+bind index R imap-fetch-mail
