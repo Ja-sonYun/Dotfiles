@@ -43,6 +43,7 @@ export WEECHAT_HOME="~/.weechat"
 
 if [ "$OS_ENV" = "m1" ]; then
     export PYTHON_BASE_PATH="/opt/homebrew/bin/python3"
+    export PIP_BASE_PATH="/opt/homebrew/bin/pip3"
 fi
 
 export GPG_TTY=$(tty)
