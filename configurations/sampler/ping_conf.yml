@@ -1,0 +1,12 @@
+runcharts:
+  - title: Search engine response time
+    rate-ms: 500
+    legend:
+        enabled: true
+        details: false
+    scale: 2
+    items:
+      - label: YAHOO
+        sample: curl -o /dev/null -s -w '%{time_total}'  https://search.yahoo.com
+      - label: BING
+        sample: curl -o /dev/null -s -w '%{time_total}'  https://www.bing.com

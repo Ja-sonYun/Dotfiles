@@ -1,0 +1,80 @@
+#!/bin/sh
+
+read_char() {
+  printf "$1"
+  stty -icanon -echo
+  eval "$2=\$(dd bs=1 count=1 2>/dev/null)"
+  stty icanon echo
+}
+
+push_todo() {
+    tput setaf 2; printf " [] ADDED\n"
+    open -g "things:///add?$QUERY"
+}
+
+trap_ctrlc() {
+    if [ -z "$1" ]; then
+        echo ""
+    fi
+    if [ -z "$QUERY" ];
+    then
+        tput setaf 1; printf " [] CANCELED\n"
+    else
+        tput setaf 3
+        echo " [i] QUERY = {$QUERY}"
+        tput setaf 1
+        read_char " [i] Confirm push (y|{any}) : " EXECUTE; tput setaf 7
+        if [[ "$EXECUTE" = "y" ]]; then
+            echo "yes"
+            push_todo
+        else
+            echo "no"
+            tput setaf 1; printf " [] CANCELED\n"
+        fi
+    fi
+    exit
+}
+
+read_field() {
+    if [ "$4" ]; then
+        read_char " [+] $1 (y/n): " TEMP
+        if [ "$TEMP" = "$3" ]; then
+            echo "$3"
+            QUERY="$QUERY$2=true"
+        else
+            echo "$4"
+        fi
+    else
+        if [ "$3" ]; then
+            tput setaf 3; echo " [i] $3"
+            tput setaf 7
+        fi
+
+        read -p " [+] $1 : " TEMP
+        if [ "$TEMP" ]; then
+            TEMP=${TEMP//[\\n] /%0A}
+            TEMP=${TEMP//[\\n] /%0A}
+            TEMP=${TEMP// /%20}
+            QUERY="$QUERY$2=$TEMP"
+        else
+            if [ "$1" = "Title" ]; then
+                trap_ctrlc
+            fi
+        fi
+    fi
+}
+
+trap 'trap_ctrlc' SIGINT SIGTERM
+
+########################################
+echo "  Things : adding new todo"
+QUERY=""
+read_field "Title" "title"
+read_field "Note" "&notes"
+read_field "Completed" "&completed" "y" "n"
+read_field "When" "&when" "e.g(2018-03-25 or in 3 days)"
+read_field "Deadline" "&deadline" "e.g(2018-03-25 or in 3 days)"
+read_field "Checklist items" "&checklist-items" "'\\\n ' to split each checklist"
+########################################
+
+trap_ctrlc "EOP"

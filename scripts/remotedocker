@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if [ -z $1 ]; then
+    echo "need more parameters."
+    exit 1
+fi
+
+username=jason
+addr=1.tcp.jp.ngrok.io
+port=23959
+
+project=$1
+shift 1
+
+dest=$username"@"$addr":~/.tmp"
+rsync_port="ssh -p "$port
+
+rsync -azhP --progress -e "$rsync_port" $project $dest
+
+# ssh $username@$addr -p $port "cd ~/.tmp && $@"

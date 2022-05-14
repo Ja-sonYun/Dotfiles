@@ -1,0 +1,37 @@
+set folder                     = "imaps://imap.gmail.com/"
+set imap_user                  = USER_EMAIL
+set imap_authenticators        = "oauthbearer:xoauth2"
+set imap_oauth_refresh_command = "~/.mutt/com.gmail.username__template/mutt_oauth2.py ~/.mutt/com.gmail.username__template/${imap_user}.tokens"
+set smtp_url                   = "smtp://${imap_user}@smtp.gmail.com:587/"
+set smtp_authenticators        = ${imap_authenticators}
+set smtp_oauth_refresh_command = ${imap_oauth_refresh_command}
+
+set from              = ${imap_user}
+set realname          = USER_NAME
+
+set ssl_starttls      = yes
+set ssl_force_tls     = yes
+
+set sidebar_visible   = yes
+set sidebar_format    = "%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats
+set sort_aux          = reverse-date
+set use_from          = yes
+# set editor            = "$EDITOR"
+set imap_check_subscribed
+set spoolfile         = "+INBOX"
+set postponed         = "[Gmail]/Drafts"
+set record            = "[Gmail]/Sent"
+set trash             = "[Gmail]/Trash"
+
+set certificate_file  = "~/.mutt/com.gmail.username__template/certificates"
+set mailcap_path      = "~/.mutt/mailcap"
+
+set charset           = "utf-8"
+set assumed_charset   = "utf-8"
+set mbox_type         = "maildir"
+
+auto_view text/html
+
+set header_cache      = "~/.mutt/com.gmail.username__template/cache/headers"
+set message_cachedir  = "~/.mutt/com.gmail.username__template/cache/bodies"

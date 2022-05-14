@@ -1,0 +1,67 @@
+runcharts:
+  - title: Search engine response time
+    position: [[0, 8], [40, 12]]
+    rate-ms: 500
+    legend:
+        enabled: true
+        details: false
+    scale: 2
+    items:
+      - label: GOOGLE
+        color: 178
+        sample: curl -o /dev/null -s -w '%{time_total}'  https://www.google.com
+      - label: YAHOO
+        sample: curl -o /dev/null -s -w '%{time_total}'  https://search.yahoo.com
+      - label: BING
+        sample: curl -o /dev/null -s -w '%{time_total}'  https://www.bing.com
+barcharts:
+  - title: Local network activity
+    position: [[40, 8], [15, 4]]
+    rate-ms: 500
+    scale: 0
+    items:
+      - label: UDP bytes in
+        sample: nettop -J bytes_in -l 1 -m udp | awk '{sum += $4} END {print sum}'
+      - label: UDP bytes out
+        sample: nettop -J bytes_out -l 1 -m udp | awk '{sum += $4} END {print sum}'
+      - label: TCP bytes in
+        sample: nettop -J bytes_in -l 1 -m tcp | awk '{sum += $4} END {print sum}'
+      - label: TCP bytes out
+        sample: nettop -J bytes_out -l 1 -m tcp | awk '{sum += $4} END {print sum}'
+sparklines:
+  - title: CPU usage
+    position: [[0, 0], [40, 8]]
+    rate-ms: 200
+    scale: 0
+    sample: ps -A -o %cpu | awk '{s+=$1} END {print s}'
+  - title: Free memory pages
+    position: [[0, 32], [40, 8]]
+    rate-ms: 200
+    scale: 0
+    sample: memory_pressure | grep 'Pages free' | awk '{print $3}'
+  - title: test
+    position: [[0, 20], [40, 12]]
+    rate-ms: 200
+    scale: 0
+    sample: echo 200
+textboxes:
+  - title: Local weather
+    position: [[40, 4], [13, 4]]
+    rate-ms: 10000
+    color: 178
+    sample: curl wttr.in?0ATQF
+    border: false
+  - title: calendar
+    position: [[40, 20], [20, 20]]
+    rate-ms: 10000
+    color: 178
+    sample: print_calendar
+    border: false
+asciiboxes:
+  - title: UTC time
+    position: [[40, 0], [40, 4]]
+    rate-ms: 500
+    color: 43
+    sample: env TZ=UTC date +%r
+    border: false
+    font: 3d

@@ -1,0 +1,77 @@
+# redirect to wsl home if in wsl
+if [[ `pwd` == */mnt/c* ]]; then
+    cd $HOME
+fi
+
+export MYDOTFILES=~/.mydotfiles
+
+for f in $MYDOTFILES/cbfl/*; do
+    source $f
+done
+
+source $MYDOTFILES/zsh/module/export.sh
+source $MYDOTFILES/zsh/module/check_local_deps.sh
+source $MYDOTFILES/zsh/module/bootup.sh
+#####################################################
+source $MYDOTFILES/zsh/module/theme.sh
+source $MYDOTFILES/zsh/module/plugin.sh
+source $MYDOTFILES/zsh/module/cfunction.sh
+source $MYDOTFILES/zsh/module/fzf.sh
+source $MYDOTFILES/zsh/module/environment.sh
+
+# for Mac
+if [[ `uname` == "Darwin" ]]; then
+    source $MYDOTFILES/zsh/module/homebrew.sh
+elif [[ `uname` == "Linux" ]]; then
+    export DISPLAY=:0
+    export HOST_IP="$(ip route |awk '/^default/{print $3}')"
+    export PULSE_SERVER="tcp:$HOST_IP"
+fi
+
+source $MYDOTFILES/zsh/module/alias.sh
+
+# command line
+export _PS1_HEAD=""
+export _PS1_TAIL=""
+autoload -U colors && colors
+PS1='$([ ! -z "$TMUX" ] && echo "!")${_PS1_HEAD}bg:$(jobs | wc -l | sed "s/^ *//g")[$(date)]%~$(gitstat)${_PS1_TAIL}$ '
+
+if [ $RICHTERM ]; then
+    if [ ! $TMUX ]; then
+        tm
+    fi
+fi
+
+export _MAIN_WINDOW="default"
+
+if [ $TMUX ]; then
+    TMUX_BOOTED=`tmux showenv TMUX_BOOTED 2> /dev/null || echo 0`
+    local current_window_name=`tmux display-message -p '#S'`
+
+    if [ "$TMUX_BOOTED" = "0" ] && [ "$current_window_name" = "$_MAIN_WINDOW" ]; then
+        tmux setenv TMUX_BOOTED 1 > /dev/null
+        # run script that run on login
+        /bin/zsh $MYDOTFILES/zsh/bootup_script.sh
+    else;
+        /bin/zsh $MYDOTFILES/zsh/session_script.sh
+    fi
+
+    # quit tmux if this is the last active session on window
+    function quit_tmux() {
+        local current_window_name=`tmux display-message -p '#S'`
+        if [ "$current_window_name" = "$_MAIN_WINDOW" ]; then
+            # will return number of session in default window
+            local session_num=`tmux ls | awk '$1 ~ "default" { print $2 }'`
+            if [ "$session_num" = "1" ]; then
+                tmux kill-server
+                echo "tmux server killed"
+            fi
+        fi
+    }
+
+    trap "quit_tmux" EXIT
+fi
+
+source $MYDOTFILES/zsh/module/pyvenv.sh
+source $MYDOTFILES/zsh/module/keybind.sh
+source $MYDOTFILES/zsh/module/compinit.sh

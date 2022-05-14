@@ -1,0 +1,15 @@
+[submodule "utils/fzf/fzf"]
+	path = utils/fzf/fzf
+	url = https://github.com/junegunn/fzf
+[submodule "nvim/bundle/Vundle.vim"]
+	path = nvim/bundle/Vundle.vim
+	url = https://github.com/VundleVim/Vundle.vim.git
+[submodule "tmux/plugins"]
+	path = tmux/plugins
+	url = https://github.com/tmux-plugins/tpm.git
+[submodule "cbfl"]
+	path = cbfl
+	url = https://github.com/Ja-sonYun/cbfl.git
+[submodule "tmux-shortcuts"]
+	path = tmux-shortcuts
+	url = https://github.com/Ja-sonYun/tmux-shortcuts.git

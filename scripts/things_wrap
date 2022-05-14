@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+echo -n ""
+things.sh stat | awk '/Today\ / && $3 != "0" {; printf " T:#[fg=colour69]" $3"#[fg=default]"} /Upcoming\ / && $3 != "0" {printf " U:#[fg=colour69]" $3"#[fg=default]"} /Next\ / && $3 != "0" {printf " N:#[fg=colour69]" $3"#[fg=default]"}'

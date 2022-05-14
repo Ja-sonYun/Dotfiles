@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+if [ -z "$_PATH" ] || [ "$1" = "-f" ]; then
+    _PATH=1
+else
+    # this is a recursive call
+    return 0
+fi
+
+function shorten_pwd() {
+    # args:
+    #   $1: path to shorten
+    # return:
+    #   /Us/ad/sh/filename.sh
+    local original_path=$1
+    local OUTPUT='/'
+    local arrPWD=(${original_path//// })
+    for i in "${arrPWD[@]}"
+    do
+        if [ "$i" = "${arrPWD[${#arrPWD[@]}-1]}" ]; then
+            local OUTPUT+="$i"
+        else
+            local TEMP=`echo $i | cut -c1-2`
+            local OUTPUT+="$TEMP"/
+        fi
+    done
+    echo "$OUTPUT"
+}

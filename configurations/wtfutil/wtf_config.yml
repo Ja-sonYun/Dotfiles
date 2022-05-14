@@ -1,0 +1,130 @@
+wtf:
+    colors:
+        border:
+            focusable: darkslateblue
+            focused: orange
+            normal: gray
+    grid:
+        columns: [35, 35, 35, 35, 35, 35]
+        rows: [10, 10, 6, 10, 10, 3, 4]
+    refreshInterval: 1
+    mods:
+        todo:
+            checkedIcon: "X"
+            colors:
+                checked: gray
+                highlight:
+                    fore: "black"
+                    back: "orange"
+            enabled: true
+            filename: "todo.yml"
+            position:
+                top: 0
+                left: 1
+                height: 2
+                width: 2
+            refreshInterval: 1h
+
+        digitalclock:
+            color: orange
+            enabled: true
+            font: bigfont
+            hourFormat: 12
+            position:
+                top: 0
+                left: 0
+                height: 1
+                width: 1
+            refreshInterval: 1s
+            title: "big clock"
+            type: "digitalclock"
+
+        # ipinfo:
+        #     colors:
+        #         name: red
+        #         value: white
+        #     enabled: true
+        #     position:
+        #         top: 2
+        #         left: 0
+        #         height: 1
+        #         width: 1
+        #     refreshInterval: 150s
+
+        resourceusage:
+            cpuCombined: false
+            enabled: true
+            position:
+                top: 3
+                left: 1
+                height: 1
+                width: 1
+            refreshInterval: 1s
+            showCPU: true
+            showMem: true
+            showSwp: true
+
+        power:
+            enabled: true
+            position:
+                top: 2
+                left: 1
+                height: 1
+                width: 1
+            refreshInterval: 15s
+
+        is_slack_running:
+            args: []
+            cmd: "services_status"
+            enabled: true
+            type: cmdrunner
+            position:
+                top: 2
+                left: 2
+                height: 1
+                width: 1
+            refreshInterval: 1h
+
+        calendar:
+            args: []
+            cmd: "print_calendar"
+            enabled: true
+            type: cmdrunner
+            position:
+                top: 1
+                left: 0
+                height: 3
+                width: 1
+            refreshInterval: 1h
+
+        # gcal:
+        #     colors:
+        #         title: "red"
+        #         eventTime: "lightblue"
+        #         description: "yellow"
+        #         highlights:
+        #             - ['1on1|1\/11', 'green']
+        #             - ['apple|google|aws', 'blue']
+        #             - ['interview|meet', 'magenta']
+        #             - ['lunch', 'yellow']
+        #         past: "gray"
+        #     calendarReadLevel: "reader"
+        #     conflictIcon: "??"
+        #     currentIcon: "??"
+        #     displayResponseStatus: true
+        #     email: "chriscummer@me.com"
+        #     enabled: true
+        #     eventCount: 15
+        #     hourFormat: "12"
+        #     multiCalendar: true
+        #     position:
+        #         top: 0
+        #         left: 0
+        #         height: 4
+        #         width: 1
+        #     refreshInterval: 5m
+        #     secretFile: "~/.config/wtf/gcal/client_secret.json"
+        #     showDeclined: true
+        #     showEndTime: false
+        #     timezone: "America/Vancouver"
+        #     withLocation: true

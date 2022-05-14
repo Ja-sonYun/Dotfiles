@@ -1,0 +1,5 @@
+export MYDOTFILES=~/.mydotfiles
+
+for f in $MYDOTFILES/cbfl/*; do
+    source $f
+done

@@ -1,0 +1,20 @@
+{
+  "configurations": {
+    "run: Partial": {    < whatever that explaining the situation
+      "adapter": "debugpy",
+      "filetypes": [ "python" ],
+      "configuration": {
+        "name": "run: Partial",
+        "type": "python",
+        "request": "launch",
+        "cwd": "${cwd}",
+        "python": "python",
+        "stopOnEntry": true,
+        "console": "externalTerminal",
+        "debugOptions": [],
+        "program": "run_partial.py",   < entry point file name
+        "args": [ "-i", "data/2022-01-01", "-o", "data/2022-01-02" ]    < arguments
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+if [ -z "$_MUTEX" ] || [ "$1" = "-f" ]; then
+    _MUTEX=1
+else
+    # this is a recursive call
+    return 0
+fi
+
+_LOCK_BASE_DIR="/tmp"
+_GENERATED_LOCKS=()
+
+if [ -z "$_CHECK_LOCK_INTERVAL" ]; then  # hookable variable
+    _CHECK_LOCK_INTERVAL=0.001
+fi
+
+if [ -z "$_WAIT_TIME_LIMIT" ]; then  # hookable variable
+    _WAIT_TIME_LIMIT=5
+fi
+
+if [ -z "$_RECURSIVE_DEPTH_LIMIT" ]; then  # hookable variable
+    _RECURSIVE_DEPTH_LIMIT=5
+fi
+
+function lock() {
+    # args:
+    #   $1: lockname
+    # return:
+    #   "locked" | "failed"
+    if [ -z "$1" ]; then
+        echo "lock: no lockname given"
+        exit 1
+    fi
+
+    local lockdir="$_LOCK_BASE_DIR/$1.lock"
+
+    trap "rm -f $lockdir" EXIT
+
+    if mkdir "$lockdir" 2> /dev/null; then
+        echo "locked"
+        _GENERATED_LOCKS+=("${lockdir}")
+    else
+        echo "failed"
+    fi
+}
+
+function unlock() {
+    # args:
+    #   $1: lockname
+    # return:
+    #   "unlock" | "failed"
+    if [ -z "$1" ]; then
+        echo "lock: no lockname given"
+        exit 1
+    fi
+
+    local lockdir="$_LOCK_BASE_DIR/$1.lock"
+
+    if rmdir "$lockdir" 2> /dev/null; then
+        echo "unlocked"
+        _GENERATED_LOCKS=("${_GENERATED_LOCKS[@]/${lockdir}}")
+    else
+        echo "failed"
+    fi
+}
+
+function wait_for_unlock() {
+    # args:
+    #   $1: lockname
+    # return:
+    #   "unlocked" | "failed" | "times out"
+    if [ -z "$1" ]; then
+        echo "lock: no lockname given"
+        exit 1
+    fi
+
+    local lockdir="$_LOCK_BASE_DIR/$1.lock"
+    local result=`timeout $_WAIT_TIME_LIMIT bash << EOT
+while [ -d "$lockdir" ]; do
+    sleep $_CHECK_LOCK_INTERVAL
+done
+echo "1"
+EOT`
+
+    if [ $? -eq 124 ]; then
+        echo "times out"
+    elif [ "$result" = "1" ]; then
+        echo "unlocked"
+    else
+        echo "failed"
+    fi
+}
+
+function wait_for_unlock_and_lock() {
+    # args:
+    #   $1: lockname
+    #   $2: recursive limit
+    # return:
+    #   "locked" | "failed" | "times out"
+    if [ -z "$1" ]; then
+        echo "lock: no lockname given"
+        exit 1
+    fi
+
+    if [ -z "$2" ]; then
+        local current_recursive_depth=0
+    else
+        if [ "$2" -gt "$_RECURSIVE_DEPTH_LIMIT" ]; then
+            echo "recursive limit reached."
+            exit 1
+        fi
+        local current_recursive_depth=$(( ++$2 ))
+    fi
+
+    local result=`wait_for_unlock "$1"`
+    if [ "$result" = "unlocked" ]; then
+        result=`lock "$1"`
+        if [ "$result" = "locked" ]; then
+            echo "locked"
+            return 0
+        fi
+        # if failed to lock, try unlock again
+        wait_for_unlock_and_lock "$1" $current_recursive_depth
+    else
+        echo $result
+    fi
+}
+
+function clear_lock() {
+    rm -f /tmp/*.lock
+}

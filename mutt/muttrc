@@ -1,0 +1,9 @@
+source ./vim-keys.rc
+
+# folder-hook 'account.com.gmail.personal30867' 'source ~/.mutt/account.com.gmail.personal_30867'
+folder-hook 'account.com.gmail.username__template' 'source ~/.mutt/account.com.gmail.username__template'
+
+# Default account
+source ~/.mutt/account.com.gmail.username__template
+
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/account.com.gmail.username__template<enter><change-folder>!<enter>'

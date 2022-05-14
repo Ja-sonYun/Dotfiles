@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+if [ -z "$_PIPE" ] || [ "$1" = "-f" ]; then
+    _PIPE=1
+else
+    # this is a recursive call
+    return 0
+fi
+
+_PIPE_BASE_DIR="/tmp"
+_GENERATED_PIPE=()
+
+function read_pipe() {
+    # args:
+    #   $1: pipe name
+    if [ -z "$1" ]; then
+        echo "read_pipe: missing pipe name"
+        exit 1
+    fi
+
+    local pipe="$_PIPE_BASE_DIR/$1.pipe"
+
+    trap "rm -f $pipe" EXIT
+
+    if [ ! -p "$pipe" ]; then
+        mkfifo $pipe
+        _GENERATED_PIPE+=("${pipe}")
+    fi
+
+    while true; do
+        if read line < $pipe; then
+            if [ "$line" = "_quit" ]; then
+                _GENERATED_PIPE=("${_GENERATED_PIPE[@]/${pipe}}")
+                break
+            fi
+            echo $line
+        fi
+    done
+}
+
+function write_pipe() {
+    # args:
+    #   $1: pipe name
+    #   $2: message
+    if [ -z "$1" ]; then
+        echo "read_pipe: missing pipe name"
+        exit 1
+    fi
+
+    local pipe="$_PIPE_BASE_DIR/$1.pipe"
+
+    if [ ! -p "$pipe" ]; then
+        echo "Pipe not found."
+        exit 1
+    fi
+
+    echo "$2" > $pipe
+}
+
+function break_pipe() {
+    # args:
+    #   $1: pipe name
+    if [ -z "$1" ]; then
+        echo "read_pipe: missing pipe name"
+        exit 1
+    fi
+
+    write_pipe $1 "_quit"
+}
+
+function clear_pipe() {
+    rm -f /tmp/*.pipe
+}
