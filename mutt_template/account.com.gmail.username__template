@@ -20,9 +20,9 @@ set use_from          = yes
 # set editor            = "$EDITOR"
 set imap_check_subscribed
 set spoolfile         = "+INBOX"
-set postponed         = "[Gmail]/Drafts"
-set record            = "[Gmail]/Sent"
-set trash             = "[Gmail]/Trash"
+set postponed         = "~/.mutt/com.gmail.username__template/[Gmail]/Drafts"
+set record            = "~/.mutt/com.gmail.username__template/[Gmail]/Sent"
+set trash             = "~/.mutt/com.gmail.username__template/[Gmail]/Trash"
 
 set certificate_file  = "~/.mutt/com.gmail.username__template/certificates"
 set mailcap_path      = "~/.mutt/mailcap"
