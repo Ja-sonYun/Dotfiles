@@ -36,7 +36,7 @@ nnoremap <silent> ,R <ESC>:source ~/.mydotfiles/nvim/init.vim <bar> :call EchoMe
 
 nnoremap <silent> tn :tabnext<CR>
 nnoremap <silent> tp :tabprevious<CR>
-nnoremap <silent> tc :tabclose<CR>
+nnoremap <silent> tq :tabclose<CR>
 nnoremap <silent> to :tabnew<CR>
 
 " nnoremap <silent> <leader>gy :Goyo<CR>:source ~/.mydotfiles/nvim/init.vim<CR>
@@ -95,3 +95,4 @@ imap <silent><script><expr> <C-s> copilot#Accept('\<CR>')
 
 let g:copilot_no_tab_map = v:true
 let g:camelcasemotion_key = '<leader>'
+

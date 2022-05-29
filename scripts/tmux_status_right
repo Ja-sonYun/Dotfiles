@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+timewtrack_all="$(timew)"
+timewtrack=$(echo "$timewtrack_all" | awk 'NR==1')
+
+if [[ $timewtrack =~ ^Tracking ]]; then
+    current_work_time=$(echo "$timewtrack_all" | awk 'NR==4 { print substr($2, 1, length($2)-3) }')
+    timewtrack="#[fg=red]|| #[fg=default]$(echo $timewtrack | cut -d\" -f2) ($current_work_time)#[fg=red] ||#[fg=default]"
+else
+    timewtrack="#[fg=red] * #[fg=default]"
+fi
+
+echo "$timewtrack"

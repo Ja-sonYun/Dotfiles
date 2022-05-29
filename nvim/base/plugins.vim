@@ -52,6 +52,8 @@ if has('nvim')
   Plugin 'pwntester/octo.nvim'
   Plugin 'nvim-telescope/telescope.nvim'
   Plugin 'kyazdani42/nvim-web-devicons'
+  Plugin 'vimwiki/vimwiki'
+  Plugin 'tools-life/taskwiki'
 endif
 
 
