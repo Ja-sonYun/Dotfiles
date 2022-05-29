@@ -6,10 +6,10 @@ filetype off
 set rtp+=$MYDOTFILES/nvim/bundle/Vundle.vim
 call vundle#begin()            " required
 Plugin 'VundleVim/Vundle.vim'  " required
-" Vim FZF integration, used as OmniSharp selector
+" Vim FZf integration, used as OmniSharp selector
 Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
-Plugin 'chrisbra/csv.vim'
+" Plugin 'chrisbra/csv.vim'
 Plugin 'github/copilot.vim'
 Plugin 'puremourning/vimspector'
 Plugin 'tpope/vim-fugitive'
@@ -31,6 +31,8 @@ Plugin 'airblade/vim-rooter'
 Plugin 'Yggdroot/indentLine'
 
 if has('nvim')
+  " Plugin 'ldelossa/litee.nvim'
+  " Plugin 'ldelossa/gh.nvim'
   Plugin 'lewis6991/gitsigns.nvim'
   Plugin 'folke/trouble.nvim'
   Plugin 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -40,13 +42,16 @@ if has('nvim')
   " Plugin 'folke/todo-comments.nvim'
   " Plugin 'gelguy/wilder.nvim'
   Plugin 'ms-jpq/coq_nvim', {'branch': 'coq'}
-  Plugin 'ggandor/lightspeed.nvim'
+  " Plugin 'ggandor/lightspeed.nvim'
   Plugin 'neovim/nvim-lspconfig'
   Plugin 'j-hui/fidget.nvim'
   Plugin 'kyazdani42/nvim-tree.lua'
   Plugin 'MunifTanjim/nui.nvim'
   " Plugin 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python -m chadtree deps'}
   " Plugin 'rcarriga/nvim-notify'
+  Plugin 'pwntester/octo.nvim'
+  Plugin 'nvim-telescope/telescope.nvim'
+  Plugin 'kyazdani42/nvim-web-devicons'
 endif
 
 

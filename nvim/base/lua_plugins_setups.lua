@@ -58,11 +58,11 @@ vim.highlight.create('GitSignsCurrentLineBlame', {ctermbg=121, gui='bold,undercu
 
 require('gitsigns').setup {
   signs = {
-    add          = {hl = 'GitSignsAdd'   , text = ' ║'},
-    change       = {hl = 'GitSignsChange', text = ' ║'},
-    delete       = {hl = 'GitSignsDelete', text = ' ║'},
-    topdelete    = {hl = 'GitSignsDelete', text = ' ║'},
-    changedelete = {hl = 'GitSignsChange', text = ' ║'},
+    add          = {hl = 'GitSignsAdd'   , text = ' |'},
+    change       = {hl = 'GitSignsChange', text = ' |'},
+    delete       = {hl = 'GitSignsDelete', text = ' |'},
+    topdelete    = {hl = 'GitSignsDelete', text = ' |'},
+    changedelete = {hl = 'GitSignsChange', text = ' |'},
   },
   signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
   numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -136,4 +136,10 @@ require('gitsigns').setup {
   end
 }
 
-require 'colorizer'.setup()
+require('colorizer').setup()
+
+-- require('octo').setup()
+require('telescope').setup {
+  defaults = require('telescope.themes').get_ivy {
+  },
+}

@@ -9,30 +9,34 @@ require'nvim-tree'.setup {
 EOF
 
 
-let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 }
-let g:nvim_tree_icons = {
-    \ 'default': '- ',
-    \ 'symlink': '&',
-    \ 'git': {
-    \   'unstaged': "x",
-    \   'staged': "s",
-    \   'unmerged': ".",
-    \   'renamed': "m",
-    \   'untracked': "?",
-    \   'deleted': "!",
-    \   'ignored': "_"
-    \   },
-    \ 'folder': {
-    \   'arrow_open': "└",
-    \   'arrow_closed': "|",
-    \   'default': "=",
-    \   'open': "┐",
-    \   'empty': "-",
-    \   'empty_open': "+",
-    \   'symlink': "&",
-    \   'symlink_open': "&",
-    \   }
-    \ }
+if has('nvim')
+  let g:itsnvim=1
+else
+  let g:nvim_tree_special_files = { 'README.md': 1, 'Makefile': 1, 'MAKEFILE': 1 }
+  let g:nvim_tree_icons = {
+      \ 'default': '- ',
+      \ 'symlink': '&',
+      \ 'git': {
+      \   'unstaged': "x",
+      \   'staged': "s",
+      \   'unmerged': ".",
+      \   'renamed': "m",
+      \   'untracked': "?",
+      \   'deleted': "!",
+      \   'ignored': "_"
+      \   },
+      \ 'folder': {
+      \   'arrow_open': "└",
+      \   'arrow_closed': "|",
+      \   'default': "=",
+      \   'open': "┐",
+      \   'empty': "-",
+      \   'empty_open': "+",
+      \   'symlink': "&",
+      \   'symlink_open': "&",
+      \   }
+      \ }
+endif
 
 augroup nvim_tree_augroup
   autocmd!

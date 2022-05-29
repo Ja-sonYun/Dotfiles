@@ -1,6 +1,6 @@
 " theme
 
-highlight! Folded gui=bold,italic,undercurl guifg=LightBlue guibg=Normal
+highlight! Folded gui=bold,italic guifg=LightBlue guibg=Normal
 highlight! LspDiagnosticsVirtualTextError guifg=red gui=bold,italic,underline
 highlight! LspDiagnosticsVirtualTextWarning guifg=orange gui=bold,italic,underline
 highlight! LspDiagnosticsVirtualTextInformation guifg=yellow gui=bold,italic,underline

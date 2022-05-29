@@ -1,8 +1,7 @@
 #!/bin/sh
 
 function init_tmux() {
-    tmux new-session -d -s popup 2>/dev/null
-    tmux send-keys -t popup "tmux set status off && clear" Enter 2>/dev/null
+    tmux new-session -d -s popup 2>/dev/null && tmux send-keys -t popup "tmux set status off && clear" Enter 2>/dev/null
     tmux -u new-session -s default 2>/dev/null
 }
 

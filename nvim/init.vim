@@ -48,8 +48,8 @@ set completeopt=menu,menuone,noselect
 set shortmess+=c
 set termguicolors
 
-set noruler
-set noshowmode
+" set noruler
+" set noshowmode
 set updatetime=1000
 set timeoutlen=1000
 set ttimeoutlen=0

@@ -59,7 +59,8 @@ if [ $TMUX ]; then
     # quit tmux if this is the last active session on window
     function quit_tmux() {
         local current_window_name=`tmux display-message -p '#S'`
-        if [ "$current_window_name" = "$_MAIN_WINDOW" ]; then
+        local current_window_panes=`tmux display-message -p '#{window_panes}'`
+        if [ "$current_window_name" = "$_MAIN_WINDOW" ] && [ "$current_window_panes" = "1" ]; then
             # will return number of session in default window
             local session_num=`tmux ls | awk '$1 ~ "default" { print $2 }'`
             if [ "$session_num" = "1" ]; then

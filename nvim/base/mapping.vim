@@ -34,10 +34,10 @@ nnoremap <silent> ,R <ESC>:source ~/.mydotfiles/nvim/init.vim <bar> :call EchoMe
 " nnoremap WJ <ESC>:resize +2<CR>
 " nnoremap WK <ESC>:resize -2<CR>
 
-nnoremap <silent> qN :tabnext<CR>
-nnoremap <silent> qP :tabprevious<CR>
-nnoremap <silent> qX :tabclose<CR>
-nnoremap <silent> qO :tabnew<CR>
+nnoremap <silent> tn :tabnext<CR>
+nnoremap <silent> tp :tabprevious<CR>
+nnoremap <silent> tc :tabclose<CR>
+nnoremap <silent> to :tabnew<CR>
 
 " nnoremap <silent> <leader>gy :Goyo<CR>:source ~/.mydotfiles/nvim/init.vim<CR>
 
@@ -79,6 +79,10 @@ nmap gP <Plug>(yankround-gP)
 " e.g. if you change the order of buffers :bnext and :bprevious will not respect the custom ordering
 
 nnoremap gp :silent %!prettier --stdin-filepath %<CR>
+
+" nnoremap cs :silent *
+nnoremap cs *:%s///gc<left><left><left>
+vnoremap <C-r> :s/<left>
 
 nnoremap ,,,,i <ESC>:setlocal ts=4 sw=4 expandtab<CR>
 nnoremap ,,i <ESC>:setlocal ts=2 sw=2 expandtab<CR>

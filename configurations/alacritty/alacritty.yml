@@ -113,22 +113,22 @@ scrolling:
 
 # Font configuration
 font:
-    # normal:
-    #     family: BigBlue_TerminalPlus Nerd Font
-    #     style: Book
     normal:
-        family: JetBrainsMono Nerd Font
-        style: Light
-    bold:
-        family: JetBrainsMono Nerd Font
-        style: Bold
-    italic:
-        family: JetBrainsMono Nerd Font
-        style: Light Italic
+        family: BigBlue_TerminalPlus Nerd Font
+        style: Book
+    # normal:
+    #     family: JetBrainsMono Nerd Font
+    #     style: Light
+    # bold:
+    #     family: JetBrainsMono Nerd Font
+    #     style: Bold
+    # italic:
+    #     family: JetBrainsMono Nerd Font
+    #     style: Light Italic
     # size: 12
     offset:
         x: 0
-        y: 0 # 3  # just for bigblue font
+        y: 3 # 3  # just for bigblue font
     glyph_offset:
         x: 0
         y: 0
