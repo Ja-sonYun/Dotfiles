@@ -15,7 +15,7 @@ zplug "plugins/brew", from:oh-my-zsh
 zplug "plugins/brew-cask", from:oh-my-zsh
 zplug "plugins/tmux", from:oh-my-zsh
 zplug "plugins/tmuxinator", from:oh-my-zsh
-zplug "lukechilds/zsh-nvm", from:github
+# zplug "lukechilds/zsh-nvm", from:github
 zplug "docker/compose", use:contrib/completion/zsh
 zplug "docker/cli", use:contrib/completion/zsh
 

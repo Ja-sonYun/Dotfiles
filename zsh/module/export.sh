@@ -1,7 +1,9 @@
 
 export PATH="$PATH:$MYDOTFILES/scripts"
 export PATH="$PATH:$HOME/.bin"
-export PATH="$PATH/.local/bin"
+export PATH="$PATH:/.local/bin"
+export PATH="$PATH:/usr/local/bin"
+
 export KITTY_CONFIG_DIRECTORY="$MYDOTFILES/"
 export XDG_CONFIG_HOME="$MYDOTFILES"
 export ZSH="$HOME/.oh-my-zsh"
@@ -10,7 +12,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PYENV_ROOT/shims:$PATH"
 
-export EDITOR="`which nvim`"
+export EDITOR="nvim"
 
 if [[ `uname` == "Darwin" ]]; then
     source $MYDOTFILES/zsh/module/homebrew.sh

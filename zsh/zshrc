@@ -12,9 +12,9 @@ done
 source $MYDOTFILES/zsh/module/export.sh
 source $MYDOTFILES/zsh/module/check_local_deps.sh
 source $MYDOTFILES/zsh/module/bootup.sh
-#####################################################
-source $MYDOTFILES/zsh/module/theme.sh
+# #####################################################
 source $MYDOTFILES/zsh/module/plugin.sh
+source $MYDOTFILES/zsh/module/theme.sh
 source $MYDOTFILES/zsh/module/cfunction.sh
 source $MYDOTFILES/zsh/module/fzf.sh
 source $MYDOTFILES/zsh/module/environment.sh

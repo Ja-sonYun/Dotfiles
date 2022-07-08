@@ -21,7 +21,7 @@ nnoremap <silent> ,f :Files<CR>
 nnoremap <silent> ,r :Rg<CR>
 nnoremap <silent> <leader>q <ESC>:q<CR>
 nnoremap <silent> qw <ESC>:w<CR>:call EchoMessage('Saved at ' . strftime('%c'))<CR>
-nnoremap <silent> qe <ESC>:e<CR>:call EchoMessage('Reloaded!')<CR>
+nnoremap <silent> qe <ESC>:e<bar>:LspStop<CR>:sleep 100m<bar>LspStart<CR>:call EchoMessage('Reloaded!')<CR>
 nnoremap qr :! 
 nnoremap <silent> ql <ESC>:ls<CR>:b 
 nnoremap <silent> qm <ESC>:marks<CR>:'

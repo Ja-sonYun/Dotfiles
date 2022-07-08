@@ -47,6 +47,7 @@ set completeopt=menu,menuone,noselect
 
 set shortmess+=c
 set termguicolors
+set conceallevel=0
 
 " set noruler
 " set noshowmode

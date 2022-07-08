@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+function _get_instance_az () {
+    INSTANCE_ID="$1"
+    aws ec2 describe-instances --instance-ids="$INSTANCE_ID" --query 'Reservations[0].Instances[0].Placement.AvailabilityZone' --output text
+}
+
+function _send_ssh_public_key_to_instance () {
+    INSTANCE_ID="$1"
+    USER_NAME="$2"
+    KEY_FILE="$3"
+    AZ="$4"
+    aws ec2-instance-connect send-ssh-public-key --instance-id "$INSTANCE_ID" --availability-zone "$AZ" --instance-os-user "$USER_NAME" --ssh-public-key "file://$KEY_FILE"
+}
+
+function _usage {
+    cat <<EOF
+$(basename ${0}): ssh to ec2 instance via ssm/instance-connect
+
+Requirements:
+    - AWS CLI is installed.
+    - Permission to run "aws ssm start-session".
+    - Permission to run "aws ec2 describe-instances" to determine which AZ the instance is in.
+    - Permission to run "aws ec2-instance-connect send-ssh-public-key"
+    - SSH connections through the SessionManager are allowed in ~/.ssh/config as shown below.
+      (see: https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-getting-started-enable-ssh-connections.html)
+        host i-* mi-*
+            ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'"
+
+Usage:
+    $(basename ${0}) <user-name> <instance-id> [--key-file <key-file>] [--send-key-only]
+
+Options:
+    instance-id:        ID of the instance to ssh to.(e.g. "i-12345678")
+    user-name:          User name to ssh as.(e.g. "ec2-user")
+    --key-file:         (default: "\$HOME/.ssh/id_rsa.pub")
+    --send-key-only:    Only transfer the key and do not execute ssh command. (default: false)
+EOF
+}
+
+USER_NAME="$1"
+if [[ -z "${USER_NAME}" ]]; then
+    _usage 1>&2
+    exit 2
+fi
+INSTANCE_ID="$2"
+if [[ -z "${INSTANCE_ID}" ]]; then
+    _usage 1>&2
+    exit 1
+fi
+shift 2
+
+for OPT in "$@"
+do
+    case $OPT in
+        --key-file)
+            KEY_FILE=$2
+            shift 2
+            ;;
+        --send-key-only)
+            SEND_KEY_ONLY=true
+            shift
+            ;;
+    esac
+    shift
+done
+
+if [[ -z "${KEY_FILE}" ]]; then
+    KEY_FILE="$HOME/.ssh/id_rsa.pub"
+fi
+AZ=`_get_instance_az "$INSTANCE_ID"`
+
+echo "send $KEY_FILE to $USER_NAME@$INSTANCE_ID($AZ)"
+_send_ssh_public_key_to_instance "$INSTANCE_ID" "$USER_NAME" "$KEY_FILE" "$AZ"
+
+if [[ -z "${SEND_KEY_ONLY}" ]]; then
+    ssh "$USER_NAME@$INSTANCE_ID"
+fi
+
