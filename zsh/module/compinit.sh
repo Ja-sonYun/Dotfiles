@@ -18,3 +18,9 @@ enable_completer aws_completer aws
 
 # terraform
 enable_completer terraform terraform
+
+# gh
+gh_autocomp_path=/usr/local/share/zsh/site-functions/_gh
+if (( $+commands[ghw] )) && [ -f $gh_autocomp_path ]; then
+    gh completion -s zsh > $gh_autocomp_path
+fi

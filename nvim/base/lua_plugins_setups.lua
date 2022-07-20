@@ -138,7 +138,7 @@ require('gitsigns').setup {
 
 require('colorizer').setup()
 
--- require('octo').setup()
+require('octo').setup()
 require('telescope').setup {
   defaults = require('telescope.themes').get_ivy {
   },

@@ -1,7 +1,7 @@
 " autocmd BufWritePost *.py call RunPysen()
 augroup formatter
   autocmd!
-  autocmd BufWritePost *.py call RunBlack()
+  autocmd BufWritePost *.py call RunFormatter()
   autocmd BufWritePost *.ts,*.tsx call RunPrettier()
   autocmd BufWritePost *.tex call RunLatex()
   autocmd BufWritePost *.rs call RunRustfmt()
@@ -11,8 +11,9 @@ augroup END
 "   !pysen >/dev/null || pysen run_files format %
 "   edit  " reload file
 " endfunction
-function RunBlack()
+function RunFormatter()
   !black %
+  !isort %
   edit  " reload file
 endfunction
 
@@ -34,5 +35,10 @@ endfunction
 " autocmd! FileType fzf set laststatus=0 noshowmode noruler
 "   \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
-autocmd InsertEnter * :set norelativenumber
-autocmd InsertLeave * :set relativenumber
+" autocmd InsertEnter * :set norelativenumber
+" autocmd InsertLeave * :set relativenumber
+
+let not_code = ['octo', 'NvimTree', 'vimspector']
+
+autocmd InsertEnter * if index(not_code, &ft) < 0 | set norelativenumber | endif
+autocmd InsertLeave * if index(not_code, &ft) < 0 | set relativenumber | endif

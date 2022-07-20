@@ -1,5 +1,7 @@
 nmap w <Plug>CamelCaseMotion_w
 vmap w <Plug>CamelCaseMotion_w
+nmap b <Plug>CamelCaseMotion_b
+vmap b <Plug>CamelCaseMotion_b
 nnoremap Q q
 nnoremap q <Nop>
 nnoremap J <Nop>
@@ -81,8 +83,11 @@ nmap gP <Plug>(yankround-gP)
 nnoremap gp :silent %!prettier --stdin-filepath %<CR>
 
 " nnoremap cs :silent *
-nnoremap cs *:%s///gc<left><left><left>
-vnoremap <C-r> :s/<left>
+" nnoremap cs *:%s///gc<left><left><left>
+nnoremap <C-s>r <ESC>*:%s///gc<left><left><left>
+nnoremap <C-s>R <ESC>*:%s///g<left><left>
+vnoremap <C-s>r :s//gc<left><left><left>
+vnoremap <C-s>R :s//g<left><left>
 
 nnoremap ,,,,i <ESC>:setlocal ts=4 sw=4 expandtab<CR>
 nnoremap ,,i <ESC>:setlocal ts=2 sw=2 expandtab<CR>
