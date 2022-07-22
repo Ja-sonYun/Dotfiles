@@ -20,7 +20,6 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'schickling/vim-bufonly'
 Plugin 'vim-scripts/DrawIt'
 Plugin 'tpope/vim-repeat'
-Plugin 'surround.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'LeafCage/yankround.vim'
 Plugin 'jiangmiao/auto-pairs'
@@ -52,6 +51,9 @@ if has('nvim')
   Plugin 'pwntester/octo.nvim'
   Plugin 'nvim-telescope/telescope.nvim'
   Plugin 'kyazdani42/nvim-web-devicons'
+  Plugin 'kylechui/nvim-surround'
+else
+  Plugin 'surround.vim'
 endif
 
 
