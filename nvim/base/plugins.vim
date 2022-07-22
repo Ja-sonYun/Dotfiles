@@ -52,6 +52,7 @@ if has('nvim')
   Plugin 'nvim-telescope/telescope.nvim'
   Plugin 'kyazdani42/nvim-web-devicons'
   Plugin 'kylechui/nvim-surround'
+  Plugin 'dccsillag/magma-nvim', { 'do': ':UpdateRemotePlugins' }
 else
   Plugin 'surround.vim'
 endif
@@ -61,6 +62,18 @@ call vundle#end()               " required
 filetype plugin indent on       " required
 syntax on
 
-" plugin development
 
-set runtimepath^=~/.vim/bundle/test.nvim
+" ==============================================================================
+" Jupyter Setup
+" ==============================================================================
+nnoremap <silent><expr> <LocalLeader>r  :MagmaEvaluateOperator<CR>
+nnoremap <silent>       <LocalLeader>rr :MagmaEvaluateLine<CR>
+xnoremap <silent>       <LocalLeader>rr :<C-u>MagmaEvaluateVisual<CR>
+nnoremap <silent>       <LocalLeader>rc :MagmaReevaluateCell<CR>
+nnoremap <silent>       <LocalLeader>rd :MagmaDelete<CR>
+nnoremap <silent>       <LocalLeader>ro :MagmaShowOutput<CR>
+nnoremap <silent>       <LocalLeader>rq :MagmaDeinit<CR>
+nnoremap <silent>       <LocalLeader>rs :MagmaInit<CR>
+nnoremap <silent>       <LocalLeader>rR :MagmaRestart<CR>
+" let g:magma_automatically_open_output = v:false
+" ==============================================================================
