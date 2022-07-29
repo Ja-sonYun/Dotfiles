@@ -16,6 +16,7 @@ link_file () {
 link_file $HOME/.zshrc $MYDOTFILES/zsh/zshrc
 link_file $HOME/.bashrc $MYDOTFILES/bash/bashrc
 link_file $HOME/.tmux.conf $MYDOTFILES/tmux/tmux.conf
+link_file $HOME/.config/alacritty.yml $MYDOTFILES/configurations/alacritty/alacritty.yml
 
 # link config files
 if [ "$OS_ENV" = "m1" ]; then
