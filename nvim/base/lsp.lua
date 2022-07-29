@@ -100,14 +100,14 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
 end
 
-vim.highlight.create('NormalFloat', {guibg='Normal', guibg='Grey10'}, false)
-vim.highlight.create('TreesitterContext', {gui='bold', guibg='Grey20'}, false)
+vim.api.nvim_set_hl(0, 'NormalFloat', {bg='Grey10'})
+vim.api.nvim_set_hl(0, 'TreesitterContext', {bg='Grey20'})
 
-vim.highlight.create('NormalBorder', {gui='bold', guibg='Grey10', guifg='Grey'}, false)
-vim.highlight.create('FloatBorder', {gui='bold', guibg='Grey10', guifg='Grey'}, false)
-vim.highlight.create('Visual', {gui='bold,undercurl', guibg='Grey30'}, false)
-vim.highlight.create('Pmenu', {guibg='Grey10'}, false)
-vim.highlight.create('PmenuSel', {gui='bold,undercurl', guibg='Grey20', guifg='Yellow'}, false)
+vim.api.nvim_set_hl(0, 'NormalBorder', {bg='Grey10', fg='Grey'})
+vim.api.nvim_set_hl(0, 'FloatBorder', {bg='Grey10', fg='Grey'})
+vim.api.nvim_set_hl(0, 'Visual', {bg='Grey30'})
+vim.api.nvim_set_hl(0, 'Pmenu', {bg='Grey10'})
+vim.api.nvim_set_hl(0, 'PmenuSel', {bg='Grey20', fg='Yellow'})
 
 -- LSP settings (for overriding per client)
 local handlers =  {

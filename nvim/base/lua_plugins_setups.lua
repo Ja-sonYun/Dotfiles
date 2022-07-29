@@ -51,10 +51,10 @@ require("trouble").setup {
 
 -- Question       xxx ctermfg=121 gui=bold guifg=Green
 
-vim.highlight.create('GitSignsAdd', {ctermbg=121, gui='bold', guifg='Green'}, false)
-vim.highlight.create('GitSignsChange', {ctermbg=121, gui='bold', guifg='Orange'}, false)
-vim.highlight.create('GitSignsDelete', {ctermbg=121, gui='bold', guifg='Red'}, false)
-vim.highlight.create('GitSignsCurrentLineBlame', {ctermbg=121, gui='bold,undercurl', guifg='Grey'}, false)
+vim.api.nvim_set_hl(0, 'GitSignsAdd', {ctermbg=121, fg='Green'})
+vim.api.nvim_set_hl(0, 'GitSignsChange', {ctermbg=121, fg='Orange'})
+vim.api.nvim_set_hl(0, 'GitSignsDelete', {ctermbg=121, fg='Red'})
+vim.api.nvim_set_hl(0, 'GitSignsCurrentLineBlame', {ctermbg=121, fg='Grey'})
 
 require('gitsigns').setup {
   signs = {
