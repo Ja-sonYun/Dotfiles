@@ -58,6 +58,8 @@ set tags=./.tags;,tags;
 set foldenable
 set foldmethod=manual
 
+set list listchars=tab:>\ ,trail:\ ,eol:;
+
 set nu
 set relativenumber
 
@@ -73,16 +75,6 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " endif
 
-" let g:airline#extensions#tabline#enabled = 1
-
 " NerdCommenter:
 let g:NERDSpaceDelims=1
 let g:NERDDefaultAlign='left'
-
-
-" Custom Key Mapping:
-" nnoremap <C-p> :Files<CR>
-" nnoremap <C-n> :Rg<CR>
-" let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-" let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-" let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
