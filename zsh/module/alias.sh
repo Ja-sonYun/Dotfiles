@@ -5,7 +5,6 @@ alias vimdiff="nvim -d"
 alias tags="ctags -R -f .tags"
 
 alias mux="tmuxinator"
-alias ngrok="~/.ngrok"
 
 alias tcpdump="sudo tcpdump"
 alias tshark="sudo tshark"

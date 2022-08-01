@@ -6,7 +6,7 @@ export PATH="$PATH:/usr/local/bin"
 
 export KITTY_CONFIG_DIRECTORY="$MYDOTFILES/"
 export XDG_CONFIG_HOME="$MYDOTFILES"
-export ZSH="$HOME/.oh-my-zsh"
+# export ZSH="$HOME/.oh-my-zsh"
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"

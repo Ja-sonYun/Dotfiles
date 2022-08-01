@@ -1,7 +1,5 @@
 #!/bin/zsh
 
-nohup run_workhour > /dev/null 2>&1 &
-
 tmux set status on
 
 cat << EOF
