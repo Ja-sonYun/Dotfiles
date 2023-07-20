@@ -85,9 +85,3 @@ set_all:
 	$(MAKE) set_globalpip
 	$(MAKE) set_gitignore
 	$(MAKE) set_mac_window_manager
-
-push:
-	git add .
-	# commit with datetime
-	git commit -m "update at `date`"
-	git push
