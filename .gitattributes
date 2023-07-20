@@ -1,6 +1,0 @@
-mutt/** filter=git-crypt diff=git-crypt
-crontab/** filter=git-crypt diff=git-crypt
-weechat/** filter=git-crypt diff=git-crypt
-*.data filter=git-crypt diff=git-crypt
-*.env filter=git-crypt diff=git-crypt
-dev_tunnel/** filter=git-crypt diff=git-crypt
