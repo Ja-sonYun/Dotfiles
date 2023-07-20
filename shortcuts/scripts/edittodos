@@ -1,0 +1,47 @@
+#!/bin/sh
+
+case $1 in
+    -c)
+        if [ $# -eq 1 ]; then
+            echo "Usage: $0 -c [todo]"
+            exit 1
+        fi
+        cat > "$2.txt" << EOF
+%LIST%:Todos
+%TODO%:
+%NOTES%:
+%UUID%:$(uuidgen)
+%DUEDATE%:
+%URL%:
+%TAGS%:
+%DONE%:no
+%PRIORITY%:
+EOF
+        ;;
+    -e)
+        if [ $# -eq 1 ]; then
+            echo "Usage: $0 -e [todo]"
+            exit 1
+        fi
+        # Edit/Create todo file
+        shortcuts run "ModifyTodo" -i "$2"
+        ;;
+    -d)
+        if [ $# -eq 1 ]; then
+            echo "Usage: $0 -d [todo]"
+            exit 1
+        fi
+        # Delete todo
+        temp=$(mktemp -q "/tmp/$2")
+        shortcuts run "DeleteTodo" -i $temp
+        rm $temp
+        ;;
+    -l)
+        # List todo
+        echo $(shortcuts run "GetTodos")
+        ;;
+    *)
+        echo "Usage: $0 [-c|-e|-d|-l] [todo]"
+        exit 1
+        ;;
+esac

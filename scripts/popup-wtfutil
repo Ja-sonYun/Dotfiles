@@ -1,0 +1,4 @@
+#!/bin/sh
+
+run_workhour &
+tmux popup -d '#{pane_current_path}' -xR -yP -w108 -h50% -E "wtfutil --config=$CONFIG/configurations/wtfutil/wtf_config.yml" || true

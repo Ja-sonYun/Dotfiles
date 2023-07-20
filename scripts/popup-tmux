@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# tmux popup -d '#{pane_current_path}' -x0% -y0% -w100% -h50% -E "${1:-zsh}" || true
+if [ -z "$2" ]; then
+    tmux popup -d '#{pane_current_path}' -y 1 -w80% -h80% "${1:-zsh}" || true
+elif [ ! -z "$2" ] && [ "$1" = "-E" ]; then
+    tmux popup -d '#{pane_current_path}' -y 1 -w80% -h80% -E "${2:-zsh}" || true
+fi

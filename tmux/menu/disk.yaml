@@ -1,0 +1,14 @@
+title: " disk "
+items:
+
+  - Menu:
+      name: "check size (diskonaut)"
+      shortcut: d
+      command: "diskonaut %%PATH%%"
+
+      inputs:
+        - PATH
+
+      position:
+        w: 80
+        h: 50

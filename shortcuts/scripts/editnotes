@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# -e to edit note
+# -d to remove note
+
+if [ "$1" = "-e" ]; then
+    shift
+    shortcuts run "EditNote" -i "$1"
+    exit 0
+fi
+
+if [ "$1" = "-d" ]; then
+    shift
+    shortcuts run "RemoveNote" -i "$1"
+    exit 0
+fi
+
+
+echo "Usage: $0 [-e|-d] <note>"
+exit 1

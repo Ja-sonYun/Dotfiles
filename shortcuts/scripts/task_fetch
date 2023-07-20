@@ -1,0 +1,126 @@
+#!/Users/jasony/.globalpip/.venv/bin/python3
+import datetime
+import json
+import subprocess
+import uuid
+from dataclasses import dataclass
+from tempfile import NamedTemporaryFile
+from typing import List, Optional
+
+import yaml
+
+# from rich import print
+
+# Shortcut names
+GET_TODOS = "GetTodos"
+EDIT_TODO = "ModifyTodo"
+
+shortcuts = "/usr/bin/shortcuts"
+task = "/opt/homebrew/bin/task"
+
+
+@dataclass
+class Todo:
+    title: str
+    due_date: str
+    parent: str
+    is_completed: bool
+    list: str
+    tags: List[str]
+    note: str
+
+    uuid: Optional[str] = None
+
+    def reminder_format(self) -> str:
+        assert self.uuid is not None
+        return f"""\
+%LIST%:{self.list}
+%TODO%:{self.title}
+%NOTES%:{self.note}
+%UUID%:{self.uuid}
+%DUEDATE%:{self.due_date}
+%URL%:
+%TAGS%:{self.tags[0] if self.tags else ""}
+%DONE%:{self.is_completed and "yes" or "no"}
+%PRIORITY%:
+"""
+
+    def add_to_taskwarrior(self) -> None:
+        import_data = {
+            "description": self.title,
+            "status": self.is_completed and "completed" or "pending",
+            "uuid": self.uuid,
+            "project": self.list,
+        }
+        if self.due_date:
+            self.due_date = (
+                datetime.datetime.fromisoformat(self.due_date)
+                + datetime.timedelta(days=1)
+            ).isoformat()
+            import_data["due"] = self.due_date
+        # if self.tags:
+        #     import_data["project"] = self.tags[0]
+
+        print(import_data)
+
+        # Pass dumped json as stdin
+        proc = subprocess.Popen(
+            [task, "import"], stdin=subprocess.PIPE, stdout=subprocess.PIPE
+        )
+        proc.communicate(input=json.dumps(import_data).encode("utf-8"))
+
+    def __post_init__(self) -> None:
+        self.is_completed = self.is_completed == "Yes"
+
+        if "UUID: " in self.note:
+            self.note, *uuids = self.note.split("UUID: ")
+            self.uuid = uuids[-1]
+        else:
+            # If there's no uuid, add it
+            self.uuid = str(uuid.uuid4())
+            format = self.reminder_format()
+
+            print(format)
+            with NamedTemporaryFile() as f:
+                f.write(format.encode("utf-8"))
+                f.seek(0)
+                subprocess.check_call([shortcuts, "run", EDIT_TODO, "-i", f.name])
+
+
+def get_last_uuids() -> List[str]:
+    raw_last_data = subprocess.check_output([task, "status:pending", "export"]).decode("utf-8")
+    last_data = json.loads(raw_last_data)
+
+    return [data["uuid"] for data in last_data]
+
+
+def main() -> None:
+    # Fetch todos
+    todos = subprocess.check_output([shortcuts, "run", GET_TODOS]).decode("utf-8")
+    todos = [Todo(**todo) for todo in yaml.safe_load(todos)["todos"]]
+
+    # Get only uuid exists
+    valid_todos = [todo for todo in todos if todo.uuid]
+
+    # Filter duplicated
+    valid_todos = list({todo.uuid: todo for todo in valid_todos}.values())
+
+    last_uuids = get_last_uuids()
+
+    # Check which data is deleted
+    valid_uuids = [todo.uuid for todo in valid_todos]
+    deleted_todos = set(last_uuids) - set(valid_uuids)
+    for uuid in deleted_todos:
+        print(f"Delete {uuid}")
+        try:
+            subprocess.check_call([task, "delete", uuid])
+        except subprocess.CalledProcessError:
+            pass
+
+    # Add to taskwarrior
+    for todo in valid_todos:
+        todo.add_to_taskwarrior()
+
+
+if __name__ == "__main__":
+    main()

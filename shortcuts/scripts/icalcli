@@ -1,0 +1,189 @@
+#!/Users/jasony/.globalpip/.venv/bin/python3
+
+import argparse
+import os
+import subprocess
+from collections import OrderedDict
+from itertools import islice
+from time import sleep
+from typing import Iterable, Literal
+import datetime
+
+import toml
+from rich.console import Console
+from rich.live import Live
+from rich.table import Table
+
+cs = Console()
+print = cs.print
+
+ATTRS = Literal["start_date", "end_date", "title", "is_all_day"]
+EVENT_TYPE = dict[ATTRS, str]
+# May 11, 2022
+DATE_LENGTH = 12
+
+
+def wc(string: str, style: str) -> str:
+    """wrap color"""
+    return f"[{style}]{string}[/{style}]"
+
+
+def date(plain_datetime: str) -> str:
+    return plain_datetime[:DATE_LENGTH]
+
+
+def time(plain_datetime: str) -> str:
+    return plain_datetime[DATE_LENGTH + 1 :]
+
+
+def fixed_width(
+    string: str, length: int, pad_front: bool = False, pad_end: bool = False
+) -> str:
+    if pad_front:
+        string = " " * (length - len(string)) + string
+    if pad_end:
+        string += " " * (length - len(string))
+    return string
+
+
+class Fetcher:
+    def __init__(self, name: str = "GenerateSchedule"):
+        self.name = name
+        self._event_fetched: bool = False
+        self._max_wait_tick: int = 100
+        self.proc = None
+
+    def fetch_event(self):
+        # proc = subprocess.Popen(["shortcuts", "run", self.name])
+        # capture stdout as toml file
+        self.proc = subprocess.Popen(
+            ["shortcuts", "run", self.name],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+
+        for _ in range(self._max_wait_tick):
+            sleep(0.1)
+            polled = self.proc.poll()
+            if self.proc.poll() == 0:
+                self._event_fetched = True
+                break
+            yield polled
+
+    def get_data(self) -> str:
+        assert (
+            self._event_fetched
+            and self.proc is not None
+            and self.proc.stdout is not None
+        )
+        return self.proc.stdout.read().decode("utf-8")
+
+
+class Events:
+    def __init__(self, file: str):
+        file = file.replace("\\", "")
+        self.events = toml.loads(file)
+        self.executed_at = datetime.datetime.now().strftime("%b %d, %Y %H:%M")
+        self.mapped = self.remap_each_day()
+        self.max_height = max([len(e) for e in self.mapped.values()])
+
+    def iter(self) -> Iterable[EVENT_TYPE]:
+        for key, event in self.events.items():
+            if key != "INFO":
+                yield event
+
+    def remap_each_day(self) -> OrderedDict[str, list[EVENT_TYPE]]:
+        mapped: OrderedDict[str, list[EVENT_TYPE]] = OrderedDict()
+        for event in self.iter():
+            if date(event["start_date"]) in mapped:
+                mapped[date(event["start_date"])].append(event)
+            else:
+                mapped[date(event["start_date"])] = [event]
+
+        return mapped
+
+
+class CalRenderer:
+    def __init__(self, events_obj: Events, width: int = 30):
+        self.events_obj = events_obj
+        self.events = self.events_obj.mapped.copy()
+
+        self.max_col = os.get_terminal_size().columns
+        self.width = width
+        self.cnt_of_box_each_line = int(self.max_col / self.width)
+
+        if self.cnt_of_box_each_line < 3:
+            self.events = OrderedDict(islice(self.events.items(), 2, len(self.events)))
+        elif self.cnt_of_box_each_line < 6:
+            self.events = OrderedDict(islice(self.events.items(), 1, len(self.events)))
+
+        if self.cnt_of_box_each_line < len(self.events_obj.mapped):
+            self.events = OrderedDict(
+                islice(self.events.items(), self.cnt_of_box_each_line)
+            )
+
+    def render(self):
+        table = Table()
+
+        row_buffer: list[list[str]] = [
+            ["" for _ in range(len(self.events))]
+            for _ in range(self.events_obj.max_height)
+        ]
+
+        for i, (day, evts) in enumerate(self.events.items()):
+            if day == date(self.events_obj.executed_at):
+                day = wc(f"*{day}*", "yellow")
+            table.add_column(
+                day, justify="left", style="bold sky_blue2", width=self.width
+            )
+
+            for j, evt in enumerate(evts):
+                title = evt["title"]
+                if evt["is_all_day"] == "Yes":
+                    event_detail = f'{wc("All Day", "red")}{wc("|", "magenta")}{title}'
+                else:
+                    time_range = (
+                        fixed_width(time(evt["start_date"]), 5, pad_front=True)
+                        + "~"
+                        + fixed_width(time(evt["end_date"]), 5, pad_front=True)
+                    )
+                    event_detail = (
+                        f'{wc(time_range, "green")}{wc("|", "magenta")}{title}'
+                    )
+
+                row_buffer[j][i] = event_detail
+
+        for i, row in enumerate(row_buffer):
+            table.add_row(*row)
+
+        return table
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="icalcli")
+    parser.add_argument("--shortcut", default="GenerateSchedule")
+    parser.add_argument("--width", type=int, default=30)
+    parser.add_argument("-n", "--norich", action="store_true")
+
+    args = parser.parse_args()
+
+    if not args.norich:
+        loading_buffer = "fetching"
+        with Live(loading_buffer, refresh_per_second=4) as live:
+            fetcher = Fetcher(args.shortcut)
+            # fetch events using shortcut
+            for _ in fetcher.fetch_event():
+                loading_buffer += "."
+                live.update(loading_buffer)
+
+            events = Events(fetcher.get_data())
+            renderer = CalRenderer(events, args.width)
+
+            live.update(renderer.render())
+    else:
+        fetcher = Fetcher(args.shortcut)
+        for _ in fetcher.fetch_event():
+            pass
+
+        events = Events(fetcher.get_data())
+        renderer = CalRenderer(events, args.width)

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+user=$(whoami)
+buffer="#[fg=red] * #[fg=default]"
+echo "$user>>"

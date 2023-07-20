@@ -1,0 +1,56 @@
+#!/bin/zsh
+
+# #D | INTERVAL | __PANE_F1 | #W
+ENVSET=`tmux show-environment __PANE_$1`
+
+if [[ $3 == "zsh" ]]; then
+    if [[ $ENVSET != "" ]]; then
+        tmux setenv -u __PANE_$1
+        tmux display-message "JOB CLOSED"
+        # echo 'sd'
+    fi
+else
+    if [[ $ENVSET == "" ]]; then
+        tmux setenv __PANE_$1 1
+    fi
+    case $2 in
+        1)
+            echo '⠇ '
+            ;;
+        2)
+            echo '⠋ '
+            ;;
+        3)
+            echo '⠙ '
+            ;;
+        4)
+            echo '⠸ '
+            ;;
+        5)
+            echo '⠴ '
+            ;;
+        # 6)
+        #     echo "⠦"
+        #     export __NEXTRENDERC=7
+        #     ;;
+        # 7)
+        #     echo "7"
+        #     export __NEXTRENDERC=8
+        #     ;;
+        # 8)
+        #     echo "8"
+        #     export __NEXTRENDERC=9
+        #     ;;
+        # 9)
+        #     echo "9"
+        #     export __NEXTRENDERC=10
+        #     ;;
+        # 10)
+        #     echo "10"
+        #     export __NEXTRENDERC=11
+        #     ;;
+        *)
+            echo '⠦ '
+            ;;
+    esac
+fi

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+log_path="/tmp/tmux_popup_log"
+
+if [ ! -f "$log_path" ]; then
+    touch $log_path
+fi
+
+buf=""
+
+# if current project is child of git project, show git branch
+is_git=$(git rev-parse --is-inside-work-tree)
+
+if [[ $is_git == "true" ]]; then
+    GIT_BRANCH=$(git branch --show-current)
+    # echo "#[fg=red]${GIT_BRANCH}#[fg=default]"
+    # echo $GIT_BRANCH
+    buf="#[fg=red]${GIT_BRANCH}#[fg=default]"
+    buf="#[fg=grey]Git#[fg=default]($buf):"
+fi
+
+message=$(tail -1 $log_path)
+
+PWD=$(pwd)
+buf="${message} - ${buf}${PWD}"
+
+
+echo "${buf}"

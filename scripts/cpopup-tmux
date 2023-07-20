@@ -1,0 +1,7 @@
+#!/bin/sh
+
+read width height <<< `tmux list-panes -F "#{cursor_x}|#{cursor_y}" | awk -F "|" '{print $1" "$2}'`
+echo $width $height
+# declare -i x=width/2 y=height/2 w=x-2 h=y-2
+
+tmux popup -d '#{pane_current_path}' -y`tmux list-panes -F "${cursor_y}"` -E "${1:-zsh}" || true

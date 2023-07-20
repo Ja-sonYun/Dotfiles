@@ -1,0 +1,6 @@
+mutt/**
+crontab/**
+weechat/**
+*.data
+*.env
+dev_tunnel/**

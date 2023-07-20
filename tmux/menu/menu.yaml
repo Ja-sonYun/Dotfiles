@@ -1,0 +1,142 @@
+# On tmux.conf
+#
+# bind-key k run-shell "$HOME/tmux-menu/target/debug/tmux-menu show --menu $HOME/tmux-menu/examples/menu.yaml --working_dir #{pane_current_path}"
+#
+# =============================
+#
+# title: "..."
+#
+# position:  <- Optional
+#   x: ...
+#   y: ...
+#
+# items:
+#   - Seperate: {}
+#
+#   - NoDim:
+#       name: "..."
+#
+#   - Menu:
+#       name: "..."
+#       shortcut: "..."
+#       ------------------
+#
+#       next_menu: "..."
+#
+#         OR
+#
+#       command: "command %%KEY%%"
+#       background: false
+#
+#       close_after_command: true  <- Optional
+#       inputs:
+#         - KEY  <- This replace %%KEY%% on command
+#       position:  <- Optional
+#         x: ...
+#         y: ...
+#         w: ...
+#         h: ...
+
+title: " menu "
+border: "rounded"
+items:
+
+  - NoDim:
+      name: "User: #[fg=green]$(whoami)"
+
+  - Seperate: {}
+
+  - Menu:
+      name: "git"
+      shortcut: g
+      next_menu: "./git.yaml"
+
+  - Menu:
+      name: "shell"
+      shortcut: s
+      next_menu: "./shell.yaml"
+
+  - Menu:
+      name: "docker"
+      shortcut: v
+      next_menu: "./docker.yaml"
+
+  - Menu:
+      name: "brew services"
+      shortcut: b
+      command: "$CONFIG/tmux/menu/scripts/generate_brew_services_restart.sh"
+      background: true
+
+  - Menu:
+      name: "Navi"
+      shortcut: n
+      command: navi --path=$CONFIG/navi --print | pbcopy
+      position:
+        w: 120
+        h: 40
+
+  - Menu:
+      name: "chatgpt"
+      shortcut: c
+      command: aichat -r shell
+
+      position:
+        w: 120
+        h: 40
+
+  - Menu:
+      name: "translate"
+      shortcut: l
+      next_menu: "./translate.yaml"
+
+  - Seperate: {}
+
+  - NoDim:
+      name: "#[align=centre fg=red]-- Tmux --"
+
+  - Seperate: {}
+
+  - Menu:
+      name: "sendkey to popup"
+      shortcut: p
+      command: >
+        tmux send-keys -t "popup:-1" C-z;
+        tmux send-keys -t "popup:-1" C-c
+        "cd %%PWD && clear; {%%CMD%% && echo background done || echo background failed} 2>&1 | tee /tmp/tmux_popup_log"
+        Enter
+      inputs:
+        - CMD
+      position:
+        w: 3
+        h: 3
+
+  - Seperate: {}
+
+  - NoDim:
+      name: "#[align=centre fg=blue]-- Work --"
+
+  - Seperate: {}
+
+  - Menu:
+      name: "touch"
+      command: "cd /Users/jasony/temp/jobcan && ./touch.sh"
+      background: true
+
+  - Menu:
+      name: "calendar"
+      shortcut: d
+      command: $CONFIG/shortcuts/scripts/icalcli
+      close_after_command: false
+      border: none
+      position:
+        w: 100
+        h: 17
+
+  - Menu:
+      name: "task"
+      shortcut: t
+      command: taskwarrior-tui
+
+      position:
+        w: 120
+        h: 60

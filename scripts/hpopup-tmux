@@ -1,0 +1,12 @@
+#!/bin/sh
+
+session_name=`tmux display-message -p -F \"#{session_name}\"`
+
+if [ "$session_name" = "\"popup\"" ]; then
+    tmux switch -t default
+else
+    read width height <<< `tmux list-panes -F "#{pane_width}|#{pane_height}" | awk -F "|" '{print $1" "$2}'`
+    declare -i x=width/2 y=height/2 w=x-2 h=y-2
+
+    tmux popup -d '#{pane_current_path}' -x$x -y$y -w$w -h$h -E "${1:-zsh}" || true
+fi

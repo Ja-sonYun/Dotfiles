@@ -1,0 +1,68 @@
+#!/bin/zsh
+
+# . check_popup_running
+# ^~~~~
+
+# TODO:
+# ------------------------
+# popup as global variable
+# ------------------------
+
+POPUP_STATUS=`tmux display-message -t popup -p -F "#W"`
+ENVSET=`tmux show-environment __POPUP_R`
+# CURRENT_SHELL=`echo $SHELL | awk -F/ '{print $NF}'`
+
+# INTERVAL=`tmux show-environment $__POPUP_R | sed "s:^.*=::"`
+
+# tmux setenv __NEXTRENDERC STOPPED
+
+if [[ $POPUP_STATUS == "zsh" ]]; then
+    if [[ $ENVSET != "" ]]; then
+        tmux setenv -u __POPUP_R
+        tmux display-message "JOB CLOSED"
+    fi
+else
+    if [[ $ENVSET == "" ]]; then
+        tmux setenv __POPUP_R 1
+    fi
+    case $1 in
+        1)
+            echo '⠇ '
+            ;;
+        2)
+            echo '⠋ '
+            ;;
+        3)
+            echo '⠙ '
+            ;;
+        4)
+            echo '⠸ '
+            ;;
+        5)
+            echo '⠴ '
+            ;;
+        # 6)
+        #     echo "⠦"
+        #     export __NEXTRENDERC=7
+        #     ;;
+        # 7)
+        #     echo "7"
+        #     export __NEXTRENDERC=8
+        #     ;;
+        # 8)
+        #     echo "8"
+        #     export __NEXTRENDERC=9
+        #     ;;
+        # 9)
+        #     echo "9"
+        #     export __NEXTRENDERC=10
+        #     ;;
+        # 10)
+        #     echo "10"
+        #     export __NEXTRENDERC=11
+        #     ;;
+        *)
+            echo '⠦ '
+            ;;
+    esac
+fi

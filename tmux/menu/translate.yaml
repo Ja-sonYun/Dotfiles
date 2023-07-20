@@ -1,0 +1,40 @@
+title: " translate "
+items:
+
+  - Seperate: {}
+
+  - Menu:
+      name: "translate to en"
+      command: 'echo "%%QUERY%%" | deepl --to en -v -s'
+      close_after_command: false
+
+      inputs:
+        - QUERY
+
+      position:
+        w: 100
+        h: 7
+
+  - Menu:
+      name: "translate to ko"
+      command: 'echo "%%QUERY%%" | deepl --to ko -v -s'
+      close_after_command: false
+
+      inputs:
+        - QUERY
+
+      position:
+        w: 100
+        h: 7
+
+  - Menu:
+      name: "translate to ja"
+      command: 'echo "%%QUERY%%" | deepl --to ja -v -s'
+      close_after_command: false
+
+      inputs:
+        - QUERY
+
+      position:
+        w: 100
+        h: 7

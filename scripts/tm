@@ -1,0 +1,8 @@
+#!/bin/sh
+
+function init_tmux() {
+    tmux new-session -d -s popup 2>/dev/null
+    tmux -u new-session -s default 2>/dev/null
+}
+
+init_tmux || tmux -u a

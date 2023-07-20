@@ -1,0 +1,67 @@
+#!/bin/sh
+
+read -r old_data
+read -r new_data
+
+uuid=$(echo $new_data | jq -r '.uuid')
+status=$(echo $new_data | jq -r '.status')
+
+function modify_reminder() {
+    description=$(echo $new_data | jq -r '.description')
+
+    # project, optional
+    project=$(echo $new_data | jq -r '.project')
+    [ "$project" = "null" ] && project=""
+
+    # due date, optional
+    due_date=$(echo $new_data | jq -r '.due')
+    [ "$due_date" = "null" ] && due_date=""
+
+    # is completed
+    if [ "$status" = "completed" ]; then
+        done="yes"
+    else
+        done="no"
+    fi
+
+    # mkfile
+    tempfile=$(mktemp)
+
+    tee -a $tempfile <<END
+%LIST%:$project
+%TODO%:$description
+%NOTES%:
+%UUID%:$uuid
+%DUEDATE%:$due_date
+%URL%:
+%TAGS%:
+%DONE%:$done
+%PRIORITY%:
+END
+    /usr/bin/shortcuts run ModifyTodo -i $tempfile
+    rm $tempfile
+
+    sleep 1
+    SENDER=forced /Users/jasony/config/window-management/mac/sketchybar/plugins/task.sh &>/dev/null
+}
+
+function delete_reminder() {
+    tempdir=$(mktemp -d)
+    tempfile="$tempdir/$uuid"
+    touch $tempfile
+    /usr/bin/shortcuts run DeleteTodo -i $tempfile
+    rm -rf $tempdir
+
+    sleep 1
+    SENDER=forced /Users/jasony/config/window-management/mac/sketchybar/plugins/task.sh &>/dev/null
+}
+
+if [ "$status" = "deleted" ]; then
+    delete_reminder > /dev/null & disown
+else
+    modify_reminder > /dev/null & disown
+fi
+
+echo $new_data
+
+exit 0

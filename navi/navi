@@ -1,0 +1,5 @@
+#!/bin/sh
+
+navi \
+    --fzf-overrides '--height=30' \
+    --path '$CONFIG/navi'

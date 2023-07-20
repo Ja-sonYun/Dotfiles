@@ -1,0 +1,14 @@
+title: " Shell "
+items:
+
+  - Menu:
+      name: "search string"
+      shortcut: s
+      command: "grep -rnw '.' -e '%%PATTERN%%' | less"
+
+      inputs:
+        - PATTERN
+
+      position:
+        w: 120
+        h: 50

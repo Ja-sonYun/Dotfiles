@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+pos_arg=-`tmux display-message -p "x #{cursor_x} -y #{cursor_y}"`
+tmux popup -d '~/' $pos_arg -w10 -h5 -E "zsh"

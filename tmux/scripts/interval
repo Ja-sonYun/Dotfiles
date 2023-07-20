@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# INTERVAL | LIM
+INTERVAL=`tmux show-environment __INTERVAL | sed "s:^.*=::"`
+
+if [[ "$INTERVAL" -eq "$1" ]]; then
+    tmux setenv __INTERVAL 1
+else
+    tmux setenv __INTERVAL $(($INTERVAL + 1))
+fi
+# echo `tmus show-environment __INTERVAL`

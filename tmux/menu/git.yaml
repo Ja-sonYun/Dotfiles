@@ -1,0 +1,57 @@
+title: " git "
+items:
+
+  - NoDim:
+      name: "Folder #[fg=green]$(echo ${PWD##*/})"
+
+  - NoDim:
+      name: "Branch #[fg=green]$(git rev-parse --abbrev-ref HEAD)"
+
+  - Seperate: {}
+
+  - Menu:
+      name: "tig"
+      shortcut: g
+      command: tig
+
+      position:
+        w: 140
+        h: 80
+
+  - Menu:
+      name: "gitui"
+      shortcut: u
+      command: gitui
+
+      position:
+        w: 140
+        h: 80
+
+  - Menu:
+      name: "gh dash"
+      shortcut: d
+      command: gh dash
+
+      position:
+        w: 150
+        h: 80
+
+  - Menu:
+      name: "Git branch"
+      shortcut: b
+      command: $CONFIG/tmux/menu/scripts/gitbranch.sh
+      background: true
+
+  - Seperate: {}
+
+  - Menu:
+      name: "dump gitignore"
+      shortcut: i
+      command: "gibo dump %%LANGUAGE%% | less && gibo dump %%LANGUAGE%% | pbcopy"
+
+      inputs:
+        - LANGUAGE
+
+      position:
+        w: 150
+        h: 80

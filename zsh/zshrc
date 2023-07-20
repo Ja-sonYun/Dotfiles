@@ -1,0 +1,84 @@
+# redirect to wsl home if in wsl
+if [[ `pwd` == */mnt/c* ]]; then
+    cd $HOME
+fi
+
+export CONFIG=~/config
+
+source $CONFIG/zsh/module/environment.sh
+# #####################################################
+source $CONFIG/zsh/module/plugin.sh
+source $CONFIG/zsh/module/theme.sh
+source $CONFIG/zsh/module/cfunction.sh
+
+# for Mac
+if [[ `uname` == "Darwin" ]]; then
+    source $CONFIG/zsh/module/homebrew.sh
+elif [[ `uname` == "Linux" ]]; then
+    export DISPLAY=:0
+    export HOST_IP="$(ip route |awk '/^default/{print $3}')"
+    export PULSE_SERVER="tcp:$HOST_IP"
+fi
+
+source $CONFIG/zsh/module/alias.sh
+
+# command line
+export _PS1_HEAD=""
+export _PS1_TAIL=""
+autoload -U colors && colors
+
+function envinfo() {
+    if [ -f .terraform/environment ]; then
+        echo " ( %{$fg[blue]%}tf:$(cat .terraform/environment)%{$reset_color%} )"
+    fi
+}
+
+PS1='$([ ! -z "$TMUX" ] && echo "!")${_PS1_HEAD}bg:$(jobs | wc -l | sed "s/^ *//g")[$(date "+%F-%H-%M-%S")]%~$(gitstat)$(envinfo)${_PS1_TAIL} %{$fg[green]%}$%{$reset_color%} '
+
+if [ $RICHTERM ]; then
+    if [ ! $TMUX ]; then
+        tm
+    fi
+fi
+
+export _MAIN_WINDOW="default"
+
+if [ $TMUX ]; then
+    TMUX_BOOTED=`tmux showenv TMUX_BOOTED 2> /dev/null || echo 0`
+    local current_window_name=`tmux display-message -p '#S'`
+
+    if [ "$TMUX_BOOTED" = "0" ] && [ "$current_window_name" = "$_MAIN_WINDOW" ]; then
+        tmux setenv TMUX_BOOTED 1 > /dev/null
+        # run script that run on login
+        /bin/zsh $CONFIG/zsh/bootup_script.sh
+    else;
+        /bin/zsh $CONFIG/zsh/session_script.sh
+    fi
+
+    # quit tmux if this is the last active session on window
+    function quit_tmux() {
+        local current_window_name=`tmux display-message -p '#S'`
+        local current_window_panes=`tmux display-message -p '#{window_panes}'`
+        if [ "$current_window_name" = "$_MAIN_WINDOW" ] && [ "$current_window_panes" = "1" ]; then
+            # will return number of session in default window
+            local session_num=`tmux ls | awk '$1 ~ "default" { print $2 }'`
+            if [ "$session_num" = "1" ]; then
+                tmux kill-server
+                echo "tmux server killed"
+            fi
+        fi
+    }
+
+    trap "quit_tmux" EXIT
+fi
+
+source $CONFIG/zsh/module/awswp.sh
+source $CONFIG/zsh/module/keybind.sh
+source $CONFIG/zsh/module/compinit.sh
+source $CONFIG/zsh/module/fzf.sh
+source $CONFIG/zsh/module/etc.sh
+
+# Boot up script after all initialized
+source $CONFIG/zsh/module/bootup.sh
+
+export _EMPTY= 

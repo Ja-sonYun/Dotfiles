@@ -1,0 +1,3 @@
+#!/bin/sh
+
+shortcuts run GetTodos  | yq '.todos.[].title'

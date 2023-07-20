@@ -1,0 +1,16 @@
+#!/bin/zsh
+
+parse_reminder() {
+    result=`echo -n "#[fg=default] B:#[fg=colour69]"
+    reminders show Box | awk 'END{printf NR}'
+    echo -n "#[fg=default] P:#[fg=colour69]"
+    reminders show Personal | awk 'END{printf NR}'
+    echo -n "#[fg=default]"`
+    tmux setenv __CACHE_REMINDER $result
+}
+
+CUR__INTERVAL=`tmux show-environment __INTERVAL | sed "s:^.*=::"`
+
+if [[ $(($CUR__INTERVAL % 5)) = "0" ]]; then
+    parse_reminder &
+fi

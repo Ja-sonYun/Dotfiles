@@ -1,0 +1,43 @@
+#!/bin/sh
+
+read -r new_data
+
+function add_reminder() {
+    description=$(echo $new_data | jq -r '.description')
+    uuid=$(echo $new_data | jq -r '.uuid')
+    # If null, set to empty string
+    project=$(echo $new_data | jq -r '.project')
+    [ "$project" = "null" ] && project=""
+    due_date=$(echo $new_data | jq -r '.due')
+    [ "$due_date" = "null" ] && due_date=""
+    status=$(echo $new_data | jq -r '.status')
+    [ "$status" = "null" ] && status="no"
+
+    # mkfile
+    tempfile=$(mktemp)
+
+    tee -a $tempfile <<END
+%LIST%:$project
+%TODO%:$description
+%NOTES%:
+%UUID%:$uuid
+%DUEDATE%:$due_date
+%URL%:
+%TAGS%:
+%DONE%:$status
+%PRIORITY%:
+END
+    /usr/bin/shortcuts run ModifyTodo -i $tempfile
+    rm $tempfile
+
+    sleep 1
+
+    SENDER=forced /Users/jasony/config/window-management/mac/sketchybar/plugins/task.sh &>/dev/null
+}
+
+# Redirect all output to /dev/null
+add_reminder > /dev/null & disown
+
+echo $new_data
+
+exit 0

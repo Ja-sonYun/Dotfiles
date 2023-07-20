@@ -1,0 +1,39 @@
+#!/bin/zsh
+
+if [ "`git rev-parse --is-inside-work-tree 2> /dev/null`" != true ]; then
+    exit 1
+fi
+
+DIFF=`git status -s`
+
+DELETED=`echo $DIFF | grep -o "D " | wc -l | tr -d " "`
+MODIFIED=`echo $DIFF | grep -o " M " | wc -l | tr -d " "`
+COMMITTED=`echo $DIFF | grep -o "M  " | wc -l | tr -d " "`
+COMMITTED_MODIFIED=`echo $DIFF | grep -o "MM " | wc -l | tr -d " "`
+ADDED=`echo $DIFF | grep -o "?? " | wc -l | tr -d " "`
+
+RESULT=""
+
+if [[ $MODIFIED != 0 || $COMMITTED_MODIFIED != 0 ]]; then
+    MODIFIED=`expr $MODIFIED + $COMMITTED_MODIFIED`
+    RESULT="!$MODIFIED"
+fi
+
+if [[ $ADDED != 0 ]]; then
+    RESULT="$RESULT?$ADDED"
+fi
+
+if [[ $DELETED != 0 ]]; then
+    RESULT="$RESULT~$DELETED"
+fi
+
+if [[ $COMMITTED != 0 || $COMMITTED_MODIFIED != 0 ]]; then
+    COMMITTED=`expr $COMMITTED + $COMMITTED_MODIFIED`
+    RESULT="$RESULT+$COMMITTED"
+fi
+
+if [[ $RESULT != "" ]]; then
+    RESULT="{$RESULT}"
+fi
+
+echo -n $RESULT
