@@ -77,7 +77,7 @@ export PATH="$(brew --prefix)/opt/grep/bin:$PATH"
 export PATH="$(brew --prefix)/opt/make/libexec/gnubin:$PATH"
 
 # Colima
-export DOCKER_HOST="unix:///$HOME/.colima/docker.sock"
+# export DOCKER_HOST="unix:///$HOME/.colima/docker.sock"
 
 export GPG_TTY=$(tty)
 

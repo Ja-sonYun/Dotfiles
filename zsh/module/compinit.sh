@@ -1,5 +1,7 @@
 # autocompletes
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+AUTOCOMP_PATH="$(brew --prefix)/share/zsh/site-functions"
+FPATH="${AUTOCOMP_PATH}:${FPATH}"
+
 autoload -Uz compinit && compinit
 
 # Arguments
@@ -20,7 +22,7 @@ enable_completer aws_completer aws
 enable_completer terraform terraform
 
 # gh
-gh_autocomp_path=/usr/local/share/zsh/site-functions/_gh
+gh_autocomp_path=$AUTOCOMP_PATH/_gh
 if (( $+commands[ghw] )) && [ -f $gh_autocomp_path ]; then
     gh completion -s zsh > $gh_autocomp_path
 fi

@@ -1,3 +1,5 @@
+set -o ignoreeof
+
 # redirect to wsl home if in wsl
 if [[ `pwd` == */mnt/c* ]]; then
     cd $HOME
@@ -35,15 +37,15 @@ function envinfo() {
 
 PS1='$([ ! -z "$TMUX" ] && echo "!")${_PS1_HEAD}bg:$(jobs | wc -l | sed "s/^ *//g")[$(date "+%F-%H-%M-%S")]%~$(gitstat)$(envinfo)${_PS1_TAIL} %{$fg[green]%}$%{$reset_color%} '
 
-if [ $RICHTERM ]; then
-    if [ ! $TMUX ]; then
+if [ "$RICHTERM" ]; then
+    if [ ! "$TMUX" ]; then
         tm
     fi
 fi
 
 export _MAIN_WINDOW="default"
 
-if [ $TMUX ]; then
+if [ "$TMUX" ]; then
     TMUX_BOOTED=`tmux showenv TMUX_BOOTED 2> /dev/null || echo 0`
     local current_window_name=`tmux display-message -p '#S'`
 
@@ -63,8 +65,13 @@ if [ $TMUX ]; then
             # will return number of session in default window
             local session_num=`tmux ls | awk '$1 ~ "default" { print $2 }'`
             if [ "$session_num" = "1" ]; then
-                tmux kill-server
-                echo "tmux server killed"
+                # Confirm to kill tmux server
+                read -q "REPLY?Do you want to kill tmux server? [y/N] "
+                echo ""
+                if [[ $REPLY =~ ^[Yy]$ ]]; then
+                    tmux kill-server
+                    echo "tmux server killed"
+                fi
             fi
         fi
     }
