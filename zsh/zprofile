@@ -1,0 +1,7 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Created by `pipx` on 2023-04-13 09:31:33
+export PATH="$PATH:/Users/jasony/.local/bin"
+
+# Added by OrbStack: command-line tools and integration
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :

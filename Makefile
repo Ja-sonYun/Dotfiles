@@ -27,6 +27,7 @@ npm_install_from_dumped:
 
 set_zshrc:
 	ln -sf ${CONFIG}/zsh/zshrc ~/.zshrc
+	ln -sf ${CONFIG}/zsh/zprofile ~/.zprofile
 
 set_radare2rc:
 	ln -sf ${CONFIG}/radare2/radare2rc ~/.radare2rc
