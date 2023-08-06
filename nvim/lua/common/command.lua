@@ -13,6 +13,7 @@ M.shell_cf = function(name, cmds)
       vim.cmd(string)
     end
     vim.cmd('edit!')
+    vim.cmd('write')
   end, {nargs = 0})
 end
 

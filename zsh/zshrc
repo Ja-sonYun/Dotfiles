@@ -12,6 +12,7 @@ source $CONFIG/zsh/module/environment.sh
 source $CONFIG/zsh/module/plugin.sh
 source $CONFIG/zsh/module/theme.sh
 source $CONFIG/zsh/module/cfunction.sh
+source $CONFIG/zsh/module/functions.sh
 
 # for Mac
 if [[ `uname` == "Darwin" ]]; then

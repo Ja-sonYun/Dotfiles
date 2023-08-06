@@ -43,7 +43,7 @@ cmd.new("I4", function() indent4(vim.opt_local) end)
 auto.cmd('Filetype', {
   pattern = { "xml", "html", "xhtml", "css", "scss", "javascript", "typescript", "svelte",
     "yaml", "lua", "elixir", "json", "heex", "terraform", "toml", "proto", "typescriptreact",
-    "javascriptreact", "cpp", "c",
+    "javascriptreact", "cpp", "c", "hcl",
   },
   callback = function() indent2(vim.opt_local) end,
 })

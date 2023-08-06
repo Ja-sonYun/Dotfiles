@@ -1,7 +1,5 @@
 # update repository
 
-# Initialize asdf
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-
+eval "$(rtx activate zsh)"
 # Copilot cli
-eval "$(github-copilot-cli alias -- "$0")"
+# eval "$(github-copilot-cli alias -- "$0")"

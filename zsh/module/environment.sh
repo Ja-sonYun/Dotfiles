@@ -76,8 +76,9 @@ export PATH="$(brew --prefix)/opt/gnu-tar/bin:$PATH"
 export PATH="$(brew --prefix)/opt/grep/bin:$PATH"
 export PATH="$(brew --prefix)/opt/make/libexec/gnubin:$PATH"
 
-# Colima
+# Colima/orbstack
 # export DOCKER_HOST="unix:///$HOME/.colima/docker.sock"
+export DOCKER_HOST="unix:///Users/jasony/.orbstack/run/docker.sock"
 
 export GPG_TTY=$(tty)
 

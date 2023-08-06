@@ -25,6 +25,7 @@ cmd.new(
       vim.cmd('!PYSEN_IGNORE_GIT=1 poetry run pysen run_files format' .. ' ' .. current_file)
     end
     vim.cmd('edit!')
+    vim.cmd('write')
   end,
   {}
 )
@@ -39,6 +40,7 @@ cmd.new(
       vim.cmd('!prettier -w' .. ' ' .. current_file)
     end
     vim.cmd('edit!')
+    vim.cmd('write')
   end,
   {}
 )

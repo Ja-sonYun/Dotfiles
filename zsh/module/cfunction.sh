@@ -7,8 +7,6 @@ function fbr() {
 }
 zle -N fbr
 
-
-
 # fshow - git commit browser
 function fcmt() {
   git log --graph --color=always \

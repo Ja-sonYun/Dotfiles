@@ -88,3 +88,5 @@ tags
 .envrc
 .env
 pyrightconfig.json
+
+.rtx.toml
