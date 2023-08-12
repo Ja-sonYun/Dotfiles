@@ -12,6 +12,17 @@ local indent2 = function(opt)
 	})
 end
 
+local indent2tab = function(opt)
+	opt.shiftwidth = 2
+	opt.tabstop = 2
+	opt.expandtab = false
+	opt.listchars:append({
+		tab = "> ",
+		trail = "~",
+		leadmultispace = "| ",
+	})
+end
+
 local indent4 = function(opt)
 	opt.shiftwidth = 4
 	opt.tabstop = 4
@@ -53,7 +64,6 @@ auto.cmd("Filetype", {
 		"typescript",
 		"svelte",
 		"yaml",
-		"lua",
 		"elixir",
 		"json",
 		"heex",
@@ -76,6 +86,14 @@ auto.cmd("Filetype", {
 	pattern = { "go" },
 	callback = function()
 		indent4tab(vim.opt_local)
+	end,
+})
+
+-- Set indentation to 2 spaces tab
+auto.cmd("Filetype", {
+	pattern = { "lua" },
+	callback = function()
+		indent2tab(vim.opt_local)
 	end,
 })
 

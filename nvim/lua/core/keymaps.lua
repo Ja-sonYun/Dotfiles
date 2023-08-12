@@ -25,8 +25,8 @@ map.n("<leader>w", ":w|Msg file saved!<CR>")
 -- Replace
 map.u("n", "<C-s>r", "<ESC>*:%s///gc<left><left><left>")
 map.u("n", "<C-s>R", "<ESC>*:%s///g<left><left>")
-map.u("v", "<C-s>r", ":s//gc<left><left><left>")
-map.u("v", "<C-s>R", ":s//g<left><left>")
+-- map.u("v", "<C-s>r", ":s//gc<left><left><left>")
+-- map.u("v", "<C-s>R", ":s//g<left><left>")
 
 -- terminal
 map.t("<C-w>", "<C-\\><C-n><C-w>")

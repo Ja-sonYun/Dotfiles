@@ -90,3 +90,8 @@ source $CONFIG/zsh/module/etc.sh
 source $CONFIG/zsh/module/bootup.sh
 
 export _EMPTY= 
+
+# Load dotenv
+if [ -f .env ]; then
+    export $(cat $CONFIG/zsh/.env | sed 's/#.*//g' | xargs)
+fi
