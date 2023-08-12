@@ -1,8 +1,8 @@
 return {
-  {
-    'preservim/tagbar',
-    keys = {
-      { '<leader>c', ':TagbarToggle<CR>' },
-    }
-  },
+	{
+		"preservim/tagbar",
+		keys = {
+			{ "<leader>c", ":TagbarToggle<CR>" },
+		},
+	},
 }

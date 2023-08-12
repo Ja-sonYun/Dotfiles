@@ -1,4 +1,4 @@
 -----------------------------------------------------------
 -- Host
 -----------------------------------------------------------
-vim.g.python3_host_prog = '~/.globalpip/.venv/bin/python'
+vim.g.python3_host_prog = "~/.globalpip/.venv/bin/python"

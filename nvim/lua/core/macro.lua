@@ -1,12 +1,12 @@
 local map = require("keymap")
 
-map.n('@', 'q')
-map.n('q', '@')
-map.n('qq', '@@')
-map.n('~', 'Q')
-map.n('Q', ':MacroEdit<CR>')
+map.n("@", "q")
+map.n("q", "@")
+map.n("qq", "@@")
+map.n("~", "Q")
+map.n("Q", ":MacroEdit<CR>")
 
-vim.cmd[[
+vim.cmd([[
   function! YankToRegister()
     exe printf('norm! ^"%sy$', b:registername)
   endfunction
@@ -35,4 +35,4 @@ vim.cmd[[
     augroup END
   endfunction
   command! MacroEdit call OpenMacroEditorWindow()
-]]
+]])
