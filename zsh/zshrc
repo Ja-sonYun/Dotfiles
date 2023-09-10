@@ -7,6 +7,14 @@ fi
 
 export CONFIG=~/config
 
+# Load dotenv
+DOTENV=$CONFIG/zsh/.env
+if [ -f $DOTENV ]; then
+    export $(cat $DOTENV | sed 's/#.*//g' | xargs)
+else
+    echo "No .env file found"
+fi
+
 source $CONFIG/zsh/module/environment.sh
 # #####################################################
 source $CONFIG/zsh/module/plugin.sh
@@ -90,8 +98,3 @@ source $CONFIG/zsh/module/etc.sh
 source $CONFIG/zsh/module/bootup.sh
 
 export _EMPTY= 
-
-# Load dotenv
-if [ -f .env ]; then
-    export $(cat $CONFIG/zsh/.env | sed 's/#.*//g' | xargs)
-fi

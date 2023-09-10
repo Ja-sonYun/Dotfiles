@@ -78,7 +78,9 @@ items:
   - Menu:
       name: "chatgpt"
       shortcut: c
-      command: aichat -r shell
+      command: aichat
+      session: true
+      session_name: "chatgpt"
 
       position:
         w: 120

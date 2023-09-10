@@ -11,8 +11,12 @@ M.shell_cf = function(name, cmds, opts)
 		if opts and opts.save then
 			vim.cmd("write")
 		end
+		local runner = "!"
+		if opts and opts.runner then
+			runner = opts.runner
+		end
 		for _, cmd in ipairs(cmds) do
-			local string = "!" .. cmd .. " " .. vim.fn.expand("%")
+			local string = runner .. cmd .. " " .. vim.fn.expand("%")
 			vim.cmd(string)
 		end
 		if opts and opts.edit then

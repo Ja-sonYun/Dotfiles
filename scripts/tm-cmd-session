@@ -1,0 +1,8 @@
+#!/bin/sh
+
+tmux display-popup "\
+    tmux attach -t test 2>/dev/null || \
+    tmux new-session -d -s test aichat 2>/dev/null && \
+    tmux set-option -t test status off 2>/dev/null && \
+    tmux attach -t test \
+"

@@ -1,20 +1,20 @@
 local cmd = require("command")
 
-cmd.shell_cf("RunNode", { "node" })
-cmd.shell_cf("RunGo", { "go run" })
-cmd.shell_cf("RunRust", { "cargo run" })
-cmd.shell_cf("RunLatex", { "xelatex" })
-cmd.shell_cf("RunShell", { "bash" })
-cmd.shell_cf("RunClang", { "clang" })
+cmd.shell_cf("RunNode", { "node" }, { runner = "Shell" })
+cmd.shell_cf("RunGo", { "go run" }, { runner = "Shell" })
+cmd.shell_cf("RunRust", { "cargo run" }, { runner = "Shell" })
+cmd.shell_cf("RunLatex", { "xelatex" }, { runner = "Shell" })
+cmd.shell_cf("RunShell", { "bash" }, { runner = "Shell" })
+cmd.shell_cf("RunClang", { "clang" }, { runner = "Shell" })
 cmd.new("RunPython", function()
 	local current_file = vim.fn.expand("%:p")
 	-- check that poetry has pysen
 	local pysen = vim.fn.system("poetry run python -V")
 	if string.find(pysen, "not find") then
 		-- fallback. run global python
-		vim.cmd("!python " .. current_file)
+		vim.cmd("Shell python " .. current_file)
 	else
-		vim.cmd("!poetry run python " .. current_file)
+		vim.cmd("Shell poetry run python " .. current_file)
 	end
 end, {})
 

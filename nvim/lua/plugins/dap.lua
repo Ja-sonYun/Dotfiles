@@ -117,6 +117,8 @@ return {
 		-- dapui need to be loaded before dap, so use init
 		init = function()
 			local dap = require("dap")
+			local dapui = require("dapui")
+			local dap_python = require("dap-python")
 
 			-- dap configuration
 			dap.adapters.python = {
@@ -125,39 +127,60 @@ return {
 				args = { "-m", "debugpy.adapter" },
 			}
 
+			dap_python.setup(vim.g.global_python_path)
+			dap_python.test_runner = "pytest"
+			dap_python.resolve_python = resolve_python_path
+
 			dap.configurations.python = {
 				{
 					-- The first three options are required by nvim-dap
 					type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
 					request = "launch",
 					name = "Launch file",
-
-					-- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-
 					program = "${file}", -- This configuration will launch the current file if used.
 					pythonPath = resolve_python_path,
+				},
+				{
+					type = "python",
+					request = "launch",
+					name = "Launch pytest",
+					module = "pytest",
+					args = { "-s", "-v" },
+					pythonPath = resolve_python_path,
+					console = "integratedTerminal",
+				},
+				{
+					type = "python",
+					request = "launch",
+					name = "Launch current pytest file",
+					module = "pytest",
+					args = { "-s", "-v", "${relativeFile}" },
+					pythonPath = resolve_python_path,
+					console = "integratedTerminal",
 				},
 			}
 
 			map.n("<space>dc", dap.continue)
 			map.n("<space>db", dap.toggle_breakpoint)
-			map.n("<space>dq", dap.terminate)
+			map.n("<space>dq", function()
+				dapui.close()
+				dap.terminate()
+			end)
+			map.n("<space>dt", dap_python.test_method)
+			map.n("<space>df", dap_python.test_class)
 
 			vim.fn.sign_define("DapBreakpoint", { text = "==", texthl = "", linehl = "", numhl = "" })
 			vim.fn.sign_define("DapStopped", { text = "->", texthl = "", linehl = "", numhl = "" })
 
 			-- dapui configuration
-			local dapui = require("dapui")
 			dap.listeners.after.event_initialized["dapui_config"] = function()
 				dapui.open()
 			end
 			dap.listeners.before.event_terminated["dapui_config"] = function()
 				vim.fn.execute("Msg Dap terminated")
-				dapui.close()
 			end
 			dap.listeners.before.event_exited["dapui_config"] = function()
 				vim.fn.execute("Msg Dap exited")
-				dapui.close()
 			end
 
 			map.n("<space>do", dapui.toggle)

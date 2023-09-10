@@ -12,3 +12,15 @@ items:
       position:
         w: 120
         h: 50
+
+  - Menu:
+      name: "shell gpt"
+      shortcut: c
+      command: aichat -r shell
+      session: true
+      session_name: "shellgpt"
+
+      position:
+        w: 120
+        h: 40
+
