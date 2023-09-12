@@ -116,7 +116,7 @@ return {
 				switch_severity = "s", -- switch "diagnostics" severity filter level to HINT / INFO / WARN / ERROR
 				toggle_preview = "P", -- toggle auto_preview
 				hover = "K", -- opens a small popup with the full multiline message
-				preview = "p",esc -- preview the diagnostic location
+				preview = "p", -- preview the diagnostic location
 				open_code_href = "c", -- if present, open a URI with more information about the diagnostic error
 				close_folds = { "zM", "zm" }, -- close all folds
 				open_folds = { "zR", "zr" }, -- open all folds
