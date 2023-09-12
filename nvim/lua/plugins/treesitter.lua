@@ -8,6 +8,7 @@ return {
 		build = ":TSUpdate",
 		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
+			{ "nvim-treesitter/nvim-treesitter-context" },
 			{
 				"nvim-treesitter/nvim-treesitter-textobjects",
 				init = function()
@@ -57,7 +58,7 @@ return {
 								set_jumps = true, -- whether to set jumps in the jumplist
 								goto_next_start = {
 									["]m"] = "@function.outer",
-									["]]"] = { query = "@class.outer", desc = "Next class start" },
+									["]c"] = { query = "@class.outer", desc = "Next class start" },
 									--
 									-- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
 									["]o"] = "@loop.*",
@@ -67,18 +68,22 @@ return {
 									-- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
 									["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
 									["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+									["]]"] = { query = "@parameter.inner" },
 								},
 								goto_next_end = {
 									["]M"] = "@function.outer",
-									["]["] = "@class.outer",
+									["]C"] = "@class.outer",
+									["}}"] = { query = "@parameter.inner" },
 								},
 								goto_previous_start = {
 									["[m"] = "@function.outer",
-									["[["] = "@class.outer",
+									["[c"] = "@class.outer",
+									["[["] = { query = "@parameter.inner" },
 								},
 								goto_previous_end = {
 									["[M"] = "@function.outer",
-									["[]"] = "@class.outer",
+									["[C"] = "@class.outer",
+									["{{"] = { query = "@parameter.inner" },
 								},
 								-- Below will go to either the start or the end, whichever is closer.
 								-- Use if you want more granular movements

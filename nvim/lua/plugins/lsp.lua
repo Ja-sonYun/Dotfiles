@@ -106,10 +106,10 @@ return {
 				map.buf.n("<space>wl", function()
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 				end, bufnr)
-				map.buf.n("<leader>d", vim.lsp.buf.type_definition, bufnr)
+				map.buf.n("<space>d", vim.lsp.buf.type_definition, bufnr)
 				map.buf.n("grn", vim.lsp.buf.rename, bufnr)
 				map.buf.n("gca", vim.lsp.buf.code_action, bufnr)
-				map.buf.n("grf", vim.lsp.buf.references, bufnr)
+				map.buf.n("go", vim.lsp.buf.references, bufnr)
 				map.buf.n("gf", function()
 					vim.lsp.buf.format({ async = true })
 				end, bufnr)
@@ -139,11 +139,11 @@ return {
 						force_close = true, -- passed into vim.api.nvim_win_close's second argument. See :h nvim_win_close
 						bufhidden = "wipe", -- the bufhidden option to set on the floating window. See :h bufhidden
 					})
-					map.buf.n("gpd", goto_preview.goto_preview_definition, bufnr)
-					map.buf.n("gpt", goto_preview.goto_preview_type_definition, bufnr)
-					map.buf.n("gpi", goto_preview.goto_preview_implementation, bufnr)
+					map.buf.n("gp", goto_preview.goto_preview_definition, bufnr)
+					-- map.buf.n("gpt", goto_preview.goto_preview_type_definition, bufnr)
+					-- map.buf.n("gpi", goto_preview.goto_preview_implementation, bufnr)
 					map.buf.n("gP", goto_preview.close_all_win, bufnr)
-					map.buf.n("gpr", goto_preview.goto_preview_references, bufnr)
+					-- map.buf.n("gpr", goto_preview.goto_preview_references, bufnr)
 				end
 			end
 
