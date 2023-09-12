@@ -67,7 +67,7 @@ return {
 
 			-- Mappings.
 			-- See `:help vim.diagnostic.*` for documentation on any of the below functions
-			map.n("L", vim.diagnostic.open_float)
+			map.n("\\D", vim.diagnostic.open_float)
 			map.n("[d", vim.diagnostic.goto_prev)
 			map.n("]d", vim.diagnostic.goto_next)
 			map.n("<space>q", vim.diagnostic.setloclist)
@@ -81,9 +81,9 @@ return {
 					prefix = "<<",
 					format = function(diag)
 						if diag.severity == vim.diagnostic.severity.ERROR then
-							return "[ERROR]"
+							return "[ERR]"
 						end
-						return "[WARNING]"
+						return "[WARN]"
 					end,
 				},
 			})
@@ -191,15 +191,21 @@ return {
 	},
 	{
 		"hrsh7th/nvim-cmp",
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"L3MON4D3/LuaSnip",
+			"rafamadriz/friendly-snippets",
+		},
 		event = "InsertEnter",
 		config = function()
 			local cmp = require("cmp")
+			lua_snip = require("luasnip")
 			cmp.setup({
 				snippet = {
 					-- REQUIRED - you must specify a snippet engine
 					expand = function(args)
 						-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-						-- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+						require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
 						-- require('snippy').expand_snippet(args.body) -- For `snippy` users.
 						-- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
 					end,
@@ -209,21 +215,53 @@ return {
 					-- documentation = cmp.config.window.bordered(),
 				},
 				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-u>"] = cmp.mapping.scroll_docs(-4),
+					["<C-d>"] = cmp.mapping.scroll_docs(4),
+					["<C-f>"] = function()
+						lua_snip.jump(1)
+					end,
+					["<C-b>"] = function()
+						lua_snip.jump(-1)
+					end,
 					["<C-Space>"] = cmp.mapping.complete(),
 					["<C-e>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
 				}, {
 					{ name = "buffer" },
 				}),
 			})
+			cmp.setup.filetype("gitcommit", {
+				sources = cmp.config.sources({
+					{ name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
+				}, {
+					{ name = "buffer" },
+				}),
+			})
+			cmp.setup.cmdline({ "/", "?" }, {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			require("luasnip.loaders.from_vscode").lazy_load()
 		end,
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-		},
+	},
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "VeryLazy",
+		opts = {},
+		config = function(_, opts)
+			require("lsp_signature").setup({
+				hint_prefix = "~ ",
+				handler_opts = {
+					border = "none",
+				},
+			})
+		end,
 	},
 }

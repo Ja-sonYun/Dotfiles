@@ -47,30 +47,49 @@ cmd.new("Custom", function()
 end, {})
 
 function Msg(msg, hl, timestamp)
-	local new_buffer = vim.api.nvim_create_buf(false, true)
-	local max_x = vim.api.nvim_win_get_width(0)
-	local max_y = vim.api.nvim_win_get_height(0)
+	local current_buf = vim.api.nvim_get_current_buf()
+
 	if timestamp == true then
 		msg = "[" .. vim.fn.strftime("%H:%M:%S") .. "]: " .. msg
 	end
 	local length_of_args = #msg
+
 	-- write string to buffer
-	vim.api.nvim_buf_set_lines(new_buffer, 0, -1, false, { msg })
-	vim.api.nvim_buf_add_highlight(new_buffer, -1, hl, 0, 0, -1)
-	local new_win = vim.api.nvim_open_win(new_buffer, false, {
-		relative = "win",
-		bufpos = { 0, 0 },
-		width = length_of_args,
-		height = 1,
-		col = max_x - length_of_args - 1,
-		row = max_y - 2,
+	local Popup = require("nui.popup")
+	local event = require("nui.utils.autocmd").event
+
+	local win_width = vim.api.nvim_win_get_width(0)
+	local win_height = vim.api.nvim_win_get_height(0)
+
+	local popup = Popup({
+		enter = false,
 		focusable = false,
-		style = "minimal",
-		noautocmd = true,
+		relative = "win",
+		anchor = "SE",
+		border = {
+			style = "none",
+		},
+		position = {
+			row = win_height - 1,
+			col = win_width,
+		},
+		size = {
+			width = length_of_args,
+			height = 1,
+		},
 	})
+
+	-- mount/open the component
+	popup:mount()
+
+	-- unmount component when cursor leaves buffer
 	vim.defer_fn(function()
-		vim.api.nvim_win_close(new_win, true)
-	end, 2000)
+		popup:unmount()
+	end, 2500)
+
+	-- set content
+	vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, { msg })
+	vim.api.nvim_buf_add_highlight(popup.bufnr, -1, hl, 0, 0, -1)
 end
 
 cmd.new("Err", function(opts)

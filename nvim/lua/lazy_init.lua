@@ -18,10 +18,11 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ "nvim-lua/plenary.nvim" },
 	{ "MunifTanjim/nui.nvim" },
-
+	{ "akinsho/git-conflict.nvim", version = "*", config = true },
 	{ "tpope/vim-fugitive" },
 	{ "tpope/vim-surround" },
 	{ "tpope/vim-eunuch" },
+	{ "sindrets/diffview.nvim" },
 	{
 		"tpope/vim-commentary",
 		keys = {

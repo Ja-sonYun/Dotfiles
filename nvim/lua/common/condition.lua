@@ -49,10 +49,18 @@ M.code_filetype = {
 	"typescriptreact",
 	"javascriptreact",
 }
+M.non_code_buftype = {
+	"nofile",
+	"prompt",
+	"terminal",
+	"acwrite",
+}
 
 M.code = function()
-	if vim.bo.buftype == "prompt" then
-		return false
+	for _, v in pairs(M.non_code_buftype) do
+		if vim.bo.buftype == v then
+			return false
+		end
 	end
 
 	local is_ok = false

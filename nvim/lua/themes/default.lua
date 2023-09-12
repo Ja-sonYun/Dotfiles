@@ -23,7 +23,4 @@ hl.set("DiffChange", { ctermbg = 235 })
 hl.set("DiffDelete", { ctermbg = 52 })
 hl.set("DiffText", { ctermbg = 52 })
 
-hl.set("GitSignsAddPreview", { ctermbg = "LightBlue" })
-hl.set("GitSignsDeletePreview", { ctermbg = "LightCyan" })
-
 hl.set("Directory", { ctermfg = 6 })

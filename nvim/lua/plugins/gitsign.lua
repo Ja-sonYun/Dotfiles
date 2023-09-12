@@ -38,7 +38,7 @@ return {
 				delay = 1000,
 				ignore_whitespace = true,
 			},
-			current_line_blame_formatter = "<author>",
+			current_line_blame_formatter = "<author>,<author_time:%Y-%m-%d>",
 			sign_priority = 6,
 			update_debounce = 100,
 			status_formatter = nil, -- Use default
@@ -55,6 +55,7 @@ return {
 				enable = false,
 			},
 			on_attach = function(bufnr)
+				local hl = require("highlight")
 				local gs = package.loaded.gitsigns
 
 				local function map(mode, l, r, opts)
@@ -103,6 +104,9 @@ return {
 
 				-- Text object
 				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+
+				hl.set("GitSignsAddPreview", { ctermbg = 17 })
+				hl.set("GitSignsDeletePreview", { ctermbg = 52 })
 			end,
 		},
 	},
