@@ -1,8 +1,11 @@
 aichat v0.8.0:
     aichat
-cargo-release v0.24.4:
+cargo-release v0.24.11:
     cargo-release
-rathole v0.4.7:
+cargo-update v13.0.4:
+    cargo-install-update
+    cargo-install-update-config
+rathole v0.4.8:
     rathole
-tmux-menu v0.1.5:
+tmux-menu v0.1.9:
     tmux-menu
