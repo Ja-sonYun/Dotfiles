@@ -101,16 +101,18 @@ items:
   - Menu:
       name: "sendkey to popup"
       shortcut: p
-      command: >
-        tmux send-keys -t "popup:-1" C-z;
-        tmux send-keys -t "popup:-1" C-c
-        "cd %%PWD && clear; {%%CMD%% && echo background done || echo background failed} 2>&1 | tee /tmp/tmux_popup_log"
-        Enter
+      command: send-cmd-to-popup %%PWD "%%CMD%%"
       inputs:
         - CMD
       position:
         w: 3
         h: 3
+
+  - Menu:
+      name: "clear sendkey status"
+      shortcut: P
+      command: rm -f /tmp/tmux_popup_log
+      background: true
 
   - Seperate: {}
 

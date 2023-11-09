@@ -3,12 +3,51 @@
 ----------------------------------------------------------
 
 return {
+	-- {
+	-- 	"andersevenrud/nvim_context_vt",
+	-- 	opts = {
+	-- 		-- Enable by default. You can disable and use :NvimContextVtToggle to maually enable.
+	-- 		-- Default: true
+	-- 		enabled = true,
+
+	-- 		-- Override default virtual text prefix
+	-- 		-- Default: '-->'
+	-- 		prefix = "~~>",
+
+	-- 		-- Override the internal highlight group name
+	-- 		-- Default: 'ContextVt'
+	-- 		highlight = "CustomContextVt",
+
+	-- 		-- Disable virtual text for given filetypes
+	-- 		-- Default: { 'markdown' }
+	-- 		disable_ft = { "markdown" },
+
+	-- 		-- Disable display of virtual text below blocks for indentation based languages like Python
+	-- 		-- Default: false
+	-- 		disable_virtual_lines = false,
+
+	-- 		-- Same as above but only for spesific filetypes
+	-- 		-- Default: {}
+	-- 		disable_virtual_lines_ft = { "yaml" },
+
+	-- 		-- How many lines required after starting position to show virtual text
+	-- 		-- Default: 1 (equals two lines total)
+	-- 		min_rows = 1,
+
+	-- 		-- Same as above but only for spesific filetypes
+	-- 		-- Default: {}
+	-- 		min_rows_ft = {},
+
+	-- 		-- Custom virtual text node parser callback
+	-- 		-- Default: nil
+	-- 	},
+	-- },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = { "BufReadPost", "BufNewFile" },
 		dependencies = {
-			{ "nvim-treesitter/nvim-treesitter-context" },
+			-- { "nvim-treesitter/nvim-treesitter-context" },
 			{
 				"nvim-treesitter/nvim-treesitter-textobjects",
 				init = function()
@@ -50,14 +89,14 @@ return {
 									["\\s"] = "@parameter.inner",
 								},
 								swap_previous = {
-									["\\a"] = "@parameter.inner",
+									["\\S"] = "@parameter.inner",
 								},
 							},
 							move = {
 								enable = true,
 								set_jumps = true, -- whether to set jumps in the jumplist
 								goto_next_start = {
-									["]m"] = "@function.outer",
+									["]f"] = "@function.outer",
 									["]c"] = { query = "@class.outer", desc = "Next class start" },
 									--
 									-- You can use regex matching (i.e. lua pattern) and/or pass a list in a "query" key to group multiple queires.
@@ -71,17 +110,18 @@ return {
 									["]]"] = { query = "@parameter.inner" },
 								},
 								goto_next_end = {
-									["]M"] = "@function.outer",
+									["]F"] = "@function.outer",
 									["]C"] = "@class.outer",
 									["}}"] = { query = "@parameter.inner" },
 								},
 								goto_previous_start = {
-									["[m"] = "@function.outer",
+									["[f"] = "@function.outer",
 									["[c"] = "@class.outer",
 									["[["] = { query = "@parameter.inner" },
+									["[s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
 								},
 								goto_previous_end = {
-									["[M"] = "@function.outer",
+									["[F"] = "@function.outer",
 									["[C"] = "@class.outer",
 									["{{"] = { query = "@parameter.inner" },
 								},

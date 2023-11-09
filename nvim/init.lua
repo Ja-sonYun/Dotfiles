@@ -1,8 +1,8 @@
 -- Set nvim init path
 local prefix = vim.env.MYVIMRC:match("(.+)/init.lua") .. "/lua"
 
--- Append for common functions
-package.path = prefix .. "/common/?.lua;" .. package.path
+-- Append for common and modules
+package.path = prefix .. "/common/?.lua;" .. prefix .. "/modules/?.lua;" .. package.path
 
 -- Import core
 local auto_import_folder = 'core,themes'

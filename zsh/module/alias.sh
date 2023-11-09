@@ -26,7 +26,6 @@ alias cat="bat"
 
 alias nn="nnn -e"
 
-
-alias gtask="$(brew --prefix)/Cellar/go-task/3.22.0/bin/task"
-
 alias navi="$CONFIG/navi/navi"
+
+alias go-task="/opt/homebrew/Cellar/go-task/3.30.0/bin/task"

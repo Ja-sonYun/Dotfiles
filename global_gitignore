@@ -90,3 +90,6 @@ tags
 pyrightconfig.json
 
 .rtx.toml
+
+.venv
+.v

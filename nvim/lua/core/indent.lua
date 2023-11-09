@@ -75,6 +75,7 @@ auto.cmd("Filetype", {
 		"cpp",
 		"c",
 		"hcl",
+		"graphql",
 	},
 	callback = function()
 		indent2(vim.opt_local)

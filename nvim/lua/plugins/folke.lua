@@ -10,7 +10,7 @@ return {
 
 			hl.set("TodoBgTODO", { ctermbg = 3, ctermfg = 0 })
 			hl.set("TodoBgHACK", { ctermbg = 2, ctermfg = 0 })
-			hl.set("TodoBgNOTE", { ctermbg = 4, ctermfg = 0 })
+			hl.set("TodoBgNOTE", { ctermbg = 4, ctermfg = 15 })
 			hl.set("TodoBgWARN", { ctermbg = 208, ctermfg = 0 })
 			hl.set("TodoBgPERF", { ctermbg = 5, ctermfg = 0 })
 			hl.set("TodoBgFIX", { ctermbg = 1, ctermfg = 0 })

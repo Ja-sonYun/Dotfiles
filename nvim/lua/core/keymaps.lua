@@ -43,8 +43,8 @@ map.u("n", "<leader>e", ":Shell ")
 -----------------------------------------------------------
 
 -- Remap incsearch
-map.n("*", "#")
-map.n("#", "*")
+map.n("*", "#N")
+map.n("#", "*N")
 
 map.v("#", 'y/\\V<C-R>"<CR>')
 map.v("*", 'y?\\V<C-R>"<CR>')
@@ -63,3 +63,6 @@ map.i("<C-h>", "<Left>")
 map.i("<C-j>", "<Down>")
 map.i("<C-k>", "<Up>")
 map.i("<C-l>", "<Right>")
+
+map.i("<C-a>", "<ESC>^i")
+map.i("<C-e>", "<ESC>$a")

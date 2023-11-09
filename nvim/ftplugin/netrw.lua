@@ -10,6 +10,9 @@ map.buf.n("a", "%<esc>")
 map.buf.n("m", "R<esc>", { silent = false })
 map.buf.n("r", ":e . <bar> echo 'Reloaded.'<cr>")
 
+map.buf.n("t", "<nop>")
+map.buf.n("v", "V")
+
 map.buf.n("q", ":Rex<cr>", { nowait = true })
 map.buf.n("<C-c>", ":Rex<cr>", { nowait = true })
 map.buf.n("<leader>f", ":Rex<cr>")

@@ -10,6 +10,10 @@ export PATH="$PATH:/usr/local/bin"
 
 export PATH="$PATH:$CONFIG/shortcuts/scripts"
 
+# Default flags
+export LDFLAGS=""
+export CPPFLAGS=""
+
 # export XDG_CONFIG_HOME=".mydotfiles"
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -61,8 +65,8 @@ if command -v direnv 1>/dev/null 2>&1; then
 fi
 
 # bzip
-export LDFLAGS="-L/opt/homebrew/opt/bzip2/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/bzip2/include"
+LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/bzip2/lib"
+CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/bzip2/include"
 
 # Poetry
 export PATH="/Users/jasony/Library/Python/3.10/bin:$PATH"
@@ -75,6 +79,16 @@ export PATH="$(brew --prefix)/opt/gnu-sed/bin:$PATH"
 export PATH="$(brew --prefix)/opt/gnu-tar/bin:$PATH"
 export PATH="$(brew --prefix)/opt/grep/bin:$PATH"
 export PATH="$(brew --prefix)/opt/make/libexec/gnubin:$PATH"
+
+# requirements to compile lxml
+LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/libxml2/lib"
+CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libxml2/include"
+
+LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/libxslt/lib"
+CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libxslt/include"
+
+LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/zlib/lib"
+CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/zlib/include"
 
 # Colima/orbstack
 # export DOCKER_HOST="unix:///$HOME/.colima/docker.sock"

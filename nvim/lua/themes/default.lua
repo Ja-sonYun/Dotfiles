@@ -24,3 +24,5 @@ hl.set("DiffDelete", { ctermbg = 52 })
 hl.set("DiffText", { ctermbg = 52 })
 
 hl.set("Directory", { ctermfg = 6 })
+
+hl.set("MatchParen", { ctermbg = 238, ctermfg = 3, underline = true })

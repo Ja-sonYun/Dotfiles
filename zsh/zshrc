@@ -88,7 +88,6 @@ if [ "$TMUX" ]; then
     trap "quit_tmux" EXIT
 fi
 
-source $CONFIG/zsh/module/awswp.sh
 source $CONFIG/zsh/module/keybind.sh
 source $CONFIG/zsh/module/compinit.sh
 source $CONFIG/zsh/module/fzf.sh

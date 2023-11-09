@@ -32,3 +32,5 @@ echo "uptime : "`uptime`
 echo "date   : "`date`
 echo ""
 echo ""
+
+rm -f /tmp/tmux_popup_log

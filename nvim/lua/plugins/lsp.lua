@@ -12,7 +12,7 @@ vim.g.lsp_servers = {
 
 			-- Find and use virtualenv in workspace directory.
 			-- Search for parent dir, sometimes vim-rooter use src folder
-			for _, pattern in ipairs({ "*", ".*" }) do
+			for _, pattern in ipairs({ ".venv*" }) do
 				local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
 				if match ~= "" then
 					return path.join(path.dirname(match), "bin", "python")

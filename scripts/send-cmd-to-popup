@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+PWD=$1
+CMD=$2
+
+binary=$(echo $CMD | cut -d' ' -f1)
+timestamp=$(date +%T)
+
+echo "#[bg=yellow][${timestamp}]:&${binary} started#[bg=default]" > /tmp/tmux_popup_log
+
+tmux send-keys -t "popup:-1" C-z
+tmux send-keys -t "popup:-1" C-c "cd ${PWD} && clear; { ${CMD} && echo '#[bg=green]['${timestamp}']:&'${binary}' done#[bg=default]' || echo '#[bg=red]['${timestamp}']:&'${binary}' failed#[bg=default]' } 2>&1 | tee /tmp/tmux_popup_log" Enter

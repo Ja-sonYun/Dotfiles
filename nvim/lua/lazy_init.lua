@@ -58,21 +58,10 @@ require("lazy").setup({
 	},
 
 	{
-		"RRethy/vim-illuminate",
-		config = function()
-			require("illuminate").configure({
-				providers = {
-					"lsp",
-					"treesitter",
-					"regex",
-				},
-				-- delay: delay in milliseconds
-				delay = 200,
-			})
-			local hl = require("highlight")
-			hl.set("IlluminatedWordText", { cterm = { underline = true } })
-			hl.set("IlluminatedWordRead", { cterm = { underline = true } })
-			hl.set("IlluminatedWordWrite", { cterm = { underline = true } })
+		"iamcco/markdown-preview.nvim",
+		ft = "markdown",
+		build = function()
+			vim.fn["mkdp#util#install"]()
 		end,
 	},
 
