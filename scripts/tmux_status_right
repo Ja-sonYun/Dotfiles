@@ -24,5 +24,14 @@ message=$(tail -1 $log_path)
 PWD=$(pwd)
 buf="${message} - ${buf}${PWD}"
 
+tracking=$(timew | awk 'NR == 1 { print $2 }')
+if [[ "$tracking" != "is" ]]; then
+    tracking=" #[bg=black] #[fg=red]*#[fg=green][$tracking]#[fg=default bg=default]"
+else
+    tracking=""
+fi
+
+buf="${buf}${tracking}"
+
 
 echo "${buf}"

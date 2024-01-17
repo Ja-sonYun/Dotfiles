@@ -24,6 +24,10 @@ function modify_reminder() {
         done="no"
     fi
 
+    # tag, optional
+    tags=$(echo $new_data | jq -r '.tags[0]')
+    [ "$tags" = "null" ] && tags=""
+
     # mkfile
     tempfile=$(mktemp)
 
@@ -34,7 +38,7 @@ function modify_reminder() {
 %UUID%:$uuid
 %DUEDATE%:$due_date
 %URL%:
-%TAGS%:
+%TAGS%:$tags
 %DONE%:$done
 %PRIORITY%:
 END

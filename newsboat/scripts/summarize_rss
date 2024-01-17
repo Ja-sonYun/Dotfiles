@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+
+import sqlite3
+import subprocess
+import sys
+from datetime import datetime
+from pathlib import Path
+
+from openai import OpenAI
+from openai.types.chat import ChatCompletionMessageParam
+from rich.console import Console
+from rich.live import Live
+
+newsboat_dir = Path.home() / ".newsboat"
+cache_db = newsboat_dir / "cache.db"
+
+# Summarize logs
+summarize_log_path = newsboat_dir / "summarized"
+summarize_log_path.mkdir(exist_ok=True)
+
+execution_date = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+
+console = Console()
+model_name = "gpt-4-1106-preview"
+# model_name = "gpt-3.5-turbo-16k"
+client = OpenAI(max_retries=5)
+
+
+def fetch_newsboat_rss() -> bool:
+    process = subprocess.run(
+        ["newsboat", "-x", "reload"],
+        capture_output=True,
+        text=True,
+    )
+    return process.returncode == 0
+
+
+def load_rss() -> list[tuple[int, str, str]]:
+    # Connect to the database
+    conn = sqlite3.connect(cache_db)
+    cursor = conn.cursor()
+
+    rss_item = "rss_item"
+
+    cursor.execute(
+        f"SELECT id, title, content, unread FROM {rss_item} WHERE unread = 1;"
+    )
+    rows = cursor.fetchall()
+    conn.close()
+
+    return [(int(row[0]), row[1], row[2]) for row in rows]
+
+
+def mark_rss_as_read(ids: list[int]) -> None:
+    # Connect to the database
+    conn = sqlite3.connect(cache_db)
+    cursor = conn.cursor()
+
+    rss_item = "rss_item"
+
+    for idx in ids:
+        cursor.execute(f"UPDATE {rss_item} SET unread = 0 WHERE id = {idx};")
+
+    conn.commit()
+    conn.close()
+
+
+def format_articles(articles: list[tuple[int, str, str]]) -> str:
+    # Format article
+    formatted_articles = ""
+
+    for idx, title, content in articles:
+        formatted_articles += f"""\
+--------------------------------
+Article id: {idx}
+Title: {title}
+-------
+{content}
+-------
+        """
+
+    return formatted_articles
+
+
+def stream_summarization(formatted_articles: str) -> None:
+    messages: list[ChatCompletionMessageParam] = [
+        {"role": "system", "content": "Summarize all given article shortly in korean."},
+        {"role": "user", "content": formatted_articles},
+    ]
+
+    with console.status("[bold green]Summarizing..."):
+        response = client.chat.completions.create(
+            model="gpt-4-1106-preview",
+            messages=messages,
+            stream=True,
+        )
+
+    with Live(console=console) as live:
+        buffer = ""
+
+        for token in response:
+            content = token.choices[0].delta.content
+
+            if content is not None:
+                buffer += content
+                live.update(buffer)
+
+    log_path = summarize_log_path / f"{execution_date}.txt"
+    log_path.write_text(buffer)
+
+    console.print(f"[bold green]Summarization result saved at {log_path}")
+
+
+def main() -> None:
+    with console.status("[bold green]Fetching newsboat rss..."):
+        fetch_newsboat_rss()
+
+    with console.status("[bold green]Loading rss..."):
+        articles = load_rss()
+
+    if not articles:
+        console.print("[bold green]No unread rss found.")
+        sys.exit(0)
+
+    formatted_articles = format_articles(articles)
+
+    stream_summarization(formatted_articles)
+
+
+if __name__ == "__main__":
+    main()

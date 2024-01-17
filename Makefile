@@ -33,7 +33,7 @@ set_radare2rc:
 	ln -sf ${CONFIG}/radare2/radare2rc ~/.radare2rc
 
 set_vimrc:
-	ln -sf ${CONFIG}/nvim ~/.config/nvim
+	ln -sf ${CONFIG}/nvim ~/.config/
 
 set_tmux:
 	ln -sf ${CONFIG}/tmux/tmux.conf ~/.tmux.conf
@@ -71,8 +71,13 @@ set_mac_window_manager:
 	ln -sf ${CONFIG}/window-management/mac/sketchybar ~/.config/sketchybar
 
 set_taskwarrior:
-	ln -sf ${CONFIG}/taskwarrior ~/.task
+	ln -sf ${CONFIG}/taskwarrior/hooks ~/.task
 	ln -sf ${CONFIG}/taskwarrior/taskrc ~/.taskrc
+
+set_newsboat:
+	ln -sf ${CONFIG}/newsboat/urls ~/.newsboat/urls
+	ln -sf ${CONFIG}/newsboat/config ~/.newsboat/config
+	ln -sf ${CONFIG}/newsboat/scripts ~/.newsboat/scripts
 
 set_all:
 	$(MAKE) set_zshrc
@@ -86,3 +91,4 @@ set_all:
 	$(MAKE) set_globalpip
 	$(MAKE) set_gitignore
 	$(MAKE) set_mac_window_manager
+	$(MAKE) set_newsboat

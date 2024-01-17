@@ -12,16 +12,21 @@ function update() {
     fi
 
     args+=(--remove '/task.items\.*/')
-    tasks=$(task status:pending export | jq -r '. |= sort_by(.urgency) | reverse | .[] | [.urgency, .id, .description] | @sh')
+    tasks=$(task status:pending export | jq -r '. |= sort_by(.urgency) | reverse | .[] | [.tags[0], .urgency, .id, .description] | @sh')
     items=""
     i=0
-    while read -r urgency id desc; do
+    while read -r tag urgency id desc; do
         i=$((i+1))
         # Escape single quotes, $ and empty spaces
+        if [ "$tag" = "null" ]; then
+            tag=""
+        else
+            tag="[$tag] "
+        fi
         description=$(echo "$desc" | sed -e "s/^'//" -e "s/'$//")
         urgency=$(echo "$urgency" | sed -e "s/^'//" -e "s/'$//")
         args+=(--clone task.items.$i task.template)
-        args+=(--set   task.items.$i label="$description, $urgency"        \
+        args+=(--set   task.items.$i label="$tag$description, $urgency"        \
                                      icon="􀀀"                              \
                                      drawing=on                            \
                                      position=popup.task                   \

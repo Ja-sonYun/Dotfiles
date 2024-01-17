@@ -1,0 +1,37 @@
+title: " RSS "
+items:
+
+  - Menu:
+      name: "summarize"
+      shortcut: s
+      command: "~/config/newsboat/scripts/summarize_rss_and_update"
+      session: true
+      session_name: "summarize_rss_and_update"
+
+      position:
+        w: 50
+        h: 5
+
+  - Menu:
+      name: "show summary"
+      shortcut: l
+      command: "~/config/newsboat/scripts/summarize_rss"
+      close_after_command: false
+      session: true
+      session_name: "summarize_rss"
+
+      position:
+        w: 120
+        h: 40
+
+  - Menu:
+      name: "rss"
+      shortcut: r
+
+      command: newsboat
+      session: true
+      session_name: "newsboat"
+
+      position:
+        w: 120
+        h: 40

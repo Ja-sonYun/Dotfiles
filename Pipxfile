@@ -1,3 +1,10 @@
-deepl-cli 0.5.0
-euporie 2.4.3
-poetry 1.6.1
+austin-tui 1.2.3
+cookiecutter 2.5.0
+deepl-cli 0.5.2
+euporie 2.6.2
+huggingface-hub 0.19.4
+macnotesapp 0.5.3
+notebook 6.5.6
+poetry 1.7.1
+pymemgpt 0.2.5
+visidata 2.11.1

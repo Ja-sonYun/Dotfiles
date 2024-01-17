@@ -77,6 +77,7 @@ export PATH="$(brew --prefix)/opt/gnu-getopt/bin:$PATH"
 export PATH="$(brew --prefix)/opt/gnu-time/bin:$PATH"
 export PATH="$(brew --prefix)/opt/gnu-sed/bin:$PATH"
 export PATH="$(brew --prefix)/opt/gnu-tar/bin:$PATH"
+export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
 export PATH="$(brew --prefix)/opt/grep/bin:$PATH"
 export PATH="$(brew --prefix)/opt/make/libexec/gnubin:$PATH"
 
@@ -99,3 +100,5 @@ export GPG_TTY=$(tty)
 
 # Created by `pipx` on 2023-04-13 09:31:33
 export PATH="$PATH:/Users/jasony/.local/bin"
+
+export PIPX_DEFAULT_PYTHON=$(which python3)

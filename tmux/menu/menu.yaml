@@ -87,6 +87,11 @@ items:
         h: 40
 
   - Menu:
+      name: "rss"
+      shortcut: r
+      next_menu: "./rss.yaml"
+
+  - Menu:
       name: "translate"
       shortcut: l
       next_menu: "./translate.yaml"

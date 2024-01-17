@@ -11,6 +11,7 @@ return {
 
 			map.n("<space>f", ":Files<CR>")
 			map.n("<space>r", ":Rg<CR>")
+			map.n("qb", ":Buffer<CR>")
 
 			auto.group("Fzf", { clear = true })
 			auto.cmd("FileType", {

@@ -1,5 +1,8 @@
 # update repository
 
-eval "$(rtx activate zsh)"
+eval "$(mise activate zsh)"
 # Copilot cli
 # eval "$(github-copilot-cli alias -- "$0")"
+
+# C-g
+eval "$(navi widget zsh)"

@@ -1,8 +1,8 @@
 set -o ignoreeof
 
 # redirect to wsl home if in wsl
-if [[ `pwd` == */mnt/c* ]]; then
-    cd $HOME
+if [[ $(pwd) == */mnt/c* ]]; then
+    cd "$HOME" || exit
 fi
 
 export CONFIG=~/config
@@ -23,9 +23,9 @@ source $CONFIG/zsh/module/cfunction.sh
 source $CONFIG/zsh/module/functions.sh
 
 # for Mac
-if [[ `uname` == "Darwin" ]]; then
+if [[ $(uname) == "Darwin" ]]; then
     source $CONFIG/zsh/module/homebrew.sh
-elif [[ `uname` == "Linux" ]]; then
+elif [[ $(uname) == "Linux" ]]; then
     export DISPLAY=:0
     export HOST_IP="$(ip route |awk '/^default/{print $3}')"
     export PULSE_SERVER="tcp:$HOST_IP"
@@ -55,8 +55,8 @@ fi
 export _MAIN_WINDOW="default"
 
 if [ "$TMUX" ]; then
-    TMUX_BOOTED=`tmux showenv TMUX_BOOTED 2> /dev/null || echo 0`
-    local current_window_name=`tmux display-message -p '#S'`
+    TMUX_BOOTED=$(tmux showenv TMUX_BOOTED 2> /dev/null || echo 0)
+    local current_window_name=$(tmux display-message -p '#S')
 
     if [ "$TMUX_BOOTED" = "0" ] && [ "$current_window_name" = "$_MAIN_WINDOW" ]; then
         tmux setenv TMUX_BOOTED 1 > /dev/null
@@ -68,11 +68,11 @@ if [ "$TMUX" ]; then
 
     # quit tmux if this is the last active session on window
     function quit_tmux() {
-        local current_window_name=`tmux display-message -p '#S'`
-        local current_window_panes=`tmux display-message -p '#{window_panes}'`
+        local current_window_name=$(tmux display-message -p '#S')
+        local current_window_panes=$(tmux display-message -p '#{window_panes}')
         if [ "$current_window_name" = "$_MAIN_WINDOW" ] && [ "$current_window_panes" = "1" ]; then
             # will return number of session in default window
-            local session_num=`tmux ls | awk '$1 ~ "default" { print $2 }'`
+            local session_num=$(tmux ls | awk '$1 ~ "default" { print $2 }')
             if [ "$session_num" = "1" ]; then
                 # Confirm to kill tmux server
                 read -q "REPLY?Do you want to kill tmux server? [y/N] "
@@ -95,5 +95,8 @@ source $CONFIG/zsh/module/etc.sh
 
 # Boot up script after all initialized
 source $CONFIG/zsh/module/bootup.sh
+
+# Activate Hooks
+source $CONFIG/zsh/hooks/activate.sh
 
 export _EMPTY= 

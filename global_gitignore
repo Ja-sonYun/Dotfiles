@@ -93,3 +93,5 @@ pyrightconfig.json
 
 .venv
 .v
+
+*.ju.py

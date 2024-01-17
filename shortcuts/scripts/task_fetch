@@ -52,6 +52,7 @@ class Todo:
             "status": self.is_completed and "completed" or "pending",
             "uuid": self.uuid,
             "project": self.list,
+            "tags": self.tags,
         }
         if self.due_date:
             self.due_date = (

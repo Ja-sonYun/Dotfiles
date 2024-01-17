@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+
+import asyncio
+import sqlite3
+import subprocess
+import sys
+from pathlib import Path
+
+from openai import AsyncOpenAI as OpenAI
+from openai.types.chat import ChatCompletionMessageParam
+from rich.console import Console
+from rich.live import Live
+
+newsboat_dir = Path.home() / ".newsboat"
+cache_db = newsboat_dir / "cache.db"
+
+console = Console()
+model_name = "gpt-4-1106-preview"
+# model_name = "gpt-3.5-turbo-16k"
+client = OpenAI(max_retries=5)
+
+
+def format_summary(summary: str) -> str:
+    # Hightlight summary as green. use terminal color code.
+    summary = summary.replace("\n", "<br>")
+    summary = summary.replace("``` html", "")
+    summary = summary.replace("```html", "")
+    summary = summary.replace("```html", "")
+    summary = summary.replace("```", "")
+
+    return f"""\
+### Summary<br>
+====================================<br>
+{summary}<br>
+====================================<br><br>
+"""
+
+
+def has_summary(content: str) -> bool:
+    return content.startswith("### Summary")
+
+
+def fetch_newsboat_rss() -> bool:
+    process = subprocess.run(
+        ["newsboat", "-x", "reload"],
+        capture_output=True,
+        text=True,
+    )
+    return process.returncode == 0
+
+
+def load_rss() -> list[tuple[int, str, str]]:
+    # Connect to the database
+    conn = sqlite3.connect(cache_db)
+    cursor = conn.cursor()
+
+    rss_item = "rss_item"
+
+    cursor.execute(
+        f"SELECT id, title, content, unread FROM {rss_item} WHERE unread = 1;"
+    )
+    rows = cursor.fetchall()
+    conn.close()
+
+    # Filter out already summarized articles
+    rows = [row for row in rows if not has_summary(row[2])]
+
+    return [(int(row[0]), row[1], row[2]) for row in rows]
+
+
+def append_summary(idx: int, content: str, summary: str) -> None:
+    conn = sqlite3.connect(cache_db)
+    cursor = conn.cursor()
+
+    # Append summary to the head of content
+    content = format_summary(summary) + content
+
+    cursor.execute(
+        f"UPDATE rss_item SET content = ? WHERE id = ?;",
+        (content, idx),
+    )
+    conn.commit()
+    conn.close()
+
+
+async def summarization(idx: int, formatted_articles: str, status: list[bool]) -> str:
+    messages: list[ChatCompletionMessageParam] = [
+        {
+            "role": "system",
+            "content": (
+                "Summarize given article shortly in korean. Don't be verbose. "
+                "The summary should be around 100 words. "
+                "Also the summary formatted as html. "
+                "Don't include any markdown syntax. "
+            ),
+        },
+        {"role": "user", "content": formatted_articles},
+    ]
+
+    response = await client.chat.completions.create(
+        model=model_name,
+        messages=messages,
+    )
+    status[idx] = True
+
+    summary = response.choices[0].message.content
+
+    if not summary:
+        summary = "No summarized content."
+
+    return summary
+
+
+async def main() -> None:
+    with console.status("[bold green]Fetching RSS..."):
+        fetch_newsboat_rss()
+
+    with console.status("[bold green]Loading RSS..."):
+        articles = load_rss()
+
+    if not articles:
+        console.print("No unread articles.")
+        sys.exit(0)
+
+    with Live(console=console) as live:
+        status = [False for _ in range(len(articles))]
+
+        async def update_status() -> None:
+            while not all(status):
+                buffer = f"Summarizing... {sum(status)}/{len(status)}"
+                live.update(buffer)
+
+                await asyncio.sleep(0.01)
+
+        asyncio.create_task(update_status())
+        summaries = await asyncio.gather(
+            *[
+                summarization(idx, content, status)
+                for idx, (_, _, content) in enumerate(articles)
+            ]
+        )
+
+        buffer = f"Summarized {sum(status)}/{len(status)}"
+        live.update(buffer)
+
+    with console.status("[bold green]Updating RSS..."):
+        for (idx, _, content), summary in zip(articles, summaries):
+            append_summary(idx, content, summary)
+
+    console.clear_live()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

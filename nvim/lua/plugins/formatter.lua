@@ -50,7 +50,7 @@ return {
 				command = "poetry",
 				args = { "run", "pysen", "run_files", "format", "$FILENAME" },
 				stdin = false,
-				condition = function(ctx)
+				condition = function(self, ctx)
 					local pyproject = vim.fn.system("cat pyproject.toml")
 					return string.find(pyproject, "pysen")
 				end,
@@ -62,7 +62,7 @@ return {
 			my_isort = {
 				command = "isort",
 				args = { "$FILENAME" },
-				condition = function(ctx)
+				condition = function(self, ctx)
 					local pysen = vim.fn.system("[ -f pyproject.toml ] && cat pyproject.toml")
 					return not string.find(pysen, "pysen")
 				end,
@@ -72,7 +72,7 @@ return {
 			my_black = {
 				command = "black",
 				args = { "$FILENAME" },
-				condition = function(ctx)
+				condition = function(self, ctx)
 					local pysen = vim.fn.system("[ -f pyproject.toml ] && cat pyproject.toml")
 					return not string.find(pysen, "pysen")
 				end,

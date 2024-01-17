@@ -187,7 +187,6 @@ return {
 	{
 		"j-hui/fidget.nvim",
 		config = true,
-		tag = "legacy",
 	},
 	{
 		"hrsh7th/nvim-cmp",

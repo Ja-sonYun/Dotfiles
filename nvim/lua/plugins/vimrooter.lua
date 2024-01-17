@@ -4,11 +4,9 @@ return {
 		config = function()
 			vim.g.rooter_patterns = {
 				".git",
-				"Makefile",
 				"*.sln",
 				"build/env.sh",
 				"pyproject.toml",
-				"Taskfile",
 				"env",
 				"Pipenv",
 				"setup.cfg",

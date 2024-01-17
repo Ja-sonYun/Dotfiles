@@ -1,6 +1,6 @@
-alias Python3.9=
-alias Python3.10="$(brew --prefix)/opt/python@3.10/bin/python3.10"
-alias Python3.11="$(brew --prefix)/opt/python@3.11/bin/python3.11"
+# alias Python3.9=
+# alias Python3.10="$(brew --prefix)/opt/python@3.10/bin/python3.10"
+# alias Python3.11="$(brew --prefix)/opt/python@3.11/bin/python3.11"
 
 function pythonv() {
     if [ -z "$1" ]; then
