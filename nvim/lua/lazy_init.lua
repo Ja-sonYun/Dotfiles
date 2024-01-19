@@ -65,6 +65,24 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+		"m-demare/hlargs.nvim",
+		config = function()
+			require("hlargs").setup({
+				excluded_argnames = {
+					declarations = {},
+					usages = {
+						python = { "self", "cls" },
+						lua = { "self" },
+					},
+				},
+			})
+			local hl_group = "Hlargs"
+			vim.cmd("highlight clear " .. hl_group)
+			vim.cmd("highlight! def " .. hl_group .. " ctermfg=" .. 39)
+		end,
+	},
+
 	-- load plugins under plugins
 	{ import = "plugins" },
 })
