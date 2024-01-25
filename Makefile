@@ -69,6 +69,7 @@ set_mac_window_manager:
 	ln -sf ${CONFIG}/window-management/mac/yabairc ~/.yabairc
 	ln -sf ${CONFIG}/window-management/mac/skhdrc ~/.skhdrc
 	ln -sf ${CONFIG}/window-management/mac/sketchybar ~/.config/sketchybar
+	ln -sf ${CONFIG}/window-management/mac/borders ~/.config/borders
 
 set_taskwarrior:
 	ln -sf ${CONFIG}/taskwarrior/hooks ~/.task

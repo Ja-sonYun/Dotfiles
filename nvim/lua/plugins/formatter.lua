@@ -45,6 +45,10 @@ return {
 		},
 		-- format_on_save = { timeout_ms = 500, lsp_fallback = true },
 		formatters = {
+			rustfmt = {
+				command = "rustfmt",
+				args = { "--edition", "2021" },
+			},
 			-- Python formatters
 			pysen = {
 				command = "poetry",

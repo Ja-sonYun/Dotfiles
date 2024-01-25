@@ -1,15 +1,19 @@
 return {
 	{
 		"christoomey/vim-tmux-navigator",
-		config = function()
-			local map = require("keymap")
-
-			vim.g.tmux_navigator_no_mappings = 1
-
-			map.n("<C-l>", ":<C-U>TmuxNavigateRight<CR>")
-			map.n("<C-h>", ":<C-U>TmuxNavigateLeft<CR>")
-			map.n("<C-j>", ":<C-U>TmuxNavigateDown<CR>")
-			map.n("<C-k>", ":<C-U>TmuxNavigateUp<CR>")
-		end,
+		cmd = {
+			"TmuxNavigateLeft",
+			"TmuxNavigateDown",
+			"TmuxNavigateUp",
+			"TmuxNavigateRight",
+			"TmuxNavigatePrevious",
+		},
+		keys = {
+			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+		},
 	},
 }

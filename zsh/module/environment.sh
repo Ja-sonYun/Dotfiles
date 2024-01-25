@@ -91,6 +91,9 @@ CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libxslt/include"
 LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/zlib/lib"
 CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/zlib/include"
 
+LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/libpq/lib"
+CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libpq/include"
+
 # Colima/orbstack
 # export DOCKER_HOST="unix:///$HOME/.colima/docker.sock"
 export DOCKER_HOST="unix:///Users/jasony/.orbstack/run/docker.sock"

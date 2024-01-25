@@ -5,5 +5,7 @@ cargo-release v0.25.0:
 cargo-update v13.2.0:
     cargo-install-update
     cargo-install-update-config
+diesel_cli v2.1.1:
+    diesel
 tmux-menu v0.1.9:
     tmux-menu
