@@ -1,0 +1,19 @@
+#!/bin/zsh
+
+maxlen="$1"
+shift
+str="$@"
+
+# If the string length is less than or equal to maxlen, return the string as is
+if (( ${#str} <= maxlen )); then
+    echo $str
+    exit 0
+fi
+
+# Calculate the length to keep at the end of the string
+end_len=$((maxlen / 2))
+
+# Ensure that the total length is not more than maxlen
+start_len=$((maxlen - end_len - 1))
+
+echo "${str:0:$start_len}…${str: -end_len}"

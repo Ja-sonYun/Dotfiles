@@ -6,6 +6,8 @@ M.Msg = function(msg, hl, opts)
 	local current_buf = vim.api.nvim_get_current_buf()
 
 	local timestamp = opts and opts.timestamp or false
+	local timeout = opts and opts.timeout or 2500
+	local ret_cleaner = opts and opts.ret_cleaner or false
 
 	if timestamp == true then
 		msg = msg .. " [" .. vim.fn.strftime("%H:%M:%S") .. "]"
@@ -40,18 +42,6 @@ M.Msg = function(msg, hl, opts)
 	-- mount/open the component
 	popup:mount()
 
-	-- unmount component when cursor leaves buffer
-	vim.defer_fn(function()
-		popup:unmount()
-
-		-- delete buffer from list of messages
-		for i, v in ipairs(messages) do
-			if v.bufnr == popup.bufnr then
-				table.remove(messages, i)
-			end
-		end
-	end, 2500)
-
 	-- set content
 	vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, { msg })
 	vim.api.nvim_buf_add_highlight(popup.bufnr, -1, hl, 0, 0, -1)
@@ -77,6 +67,24 @@ M.Msg = function(msg, hl, opts)
 
 	-- add buffer to list of messages
 	table.insert(messages, popup)
+
+	-- unmount component when cursor leaves buffer
+	local cleaner = function()
+		popup:unmount()
+
+		-- delete buffer from list of messages
+		for i, v in ipairs(messages) do
+			if v.bufnr == popup.bufnr then
+				table.remove(messages, i)
+			end
+		end
+	end
+
+	if ret_cleaner == true then
+		return cleaner
+	end
+
+	vim.defer_fn(cleaner, timeout)
 end
 
 return M

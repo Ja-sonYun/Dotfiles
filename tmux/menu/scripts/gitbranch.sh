@@ -4,6 +4,7 @@ TEMP_GIT_BRANCH_MENU="/tmp/gitbranch_menu.yaml"
 rm -f $TEMP_GIT_BRANCH_MENU
 cat > $TEMP_GIT_BRANCH_MENU << EOM
 title: " git branch "
+border: "simple"
 items:
   - Seperate: {}
 EOM

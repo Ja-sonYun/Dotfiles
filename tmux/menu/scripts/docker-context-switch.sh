@@ -4,6 +4,7 @@ TEMP_MENU="/tmp/ps_menu.yaml"
 rm -f $TEMP_MENU
 cat > $TEMP_MENU << EOM
 title: " docker context "
+border: "simple"
 items:
   - Seperate: {}
   - NoDim:

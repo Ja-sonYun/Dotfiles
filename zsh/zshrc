@@ -15,6 +15,8 @@ else
     echo "No .env file found"
 fi
 
+export XDG_CONFIG_HOME=~/.config
+
 source $CONFIG/zsh/module/environment.sh
 # #####################################################
 source $CONFIG/zsh/module/plugin.sh
@@ -40,11 +42,21 @@ autoload -U colors && colors
 
 function envinfo() {
     if [ -f .terraform/environment ]; then
-        echo " ( %{$fg[blue]%}tf:$(cat .terraform/environment)%{$reset_color%} )"
+        echo "%{$fg[yellow]%}(%Utf:$(cat .terraform/environment)%u)%{$reset_color%}"
+    elif [[ -n "$VIRTUAL_ENV" && -n "$DIRENV_DIR" ]]; then
+        echo "%{$fg[yellow]%}(%Upy:$(basename "$VIRTUAL_ENV")%u)%{$reset_color%}"
     fi
 }
 
-PS1='$([ ! -z "$TMUX" ] && echo "!")${_PS1_HEAD}bg:$(jobs | wc -l | sed "s/^ *//g")[$(date "+%F-%H-%M-%S")]%~$(gitstat)$(envinfo)${_PS1_TAIL} %{$fg[green]%}$%{$reset_color%} '
+function gitstatus_prompt() {
+    if [ -n "$GITSTATUS_PROMPT" ]; then
+        echo " [$GITSTATUS_PROMPT]"
+    fi
+}
+
+source $(brew --prefix)/opt/gitstatus/gitstatus.prompt.zsh
+
+PS1='$([ ! -z "$TMUX" ] && echo "%{$fg[magenta]%}›%{$reset_color%}")${_PS1_HEAD}[%D{%d/%m,%H:%M:%S}]%{$fg[red]%}%(1j.%U•%j%u|.)%{$reset_color%}$(envinfo)$(shorten-pwd)$(gitstatus_prompt)${_PS1_TAIL} %{$fg[green]%}$%{$reset_color%} '
 
 if [ "$RICHTERM" ]; then
     if [ ! "$TMUX" ]; then

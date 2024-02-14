@@ -38,7 +38,7 @@
 #         h: ...
 
 title: " menu "
-border: "rounded"
+border: "simple"
 items:
 
   - NoDim:

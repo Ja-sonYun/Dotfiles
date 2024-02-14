@@ -29,14 +29,17 @@ return {
 			python = { "pysen", "my_isort", "my_black" }, --, "ruff_fix" },
 			terraform = { "terraform_fmt" },
 			javascript = { { "prettierd", "prettier" } },
+			javascriptreact = { { "prettierd", "prettier" } },
 			typescript = { { "prettierd", "prettier" } },
+			typescriptreact = { { "prettierd", "prettier" } },
 			json = { { "prettierd", "prettier" } },
 			go = { "gofmt" },
 			html = { { "prettierd", "prettier" } },
+			css = { { "prettierd", "prettier" } },
 			rust = { "rustfmt" },
-			sh = { "shfmt", "shellcheck" },
-			bash = { "shfmt", "shellcheck" },
-			zsh = { "shfmt", "shellcheck" },
+			sh = { "shellscript", "shellcheck" },
+			bash = { "shellscript", "shellcheck" },
+			zsh = { "shellscript", "shellcheck" },
 			markdown = { "markdownlint" },
 			c = { "clang_format" },
 			cpp = { "clang_format" },
@@ -48,6 +51,10 @@ return {
 			rustfmt = {
 				command = "rustfmt",
 				args = { "--edition", "2021" },
+			},
+			shellscript = {
+				command = "shfmt",
+				args = { "-i", "4", "-ci" },
 			},
 			-- Python formatters
 			pysen = {

@@ -95,3 +95,5 @@ pyrightconfig.json
 .v
 
 *.ju.py
+
+.conform.*

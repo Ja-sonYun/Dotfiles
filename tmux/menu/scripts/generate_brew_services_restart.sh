@@ -4,6 +4,7 @@ TEMP_PS_MENU_FILE="/tmp/ps_menu.yaml"
 rm -f $TEMP_PS_MENU_FILE
 cat > $TEMP_PS_MENU_FILE << EOM
 title: " docker services "
+border: "simple"
 items:
   - Seperate: {}
   - NoDim:

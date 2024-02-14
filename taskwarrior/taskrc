@@ -40,3 +40,7 @@ data.location=/Users/jasony/.task
 #include no-color.theme
 confirmation=no
 news.version=2.6.0
+
+color.tag.xteam=yellow
+color.tag.urgent=bold red on gray
+color.tag.waiting=blue

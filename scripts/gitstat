@@ -1,39 +1,93 @@
 #!/bin/zsh
 
-if [ "`git rev-parse --is-inside-work-tree 2> /dev/null`" != true ]; then
+if [ "$(git rev-parse --is-inside-work-tree 2>/dev/null)" != true ]; then
     exit 1
 fi
 
-DIFF=`git status -s`
+if [[ "$1" == "zsh" ]]; then
+    autoload -U colors && colors
+    ENABLE_ZSH_COLOR=1
+fi
 
-DELETED=`echo $DIFF | grep -o "D " | wc -l | tr -d " "`
-MODIFIED=`echo $DIFF | grep -o " M " | wc -l | tr -d " "`
-COMMITTED=`echo $DIFF | grep -o "M  " | wc -l | tr -d " "`
-COMMITTED_MODIFIED=`echo $DIFF | grep -o "MM " | wc -l | tr -d " "`
-ADDED=`echo $DIFF | grep -o "?? " | wc -l | tr -d " "`
+DIFF=$(git status -s)
+CURRENT_BRANCH=$(git branch --show-current)
+SHORTEN_BRANCH=$(shorten-string 10 $CURRENT_BRANCH)
+COMDIFF=$(git rev-list --left-right --count origin/${CURRENT_BRANCH}...${CURRENT_BRANCH} 2>/dev/null)
+
+AHEAD=$(echo $COMDIFF | awk '{print $1}')
+BEHIND=$(echo $COMDIFF | awk '{print $2}')
+
+DELETED=$(echo $DIFF | grep -o "D " | wc -l | tr -d " ")
+MODIFIED=$(echo $DIFF | grep -o " M " | wc -l | tr -d " ")
+COMMITTED=$(echo $DIFF | grep -o "M  " | wc -l | tr -d " ")
+COMMITTED_MODIFIED=$(echo $DIFF | grep -o "MM " | wc -l | tr -d " ")
+ADDED=$(echo $DIFF | grep -o "?? " | wc -l | tr -d " ")
 
 RESULT=""
 
 if [[ $MODIFIED != 0 || $COMMITTED_MODIFIED != 0 ]]; then
-    MODIFIED=`expr $MODIFIED + $COMMITTED_MODIFIED`
-    RESULT="!$MODIFIED"
+    MODIFIED=$(expr $MODIFIED + $COMMITTED_MODIFIED)
+    MODIFIED="!$MODIFIED"
+    if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+        RESULT="%{$fg[yellow]%}$MODIFIED%{$reset_color%}"
+    else
+        RESULT="$MODIFIED"
+    fi
 fi
 
 if [[ $ADDED != 0 ]]; then
-    RESULT="$RESULT?$ADDED"
+    ADDED="?$ADDED"
+    if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+        ADDED="%{$fg[blue]%}$ADDED%{$reset_color%}"
+    fi
+    RESULT="$RESULT$ADDED"
 fi
 
 if [[ $DELETED != 0 ]]; then
-    RESULT="$RESULT~$DELETED"
+    DELETED="-$DELETED"
+    if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+        DELETED="%{$fg[red]%}$DELETED%{$reset_color%}"
+    fi
+    RESULT="$RESULT$DELETED"
 fi
 
 if [[ $COMMITTED != 0 || $COMMITTED_MODIFIED != 0 ]]; then
-    COMMITTED=`expr $COMMITTED + $COMMITTED_MODIFIED`
-    RESULT="$RESULT+$COMMITTED"
+    COMMITTED=$(expr $COMMITTED + $COMMITTED_MODIFIED)
+    COMMITTED="+$COMMITTED"
+    if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+        COMMITTED="%{$fg[green]%}$COMMITTED%{$reset_color%}"
+    fi
+    RESULT="$RESULT$COMMITTED"
 fi
 
-if [[ $RESULT != "" ]]; then
-    RESULT="{$RESULT}"
+if [[ $AHEAD != 0 ]]; then
+    SHORTEN_BRANCH="${SHORTEN_BRANCH}↓${AHEAD}"
+    if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+        SHORTEN_BRANCH="%{$fg[red]%}$SHORTEN_BRANCH%{$reset_color%}"
+    fi
 fi
 
-echo -n $RESULT
+if [[ $BEHIND != 0 ]]; then
+    SHORTEN_BRANCH="${SHORTEN_BRANCH}↑${BEHIND}"
+    if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+        SHORTEN_BRANCH="%{$fg[magenta]%}$SHORTEN_BRANCH%{$reset_color%}"
+    fi
+fi
+
+if [[ $AHEAD == 0 && $BEHIND == 0 ]]; then
+    if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+        SHORTEN_BRANCH="%{$fg[green]%}$SHORTEN_BRANCH%{$reset_color%}"
+    fi
+fi
+
+if [[ "$RESULT" == "" ]]; then
+    RESULT="_"
+fi
+
+if [[ "$ENABLE_ZSH_COLOR" == 1 ]]; then
+    RESULT="%{$fg[yellow]%}µ%{$reset_color%}%{$fg[cyan]%}{%{$reset_color%}$SHORTEN_BRANCH%{$fg[cyan]%}:$RESULT%{$reset_color%}%{$fg[cyan]%\}%{$reset_color%}"
+else
+    RESULT="{$SHORTEN_BRANCH:$RESULT}"
+fi
+
+echo -n " $RESULT"

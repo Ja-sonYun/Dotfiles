@@ -1,5 +1,0 @@
-#!/bin/sh
-
-cnt=`jobs | wc -l | sed 's/^ *//g'`
-
-echo "jobs: $cnt"

@@ -105,3 +105,6 @@ export GPG_TTY=$(tty)
 export PATH="$PATH:/Users/jasony/.local/bin"
 
 export PIPX_DEFAULT_PYTHON=$(which python3)
+
+# Keybase
+export PATH="/Applications/Keybase.app/Contents/SharedSupport/bin:$PATH"

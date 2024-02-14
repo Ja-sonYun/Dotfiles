@@ -12,7 +12,7 @@ function add_reminder() {
     [ "$due_date" = "null" ] && due_date=""
     status=$(echo $new_data | jq -r '.status')
     [ "$status" = "null" ] && status="no"
-    tags=$(echo $new_data | jq -r '.tags[0]')
+    tags=$(echo $new_data | jq -r '.tags | join(" ")')
     [ "$tags" = "null" ] && tags=""
 
     # mkfile

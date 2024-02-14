@@ -12,16 +12,14 @@ buf=""
 is_git=$(git rev-parse --is-inside-work-tree)
 
 if [[ $is_git == "true" ]]; then
-    GIT_BRANCH=$(git branch --show-current)
-    # echo "#[fg=red]${GIT_BRANCH}#[fg=default]"
-    # echo $GIT_BRANCH
+    GIT_BRANCH=$(shorten-string 20 $(git branch --show-current))
     buf="#[fg=red]${GIT_BRANCH}#[fg=default]"
     buf="#[fg=grey]Git#[fg=default]($buf):"
 fi
 
 message=$(tail -1 $log_path)
 
-PWD=$(pwd)
+PWD=$(shorten-pwd)
 buf="${message} - ${buf}${PWD}"
 
 tracking=$(timew | awk 'NR == 1 { print $2 }')
