@@ -41,6 +41,8 @@ data.location=/Users/jasony/.task
 confirmation=no
 news.version=2.6.0
 
+color.project.Todos=yellow
+
 color.tag.xteam=yellow
 color.tag.urgent=bold red on gray
 color.tag.waiting=blue

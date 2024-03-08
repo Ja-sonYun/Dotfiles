@@ -250,17 +250,17 @@ return {
 			require("luasnip.loaders.from_vscode").lazy_load()
 		end,
 	},
-	{
-		"ray-x/lsp_signature.nvim",
-		event = "VeryLazy",
-		opts = {},
-		config = function(_, opts)
-			require("lsp_signature").setup({
-				hint_prefix = "~ ",
-				handler_opts = {
-					border = "none",
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"ray-x/lsp_signature.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = {},
+	-- 	config = function(_, opts)
+	-- 		require("lsp_signature").setup({
+	-- 			hint_prefix = "~ ",
+	-- 			handler_opts = {
+	-- 				border = "none",
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 }

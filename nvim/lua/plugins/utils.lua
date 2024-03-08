@@ -182,6 +182,17 @@ return {
 		end,
 	},
 
+	{
+		"bloznelis/before.nvim",
+		config = function()
+			local before = require("before")
+			before.setup()
+
+			vim.keymap.set("n", "<C-O>", before.jump_to_last_edit, {})
+			vim.keymap.set("n", "<C-I>", before.jump_to_next_edit, {})
+		end,
+	},
+
 	-- {
 	-- 	"karb94/neoscroll.nvim",
 	-- 	opts = {
