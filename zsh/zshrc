@@ -1,3 +1,4 @@
+# Q pre block. Keep at the top of this file.
 set -o ignoreeof
 
 # redirect to wsl home if in wsl
@@ -56,7 +57,7 @@ function gitstatus_prompt() {
 
 source $(brew --prefix)/opt/gitstatus/gitstatus.prompt.zsh
 
-PS1='$([ ! -z "$TMUX" ] && echo "%{$fg[magenta]%}›%{$reset_color%}")${_PS1_HEAD}[%D{%d/%m,%H:%M:%S}]%{$fg[red]%}%(1j.%U•%j%u|.)%{$reset_color%}$(envinfo)$(shorten-pwd)$(gitstatus_prompt)${_PS1_TAIL} %{$fg[green]%}$%{$reset_color%} '
+PS1='${_PS1_HEAD}[%D{%d/%m,%H:%M:%S}]%{$fg[red]%}%(1j.%U•%j%u|.)%{$reset_color%}$(envinfo)$(shorten-pwd)$(gitstatus_prompt)${_PS1_TAIL} %{$fg[green]%}$%{$reset_color%} '
 
 if [ "$RICHTERM" ]; then
     if [ ! "$TMUX" ]; then
@@ -111,4 +112,6 @@ source $CONFIG/zsh/module/bootup.sh
 # Activate Hooks
 source $CONFIG/zsh/hooks/activate.sh
 
-export _EMPTY= 
+export _EMPTY=
+
+# Q post block. Keep at the bottom of this file.

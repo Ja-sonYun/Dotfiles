@@ -97,3 +97,5 @@ pyrightconfig.json
 *.ju.py
 
 .conform.*
+
+.aider*

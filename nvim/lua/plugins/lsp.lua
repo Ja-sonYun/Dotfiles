@@ -1,59 +1,178 @@
-vim.g.lsp_servers = {
-	pyright = function(lspconfig, util)
-		local map = require("keymap")
-		local table = require("table_utils")
+local get_python_path = function(path, workspace)
+	local venv_env_path = os.getenv("VIRTUAL_ENV")
+	-- Use activated virtualenv.
+	if venv_env_path ~= nil then
+		local venv_path = path.join(venv_env_path, "bin", "python3")
+		require("message").Msg(venv_path, "MatchParen", { timestamp = true })
+		return venv_path
+	end
 
-		local path = util.path
-		local function get_python_path(workspace)
-			-- Use activated virtualenv.
-			if vim.env.VIRTUAL_ENV then
-				return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
-			end
+	-- Find and use virtualenv in workspace directory.
+	-- Search for parent dir, sometimes vim-rooter use src folder
+	for _, pattern in ipairs({ ".venv*" }) do
+		local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
+		if match ~= "" then
+			local venv_path = path.join(path.dirname(match), "bin", "python")
+			require("message").Msg(venv_path, "MatchParen", { timestamp = true })
+			return venv_path
+		end
+	end
 
-			-- Find and use virtualenv in workspace directory.
-			-- Search for parent dir, sometimes vim-rooter use src folder
-			for _, pattern in ipairs({ ".venv*" }) do
-				local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
-				if match ~= "" then
-					return path.join(path.dirname(match), "bin", "python")
+	-- Fallback to system Python.
+	require("message").Msg("Fallback to system Python", "MatchParen", { timestamp = true })
+	return "~/.globalpip/.venv/bin/python"
+end
+
+-- This strips out &nbsp; and some ending escaped backslashes out of hover
+-- strings because the pyright LSP is... odd with how it creates hover strings.
+local hover_pydoc = function(_, result, ctx, config)
+	if not (result and result.contents) then
+		return vim.lsp.handlers.hover(_, result, ctx, config)
+	end
+	if type(result.contents) == "string" then
+		local s = string.gsub(result.contents or "", "&nbsp;", " ")
+		s = string.gsub(s, [[\\\n]], [[\n]])
+		result.contents = s
+		return vim.lsp.handlers.hover(_, result, ctx, config)
+	else
+		local s = string.gsub((result.contents or {}).value or "", "&nbsp;", " ")
+		s = string.gsub(s, "\\\n", "\n")
+		result.contents.value = s
+		return vim.lsp.handlers.hover(_, result, ctx, config)
+	end
+end
+
+local modify_diag = function()
+	vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+		update_in_insert = false,
+		virtual_text = {
+			sign = false,
+			prefix = "!",
+			format = function(diag)
+				local code = diag.code or ""
+				if diag.severity == vim.diagnostic.severity.ERROR then
+					return "[ERR(" .. diag.source .. ":" .. code .. ")]"
 				end
-			end
+				return "[WARN(" .. diag.source .. ")]"
+			end,
+		},
+	})
+end
 
-			-- Fallback to system Python.
-			return "~/.globalpip/.venv/bin/python"
-		end
-
-		-- This strips out &nbsp; and some ending escaped backslashes out of hover
-		-- strings because the pyright LSP is... odd with how it creates hover strings.
-		local hover = function(_, result, ctx, config)
-			if not (result and result.contents) then
-				return vim.lsp.handlers.hover(_, result, ctx, config)
-			end
-			if type(result.contents) == "string" then
-				local s = string.gsub(result.contents or "", "&nbsp;", " ")
-				s = string.gsub(s, [[\\\n]], [[\n]])
-				result.contents = s
-				return vim.lsp.handlers.hover(_, result, ctx, config)
-			else
-				local s = string.gsub((result.contents or {}).value or "", "&nbsp;", " ")
-				s = string.gsub(s, "\\\n", "\n")
-				result.contents.value = s
-				return vim.lsp.handlers.hover(_, result, ctx, config)
-			end
-		end
-
+vim.g.lsp_servers = {
+	----------------------
+	-- PYTHON
+	----------------------
+	pyright = function(lspconfig, util)
+		local path = util.path
 		return {
+			settings = {
+				python = {
+					inlayHints = {
+						includeInlayEnumMemberValueHints = true,
+						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayFunctionParameterTypeHints = true,
+						includeInlayParameterNameHints = "all",
+						includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+						includeInlayPropertyDeclarationTypeHints = true,
+						includeInlayVariableTypeHints = true,
+					},
+				},
+			},
 			before_init = function(_, config)
 				-- Remove html tags from hover, pyright do this weird thing where it
-				vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(hover, {})
-				config.settings.python.pythonPath = get_python_path(config.root_dir)
+				-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(hover_pydoc, {})
+				config.settings.python.pythonPath = get_python_path(path, config.root_dir)
 			end,
 		}
 	end,
+	-- pylsp = function(lspconfig, util)
+	-- 	return {
+	-- 		before_init = function(client, config)
+	-- 			-- disable hover signature
+	-- 			config.settings.pylsp.plugins.pylsp_mypy.overrides = {
+	-- 				"--python-executable",
+	-- 				get_python_path(util.path, config.root_dir),
+	-- 				true,
+	-- 			}
+	-- 		end,
+	-- 		settings = {
+	-- 			pylsp = {
+	-- 				flags = {
+	-- 					debounce_text_changes = 200,
+	-- 				},
+	-- 				plugins = {
+	-- 					-- formatter options
+	-- 					black = { enabled = true },
+	-- 					autopep8 = { enabled = false },
+	-- 					yapf = { enabled = false },
+	-- 					-- linter options
+	-- 					pylint = { enabled = false, executable = "pylint" },
+	-- 					ruff = { enabled = false },
+	-- 					pyflakes = { enabled = false },
+	-- 					pycodestyle = { enabled = false },
+	-- 					-- type checker
+	-- 					pylsp_mypy = {
+	-- 						enabled = true,
+	-- 						report_progress = true,
+	-- 						-- overrides = { "--python-executable", py_path, true },
+	-- 						live_mode = false,
+	-- 					},
+	-- 					-- auto-completion options
+	-- 					jedi_completion = { fuzzy = true },
+	-- 					-- import sorting
+	-- 					isort = { enabled = true },
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 	}
+	-- end,
+
+	----------------------
+	-- RUST
+	----------------------
 	rust_analyzer = {},
-	tsserver = {},
+
+	----------------------
+	-- TypeScript
+	----------------------
+	tsserver = {
+		settings = {
+			typescript = {
+				inlayHints = {
+					includeInlayEnumMemberValueHints = true,
+					includeInlayFunctionLikeReturnTypeHints = true,
+					includeInlayFunctionParameterTypeHints = true,
+					includeInlayParameterNameHints = "all",
+					includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+					includeInlayPropertyDeclarationTypeHints = true,
+					includeInlayVariableTypeHints = true,
+				},
+			},
+		},
+	},
+
+	----------------------
+	-- Go
+	----------------------
 	gopls = {},
+
+	----------------------
+	-- Vim
+	----------------------
+	vimls = {},
+
+	----------------------
+	-- Lua
+	----------------------
+	lua_ls = {},
+
+	----------------------
+	-- Bash
+	----------------------
+	bashls = {},
 }
+vim.g.lsp_servers["wgsl-analyzer"] = {}
 
 return {
 	{
@@ -61,36 +180,16 @@ return {
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			local map = require("keymap")
-
 			-- vim.lsp.set_log_level("off")
 
 			-- Mappings.
 			-- See `:help vim.diagnostic.*` for documentation on any of the below functions
-			map.n("\\D", vim.diagnostic.open_float)
-			map.n("[d", vim.diagnostic.goto_prev)
-			map.n("]d", vim.diagnostic.goto_next)
-			map.n("<space>q", vim.diagnostic.setloclist)
-
-			vim.diagnostic.config({
-				-- virtual_lines = {
-				--   only_current_line = true
-				-- },
-				signs = false,
-				virtual_text = {
-					prefix = "<<",
-					format = function(diag)
-						if diag.severity == vim.diagnostic.severity.ERROR then
-							return "[ERR]"
-						end
-						return "[WARN]"
-					end,
-				},
-			})
 
 			-- Use an on_attach function to only map the following keys
 			-- after the language server attaches to the current buffer
 			local on_attach = function(client, bufnr)
+				local map = require("keymap")
+
 				-- Enable completion triggered by <c-x><c-o>
 				vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -110,8 +209,11 @@ return {
 				map.buf.n("grn", vim.lsp.buf.rename, bufnr)
 				map.buf.n("gca", vim.lsp.buf.code_action, bufnr)
 				map.buf.n("go", vim.lsp.buf.references, bufnr)
-				map.buf.n("gf", function()
-					vim.lsp.buf.format({ async = true })
+				if client.server_capabilities.documentFormattingProvider then
+					map.buf.n("qf", vim.lsp.buf.format, bufnr)
+				end
+				map.buf.n("qh", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 				end, bufnr)
 
 				-- goto-preview
@@ -145,6 +247,11 @@ return {
 					map.buf.n("gP", goto_preview.close_all_win, bufnr)
 					-- map.buf.n("gpr", goto_preview.goto_preview_references, bufnr)
 				end
+
+				map.buf.n("\\D", vim.diagnostic.open_float, bufnr)
+				map.buf.n("[d", vim.diagnostic.goto_prev, bufnr)
+				map.buf.n("]d", vim.diagnostic.goto_next, bufnr)
+				map.buf.n("<space>q", vim.diagnostic.setloclist, bufnr)
 			end
 
 			local lspconfig = require("lspconfig")
@@ -158,10 +265,17 @@ return {
 					opt = opt(lspconfig, lsp_utils)
 				end
 
-				lspconfig[lsp].setup(table.concat({
+				lspconfig[lsp].setup({
+					before_init = function(client, config)
+						if opt.before_init then
+							opt.before_init(client, config)
+						end
+						modify_diag()
+					end,
 					on_attach = on_attach,
 					capabilities = capabilities,
-				}, opt))
+					settings = opt.settings,
+				})
 			end
 		end,
 		dependencies = {
@@ -179,7 +293,31 @@ return {
 					ensure_installed = require("table_utils").keys(vim.g.lsp_servers),
 				},
 				init = function(plugin, opts)
-					return require("mason-lspconfig").setup(opts)
+					local mason_lspconfig = require("mason-lspconfig").setup(opts)
+
+					local function mason_package_path(package)
+						local path = vim.fn.resolve(vim.fn.stdpath("data") .. "/mason/packages/" .. package)
+						return path
+					end
+
+					-- depends on package manager / language
+					local command = "venv/bin/pip"
+					local args = {
+						"install",
+						"python-lsp-server[all]",
+						"pylsp-mypy",
+						"python-lsp-isort",
+						"python-lsp-black",
+					}
+
+					require("plenary.job")
+						:new({
+							command = mason_package_path("python-lsp-server") .. "/" .. command,
+							args = args,
+						})
+						:start()
+
+					return mason_lspconfig
 				end,
 			},
 		},

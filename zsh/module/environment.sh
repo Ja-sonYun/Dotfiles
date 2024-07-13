@@ -33,6 +33,7 @@ elif [[ `uname` == "Linux" ]]; then
 fi
 
 export PATH="$CONFIG/scripts:$PATH"
+export PATH="$CONFIG/zellij/scripts:$PATH"
 
 
 export TEMP_PATH="$HOME/.temp"
@@ -44,6 +45,8 @@ export PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 
 export WEECHAT_HOME="~/.weechat"
 
+# OpenCV or etc build
+export DYLD_FALLBACK_LIBRARY_PATH="$(xcode-select --print-path)/usr/lib/"
 
 if [ "$OS_ENV" = "m1" ]; then
     export PYTHON_BASE_PATH="/opt/homebrew/bin/python3"

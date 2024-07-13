@@ -5,7 +5,7 @@ local prefix = vim.env.MYVIMRC:match("(.+)/init.lua") .. "/lua"
 package.path = prefix .. "/common/?.lua;" .. prefix .. "/modules/?.lua;" .. package.path
 
 -- Import core
-local auto_import_folder = "core,themes"
+local auto_import_folder = "core,themes,commands"
 local glob = prefix .. "/{" .. auto_import_folder .. "}/*.lua"
 local files = vim.fn.glob(glob, 0, 1)
 

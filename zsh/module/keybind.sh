@@ -7,6 +7,11 @@ bindkey -r '^S'
 bindkey -r '^Y'
 bindkey -r '^D'
 
+bindkey -r '^j'
+bindkey -r '^l'
+bindkey -r '^k'
+bindkey -r '^h'
+
 # bindkey "\e\e[D" backward-word
 # bindkey "\e\e[C" forward-word
 

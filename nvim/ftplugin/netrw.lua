@@ -21,5 +21,9 @@ map.buf.n("<c-h>", ":TmuxNavigateLeft<cr>")
 map.buf.n("<c-j>", ":TmuxNavigateDown<cr>")
 map.buf.n("<c-k>", ":TmuxNavigateUp<cr>")
 map.buf.n("<c-l>", ":TmuxNavigateRight<cr>")
+-- map.buf.n("<c-h>", ":ZellijNavigateLeft<cr>")
+-- map.buf.n("<c-j>", ":ZellijNavigateDown<cr>")
+-- map.buf.n("<c-k>", ":ZellijNavigateUp<cr>")
+-- map.buf.n("<c-l>", ":ZellijNavigateRight<cr>")
 
 vim.opt_local.listchars.multispace = "\\ "

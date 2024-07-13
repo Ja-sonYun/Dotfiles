@@ -12,13 +12,13 @@ case $@ in
   icon_result=":final_cut_pro:"
   ;;
 "FaceTime")
-  icon_result=":face_time:"
+  icon_result="􀍉"
   ;;
 "Affinity Publisher")
   icon_result=":affinity_publisher:"
   ;;
 "Messages" | "Nachrichten")
-  icon_result=":messages:"
+  icon_result="􀌤"
   ;;
 "Tweetbot" | "Twitter")
   icon_result=":twitter:"
@@ -30,10 +30,10 @@ case $@ in
   icon_result=":kee_pass_x_c:"
   ;;
 "Microsoft Edge")
-  icon_result=":microsoft_edge:"
+  icon_result=""
   ;;
 "VLC")
-  icon_result=":vlc:"
+  icon_result="󰕼"
   ;;
 "Emacs")
   icon_result=":emacs:"
@@ -42,7 +42,7 @@ case $@ in
   icon_result=":thunderbird:"
   ;;
 "Notes")
-  icon_result=":notes:"
+  icon_result="􀓕"
   ;;
 "Caprine")
   icon_result=":caprine:"
@@ -63,10 +63,10 @@ case $@ in
   icon_result=":git_hub:"
   ;;
 "App Store")
-  icon_result=":app_store:"
+  icon_result=""
   ;;
 "Chromium" | "Google Chrome" | "Google Chrome Canary")
-  icon_result=":google_chrome:"
+  icon_result=""
   ;;
 "zoom.us")
   icon_result=":zoom:"
@@ -138,7 +138,7 @@ case $@ in
   icon_result=":numbers:"
   ;;
 "Default")
-  icon_result=":default:"
+  icon_result=""
   ;;
 "Element")
   icon_result=":element:"
@@ -171,16 +171,16 @@ case $@ in
   icon_result=":evernote_legacy:"
   ;;
 "Calendar" | "Fantastical")
-  icon_result=":calendar:"
+  icon_result=""
   ;;
 "Android Studio")
   icon_result=":android_studio:"
   ;;
 "Xcode")
-  icon_result=":xcode:"
+  icon_result=""
   ;;
 "Slack")
-  icon_result=":slack:"
+  icon_result="󰒱"
   ;;
 "Sequel Pro")
   icon_result=":sequel_pro:"
@@ -189,10 +189,10 @@ case $@ in
   icon_result=":bit_warden:"
   ;;
 "System Preferences" | "System Settings")
-  icon_result=":gear:"
+  icon_result="􀣋"
   ;;
 "Discord" | "Discord Canary" | "Discord PTB")
-  icon_result=":discord:"
+  icon_result="󰙯"
   ;;
 "Vivaldi")
   icon_result=":vivaldi:"
@@ -219,7 +219,7 @@ case $@ in
   icon_result=":mail:"
   ;;
 "Safari" | "Safari Technology Preview")
-  icon_result=":safari:"
+  icon_result="􀎬"
   ;;
 "Telegram")
   icon_result=":telegram:"
@@ -246,7 +246,7 @@ case $@ in
   icon_result=":spotlight:"
   ;;
 "Music")
-  icon_result=":music:"
+  icon_result="􀑪"
   ;;
 "Insomnia")
   icon_result=":insomnia:"
@@ -258,7 +258,7 @@ case $@ in
   icon_result=":alfred:"
   ;;
 "Pages")
-  icon_result=":pages:"
+  icon_result="􁜾"
   ;;
 "Folx")
   icon_result=":folx:"
@@ -321,10 +321,10 @@ case $@ in
   icon_result=":omni_focus:"
   ;;
 "Reminders")
-  icon_result=":reminders:"
+  icon_result="􀻧"
   ;;
 "Preview" | "Skim" | "zathura")
-  icon_result=":pdf:"
+  icon_result=""
   ;;
 "1Password 7")
   icon_result=":one_password:"
@@ -342,7 +342,7 @@ case $@ in
   icon_result=":book:"
   ;;
 "Finder" | "访达")
-  icon_result=":finder:"
+  icon_result="􀈕"
   ;;
 "Linear")
   icon_result=":linear:"
@@ -360,7 +360,7 @@ case $@ in
   icon_result=":podcasts:"
   ;;
 "Alacritty" | "Hyper" | "iTerm2" | "kitty" | "Terminal" | "WezTerm")
-  icon_result=":terminal:"
+  icon_result="􀩼"
   ;;
 "Tor Browser")
   icon_result=":tor_browser:"
@@ -378,7 +378,7 @@ case $@ in
   icon_result=":sequel_ace:"
   ;;
 *)
-  icon_result=":default:"
+  icon_result="􁝊"
   ;;
 esac
 echo $icon_result

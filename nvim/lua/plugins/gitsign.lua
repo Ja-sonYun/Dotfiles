@@ -2,6 +2,12 @@
 -- GitSign
 -----------------------------------------------------------
 
+-- 'signs.add.hl' is now deprecated, please define highlight 'GitSignsAdd'
+-- 'signs.change.hl' is now deprecated, please define highlight 'GitSignsChange'
+-- 'signs.changedelete.hl' is now deprecated, please define highlight 'GitSignsChangedelete'
+-- 'signs.delete.hl' is now deprecated, please define highlight 'GitSignsDelete'
+-- 'signs.topdelete.hl' is now deprecated, please define highlight 'GitSignsTopdelete'
+-- 'signs.untracked.hl' is now deprecated, please define highlight 'GitSignsUntracked'
 return {
 	{
 		"lewis6991/gitsigns.nvim",
@@ -10,17 +16,19 @@ return {
 
 			hl.set("GitSignsAdd", { ctermbg = nil, ctermfg = "Green" })
 			hl.set("GitSignsChange", { ctermbg = nil, ctermfg = "Yellow" })
+			hl.set("GitSignsChangeDelete", { ctermbg = nil, ctermfg = "Yellow" })
 			hl.set("GitSignsDelete", { ctermbg = nil, ctermfg = "Red" })
-			hl.set("GitSignsCurrentLineBlame", { ctermbg = nil, ctermfg = "Grey" })
+			hl.set("GitSignsTopDelete", { ctermbg = nil, ctermfg = "Red" })
+			hl.set("GitSignsUntracked", { ctermbg = nil, ctermfg = "Cyan" })
 		end,
 		opts = {
 			signs = {
-				add = { hl = "GitSignsAdd", text = "| " },
-				change = { hl = "GitSignsChange", text = "| " },
-				delete = { hl = "GitSignsDelete", text = "| " },
-				topdelete = { hl = "GitSignsDelete", text = "| " },
-				changedelete = { hl = "GitSignsChange", text = "| " },
-				untracked = { hl = "GitSignsAdd", text = "| " },
+				add = { text = "| " },
+				change = { text = "| " },
+				delete = { text = "| " },
+				topdelete = { text = "| " },
+				changedelete = { text = "| " },
+				untracked = { text = "| " },
 			},
 			signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
 			numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -50,9 +58,6 @@ return {
 				relative = "cursor",
 				row = 0,
 				col = 1,
-			},
-			yadm = {
-				enable = false,
 			},
 			on_attach = function(bufnr)
 				local hl = require("highlight")

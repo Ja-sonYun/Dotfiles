@@ -80,6 +80,9 @@ set_newsboat:
 	ln -sf ${CONFIG}/newsboat/config ~/.newsboat/config
 	ln -sf ${CONFIG}/newsboat/scripts ~/.newsboat/scripts
 
+set_zellij:
+	ln -sf ${CONFIG}/zellij ~/.config/zellij
+
 set_all:
 	$(MAKE) set_zshrc
 	$(MAKE) set_radare2rc
@@ -93,3 +96,4 @@ set_all:
 	$(MAKE) set_gitignore
 	$(MAKE) set_mac_window_manager
 	$(MAKE) set_newsboat
+	$(MAKE) set_zellij

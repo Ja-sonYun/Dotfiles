@@ -73,4 +73,37 @@ M.code = function()
 	return is_ok
 end
 
+M.non_code = {
+	"*.so",
+	"*.o",
+	"*.obj",
+	"*.dylib",
+	"*.bin",
+	"*.dll",
+	"*.exe",
+	"*/.git/*",
+	"*/.svn/*",
+	"*/__pycache__/*",
+	"*/build/**",
+	"*.jpg",
+	"*.png",
+	"*.jpeg",
+	"*.bmp",
+	"*.gif",
+	"*.tiff",
+	"*.svg",
+	"*.ico",
+	"*.pyc",
+	"*.pkl",
+	"*.DS_Store",
+	"*.aux",
+	"*.bbl",
+	"*.blg",
+	"*.brf",
+	"*.fls",
+	"*.fdb_latexmk",
+	"*.synctex.gz",
+	"*.xdv",
+}
+
 return M

@@ -1,0 +1,11 @@
+#!/bin/sh
+
+session_name="main"
+
+matched_session=$(zellij list-sessions -ns | grep -E '(^|\s)'$session_name'($|\s)')
+
+if [ -z "$matched_session" ]; then
+    zellij -s $session_name
+else
+    zellij attach $session_name
+fi

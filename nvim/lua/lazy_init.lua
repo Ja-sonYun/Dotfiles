@@ -65,6 +65,9 @@ require("lazy").setup({
 		end,
 	},
 
+	{ "tpope/vim-eunuch" },
+	{ "mechatroner/rainbow_csv" },
+
 	-- load plugins under plugins
 	{ import = "plugins" },
 })

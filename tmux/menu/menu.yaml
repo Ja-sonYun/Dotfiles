@@ -78,7 +78,7 @@ items:
   - Menu:
       name: "chatgpt"
       shortcut: c
-      command: aichat
+      command: aichat --session tm --role ask
       session: true
       session_name: "chatgpt"
 

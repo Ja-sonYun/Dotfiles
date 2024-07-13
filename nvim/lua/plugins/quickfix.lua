@@ -33,8 +33,5 @@ return {
 				end,
 			},
 		},
-		config = function(plugin, opts)
-			return require("bqf").setup(opts)
-		end,
 	},
 }
