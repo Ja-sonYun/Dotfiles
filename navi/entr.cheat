@@ -1,0 +1,4 @@
+% automate, command runner
+
+# Run on file change
+find <path> | entr -s '<cmd>'

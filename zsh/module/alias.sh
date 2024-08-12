@@ -10,14 +10,16 @@ alias sshk="ssh -o ServerAliveInterval=60"
 
 alias mutt="neomutt"
 alias mut="neomutt"
-alias e="exa"
-alias ef="exa -F"
+alias e="eza"
+alias ef="eza -F"
 
-alias ls="exa"
-alias ll="exa -l"
-alias la="exa -a"
-alias l="exa -l"
-alias lla="exa -la"
+alias ls="eza"
+alias ll="eza -l"
+alias la="eza -a"
+alias l="eza -l"
+alias lla="eza -la"
+
+alias exa="eza"
 
 alias cat="bat"
 

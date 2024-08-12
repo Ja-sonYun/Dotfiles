@@ -69,3 +69,5 @@ map.i("<C-e>", "<ESC>$a")
 
 -- Copy current file path to clipboard
 map.n("<leader>y", ":let @*=expand('%:p')<CR>:echo 'Copied to clipboard'<CR>")
+
+map.n("qm", ":Shell make<CR>")

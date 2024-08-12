@@ -171,6 +171,11 @@ vim.g.lsp_servers = {
 	-- Bash
 	----------------------
 	bashls = {},
+
+	----------------------
+	-- Clangd
+	----------------------
+  clangd = {},
 }
 vim.g.lsp_servers["wgsl-analyzer"] = {}
 

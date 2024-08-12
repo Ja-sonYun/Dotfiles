@@ -31,6 +31,8 @@ return {
 				"Cartfile.resolved",
 				"Carthage",
 				"Carthage.resolved",
+				"Makefile",
+				"makefile",
 				"vimrc",
 				"init.lua",
 				".terraform",

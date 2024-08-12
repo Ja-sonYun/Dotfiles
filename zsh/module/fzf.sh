@@ -17,7 +17,7 @@ function zvm_after_init() {
     zstyle ':fzf-tab:*' fzf-pad 4
     zstyle ':fzf-tab:*' prefix ''                 # No dot prefix
     zstyle ':fzf-tab:*' single-group color header # Show header for single groups
-    zstyle ':fzf-tab:complete:(cd|ls|lsd|lsdd|j):*' fzf-preview '[[ -d $realpath ]] && exa --icons -1 --color=always -- $realpath'
+    zstyle ':fzf-tab:complete:(cd|ls|lsd|lsdd|j):*' fzf-preview '[[ -d $realpath ]] && eza --icons -1 --color=always -- $realpath'
     zstyle ':fzf-tab:complete:((micro|cp|rm|bat|less|code|nano|atom):argument-rest|kate:*)' fzf-preview 'bat --color=always -- $realpath 2>/dev/null || ls --color=always -- $realpath'
     zstyle ':fzf-tab:complete:updatelocal:argument-rest' fzf-preview "git --git-dir=$UPDATELOCAL_GITDIR/\${word}/.git log --color --date=short --pretty=format:'%Cgreen%cd %h %Creset%s %Cred%d%Creset ||%b' ..FETCH_HEAD 2>/dev/null"
     zstyle ':fzf-tab:complete:updatelocal:argument-rest' fzf-flags --preview-window=down:5:wrap

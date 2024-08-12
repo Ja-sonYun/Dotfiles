@@ -99,7 +99,7 @@ CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libpq/include"
 
 # Colima/orbstack
 # export DOCKER_HOST="unix:///$HOME/.colima/docker.sock"
-export DOCKER_HOST="unix:///Users/jasony/.orbstack/run/docker.sock"
+# export DOCKER_HOST="unix:///Users/jasony/.orbstack/run/docker.sock"
 
 export GPG_TTY=$(tty)
 
@@ -111,3 +111,6 @@ export PIPX_DEFAULT_PYTHON=$(which python3)
 
 # Keybase
 export PATH="/Applications/Keybase.app/Contents/SharedSupport/bin:$PATH"
+
+# Navi
+export NAVI_PATH="$CONFIG/navi"

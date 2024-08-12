@@ -55,3 +55,5 @@ dap.configurations.python = {
 }
 map.n("<space>dt", dap_python.test_method)
 map.n("<space>df", dap_python.test_class)
+
+map.n("qqf", "ebiprint(f\"{<esc>ea=}\")<esc>")

@@ -1,0 +1,14 @@
+% Homebrew
+
+# List service
+brew services list
+
+# Start service
+brew services start <service>
+
+$ service: brew services list --- --column 1 --header-lines 1 --delimiter '\s\s+'
+
+# Stop service
+brew services stop <service>
+
+$ service: brew services list --- --column 1 --header-lines 1 --delimiter '\s\s+'

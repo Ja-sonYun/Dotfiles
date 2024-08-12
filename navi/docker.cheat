@@ -1,7 +1,12 @@
 % docker
 
-# Remove all docker containers
+# rma
 docker rm $(docker ps -a -q)
 
-# Remove all docker images
+# rmia
 docker rmi -f $(docker images -a -q)
+
+# rmi
+docker rmi <image_id>
+
+$ image_id: docker images --- --column 3 --header-lines 1 --delimiter '\s\s+'

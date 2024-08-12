@@ -1,0 +1,10 @@
+% yabai
+
+# Stop
+yabai --stop-service
+
+# Start
+yabai --start-service
+
+# Restart
+yabai --stop-service && yabai --start-service
