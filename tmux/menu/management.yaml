@@ -1,0 +1,22 @@
+title: " management "
+border: "simple"
+items:
+
+  - Menu:
+      name: "calendar"
+      shortcut: c
+      command: $CONFIG/shortcuts/scripts/icalcli
+      close_after_command: false
+      border: none
+      position:
+        w: 100
+        h: 17
+
+  - Menu:
+      name: "task"
+      shortcut: t
+      command: taskwarrior-tui
+
+      position:
+        w: 120
+        h: 60

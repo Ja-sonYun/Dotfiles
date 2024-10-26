@@ -7,3 +7,5 @@ opt.listchars:append({
 	tab = "> ",
 	leadmultispace = ". ",
 })
+
+vim.b.file_suffix = { ".ts", ".tsx", ".d.ts" }

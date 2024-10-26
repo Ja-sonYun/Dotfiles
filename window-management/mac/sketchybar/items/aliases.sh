@@ -11,6 +11,10 @@ sketchybar --add alias "TextInputMenuAgent,Item-0" right        \
            --set "TextInputMenuAgent,Item-0" $default_opts      \
                                              click_script="open /System/Library/PreferencePanes/Keyboard.prefPane"
 
+sketchybar --add alias "Control Center,FocusModes" right      \
+           --set "Control Center,FocusModes" $default_opts    \
+                                             click_script="$PLUGIN_DIR/open_menubar_controlcenter"
+
 sketchybar --add alias "Control Center,WiFi" right      \
            --set "Control Center,WiFi" $default_opts    \
                                        click_script="$PLUGIN_DIR/open_menubar_controlcenter"

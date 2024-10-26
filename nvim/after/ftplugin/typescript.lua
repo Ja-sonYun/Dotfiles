@@ -8,3 +8,4 @@ opt.listchars:append({
 	leadmultispace = ". ",
 })
 
+vim.b.file_suffix = { ".ts", ".tsx", ".d.ts", ".js", ".jsx" }

@@ -2,11 +2,6 @@ title: " docker "
 border: "simple"
 items:
 
-  - NoDim:
-      name: "colima status: $($CONFIG/tmux/menu/scripts/colima.sh status)"
-
-  - Seperate: {}
-
   - Menu:
       name: "start"
       shortcut: s
@@ -19,11 +14,6 @@ items:
       command: "$CONFIG/tmux/menu/scripts/colima.sh stop"
       background: true
 
-  - Seperate: {}
-
-  - NoDim:
-      name: "current context: $($CONFIG/tmux/menu/scripts/docker-menu-parse.sh current_context)"
-
   - Menu:
       name: "switch context"
       shortcut: c
@@ -34,7 +24,7 @@ items:
 
   - Menu:
       name: "lazy docker"
-      shortcut: g
+      shortcut: d
       command: "lazydocker"
 
       position:

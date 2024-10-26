@@ -19,22 +19,21 @@ export ZSH="$HOME/.oh-my-zsh"
 
 export EDITOR="nvim"
 
-if [[ `uname` == "Darwin" ]]; then
-    source $CONFIG/zsh/module/homebrew.sh
+if [[ $(uname) == "Darwin" ]]; then
+    source "$CONFIG"/zsh/module/homebrew.sh
     export OS_ENV=m1
     export PATH="$CONFIG/bin/m1:$PATH"
 
     # to support mysql_config
     export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
-elif [[ `uname` == "Linux" ]]; then
+elif [[ $(uname) == "Linux" ]]; then
     export OS_ENV=wsl
     export PATH="$CONFIG/bin/wsl:$PATH"
 fi
 
 export PATH="$CONFIG/scripts:$PATH"
 export PATH="$CONFIG/zellij/scripts:$PATH"
-
 
 export TEMP_PATH="$HOME/.temp"
 export PATH="$HOME/.gem/ruby/2.6.0/bin:$PATH"
@@ -64,7 +63,7 @@ export ENV="jason"
 
 # direnv
 if command -v direnv 1>/dev/null 2>&1; then
-  eval "$(direnv hook zsh)"
+    eval "$(direnv hook zsh)"
 fi
 
 # bzip
@@ -103,7 +102,6 @@ CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/libpq/include"
 
 export GPG_TTY=$(tty)
 
-
 # Created by `pipx` on 2023-04-13 09:31:33
 export PATH="$PATH:/Users/jasony/.local/bin"
 
@@ -114,3 +112,8 @@ export PATH="/Applications/Keybase.app/Contents/SharedSupport/bin:$PATH"
 
 # Navi
 export NAVI_PATH="$CONFIG/navi"
+
+export GLOBAL_PYTHON="$HOME/.globalpip/.venv/bin/python3"
+
+# LLVM
+export DYLD_LIBRARY_PATH=/opt/homebrew/opt/llvm/lib:$DYLD_LIBRARY_PATH

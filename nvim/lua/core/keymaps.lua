@@ -71,3 +71,10 @@ map.i("<C-e>", "<ESC>$a")
 map.n("<leader>y", ":let @*=expand('%:p')<CR>:echo 'Copied to clipboard'<CR>")
 
 map.n("qm", ":Shell make<CR>")
+
+map.n("qn", ":cnext<CR>")
+map.n("qp", ":cprev<CR>")
+
+map.u("n", "qf", ":Grep ")
+
+map.n("<leader>gd", ":DiffviewFileHistory %<CR>")

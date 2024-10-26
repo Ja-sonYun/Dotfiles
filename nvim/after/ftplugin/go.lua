@@ -8,3 +8,5 @@ opt.listchars:append({
 	trail = "~",
 	leadmultispace = ".   ",
 })
+
+vim.b.file_suffix = { ".go" }

@@ -12,3 +12,8 @@ $ service: brew services list --- --column 1 --header-lines 1 --delimiter '\s\s+
 brew services stop <service>
 
 $ service: brew services list --- --column 1 --header-lines 1 --delimiter '\s\s+'
+
+# Restart service
+brew services stop <service> && brew services start <service>
+
+$ service: brew services list --- --column 1 --header-lines 1 --delimiter '\s\s+'

@@ -101,6 +101,9 @@ if [ "$TMUX" ]; then
     trap "quit_tmux" EXIT
 fi
 
+# Override keybinds
+source $CONFIG/zsh/zle/better_grammar.sh
+
 source $CONFIG/zsh/module/keybind.sh
 source $CONFIG/zsh/module/compinit.sh
 source $CONFIG/zsh/module/fzf.sh
@@ -112,6 +115,5 @@ source $CONFIG/zsh/module/bootup.sh
 # Activate Hooks
 source $CONFIG/zsh/hooks/activate.sh
 
-export _EMPTY=
 
-# Q post block. Keep at the bottom of this file.
+export _EMPTY=

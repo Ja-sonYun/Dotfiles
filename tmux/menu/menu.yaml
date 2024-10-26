@@ -41,11 +41,6 @@ title: " menu "
 border: "simple"
 items:
 
-  - NoDim:
-      name: "User: #[fg=green]$(whoami)"
-
-  - Seperate: {}
-
   - Menu:
       name: "git"
       shortcut: g
@@ -57,8 +52,8 @@ items:
       next_menu: "./shell.yaml"
 
   - Menu:
-      name: "docker"
-      shortcut: v
+      name: "kocker"
+      shortcut: d
       next_menu: "./docker.yaml"
 
   - Menu:
@@ -84,7 +79,7 @@ items:
 
       position:
         w: 120
-        h: 40
+        h: 70
 
   - Menu:
       name: "rss"
@@ -95,6 +90,11 @@ items:
       name: "translate"
       shortcut: l
       next_menu: "./translate.yaml"
+
+  - Menu:
+      name: "management"
+      shortcut: m
+      next_menu: "./management.yaml"
 
   - Seperate: {}
 
@@ -118,34 +118,3 @@ items:
       shortcut: P
       command: rm -f /tmp/tmux_popup_log
       background: true
-
-  - Seperate: {}
-
-  - NoDim:
-      name: "#[align=centre fg=blue]-- Work --"
-
-  - Seperate: {}
-
-  - Menu:
-      name: "touch"
-      command: "cd /Users/jasony/temp/jobcan && ./touch.sh"
-      background: true
-
-  - Menu:
-      name: "calendar"
-      shortcut: d
-      command: $CONFIG/shortcuts/scripts/icalcli
-      close_after_command: false
-      border: none
-      position:
-        w: 100
-        h: 17
-
-  - Menu:
-      name: "task"
-      shortcut: t
-      command: taskwarrior-tui
-
-      position:
-        w: 120
-        h: 60

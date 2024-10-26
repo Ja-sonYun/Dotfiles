@@ -136,7 +136,7 @@ vim.g.lsp_servers = {
 	----------------------
 	-- TypeScript
 	----------------------
-	tsserver = {
+	ts_ls = {
 		settings = {
 			typescript = {
 				inlayHints = {
@@ -175,9 +175,10 @@ vim.g.lsp_servers = {
 	----------------------
 	-- Clangd
 	----------------------
-  clangd = {},
+	clangd = {},
 }
-vim.g.lsp_servers["wgsl-analyzer"] = {}
+vim.g.native_lsp_servers = {}
+vim.g.native_lsp_servers["sourcekit-lsp"] = {}
 
 return {
 	{
@@ -265,7 +266,7 @@ return {
 			local table = require("table_utils")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			for lsp, opt in pairs(vim.g.lsp_servers) do
+			for lsp, opt in pairs(table.merge(vim.g.lsp_servers, vim.g.native_lsp_servers)) do
 				if type(opt) == "function" then
 					opt = opt(lspconfig, lsp_utils)
 				end

@@ -19,6 +19,10 @@ dump:
 	$(MAKE) cargo_dump
 	$(MAKE) pipx_dump
 
+push:
+	git commit -m "$(shell date)" -a
+	git push
+
 brew_install:
 	brew bundle
 

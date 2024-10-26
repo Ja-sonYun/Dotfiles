@@ -26,3 +26,5 @@ alias cat="bat"
 alias nn="nnn -e"
 
 alias gtask="`ls -d /opt/homebrew/Cellar/go-task/*/bin/task | head -1`"
+
+alias qv="qlmanage -p"

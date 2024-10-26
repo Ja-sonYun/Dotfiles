@@ -1,0 +1,6 @@
+% ImageMagick
+
+# Convert PDF to PNG
+magick -density 300 <input> output.png
+
+$ input: ls
