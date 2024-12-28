@@ -1,5 +1,3 @@
-hl = require("highlight")
-
 opt = vim.opt_local
 
 opt.shiftwidth = 2
@@ -10,6 +8,6 @@ opt.listchars:append({
 	leadmultispace = ". ",
 })
 
-vim.b.file_suffix = { ".tf", ".hcl", ".tfvars" }
+vim.b.file_suffix = { ".md" }
 
-hl.set("@lsp.type.type", { ctermfg = 130 })
+opt.number = true

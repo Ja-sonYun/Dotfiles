@@ -5,7 +5,6 @@ return {
 		config = function(_, opts)
 			require("todo-comments").setup(opts)
 
-			local map = require("keymap")
 			local hl = require("highlight")
 
 			hl.set("TodoBgTODO", { ctermbg = 3, ctermfg = 0 })
@@ -86,8 +85,13 @@ return {
 		config = function(_, opts)
 			require("trouble").setup(opts)
 			local map = require("keymap")
+			local hl = require("highlight")
 
-			map.n("<leader>d", ":Trouble<cr>")
+			map.n("<leader>dd", ":Trouble todo<cr>")
+
+			hl.set("TroublePreview", { ctermbg = 0 })
+			hl.set("TroubleNormal", { ctermbg = 0 })
+			hl.set("TroubleNormalNC", { ctermbg = 0 })
 		end,
 		opts = {
 			auto_close = false, -- auto close when there are no items
@@ -95,7 +99,7 @@ return {
 			auto_preview = true, -- automatically open preview when on an item
 			auto_refresh = true, -- auto refresh when open
 			auto_jump = false, -- auto jump to the item when there's only one
-			focus = false, -- Focus the window when opened
+			focus = true, -- Focus the window when opened
 			restore = true, -- restores the last location in the list when opening
 			follow = true, -- Follow the current item
 			indent_guides = true, -- show indent guides
@@ -133,6 +137,7 @@ return {
 				r = "refresh",
 				R = "toggle_refresh",
 				q = "close",
+				["<C-c>"] = "close",
 				o = "jump_close",
 				["<esc>"] = "cancel",
 				["<cr>"] = "jump",
@@ -152,6 +157,8 @@ return {
 				i = "inspect",
 				p = "preview",
 				P = "toggle_preview",
+				h = "fold_close",
+				l = "fold_open",
 				zo = "fold_open",
 				zO = "fold_open_recursive",
 				zc = "fold_close",
@@ -237,49 +244,49 @@ return {
 					},
 				},
 			},
-  icons = {
-    ---@type trouble.Indent.symbols
-    indent = {
-      top           = "│ ",
-      middle        = "├╴",
-      last          = "└╴",
-      -- last          = "-╴",
-      -- last       = "╰╴", -- rounded
-      fold_open     = " ",
-      fold_closed   = " ",
-      ws            = "  ",
-    },
-    folder_closed   = " ",
-    folder_open     = " ",
-    kinds = {
-      Array         = " ",
-      Boolean       = "󰨙 ",
-      Class         = " ",
-      Constant      = "󰏿 ",
-      Constructor   = " ",
-      Enum          = " ",
-      EnumMember    = " ",
-      Event         = " ",
-      Field         = " ",
-      File          = " ",
-      Function      = "󰊕 ",
-      Interface     = " ",
-      Key           = " ",
-      Method        = "󰊕 ",
-      Module        = " ",
-      Namespace     = "󰦮 ",
-      Null          = " ",
-      Number        = "󰎠 ",
-      Object        = " ",
-      Operator      = " ",
-      Package       = " ",
-      Property      = " ",
-      String        = " ",
-      Struct        = "󰆼 ",
-      TypeParameter = " ",
-      Variable      = "󰀫 ",
-    },
-  },
+			icons = {
+				---@type trouble.Indent.symbols
+				indent = {
+					top = "| ",
+					middle = "+╴",
+					last = "`-",
+					-- last          = "-╴",
+					-- last       = "╰╴", -- rounded
+					fold_open = "v ",
+					fold_closed = "> ",
+					ws = "  ",
+				},
+				folder_closed = " ",
+				folder_open = " ",
+				kinds = {
+					Array = "  ",
+					Boolean = "  ",
+					Class = "  ",
+					Constant = "  ",
+					Constructor = "  ",
+					Enum = "  ",
+					EnumMember = "  ",
+					Event = "  ",
+					Field = "  ",
+					File = "  ",
+					Function = "  ",
+					Interface = "  ",
+					Key = "  ",
+					Method = "  ",
+					Module = "  ",
+					Namespace = "  ",
+					Null = "  ",
+					Number = "  ",
+					Object = "  ",
+					Operator = "  ",
+					Package = "  ",
+					Property = "  ",
+					String = "  ",
+					Struct = "  ",
+					TypeParameter = "  ",
+					Variable = "  ",
+				},
+			},
 		},
 	},
 }

@@ -117,3 +117,6 @@ source $CONFIG/zsh/hooks/activate.sh
 
 
 export _EMPTY=
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/jasony/.cache/lm-studio/bin"

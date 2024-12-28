@@ -116,4 +116,4 @@ export NAVI_PATH="$CONFIG/navi"
 export GLOBAL_PYTHON="$HOME/.globalpip/.venv/bin/python3"
 
 # LLVM
-export DYLD_LIBRARY_PATH=/opt/homebrew/opt/llvm/lib:$DYLD_LIBRARY_PATH
+export DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix)/lib

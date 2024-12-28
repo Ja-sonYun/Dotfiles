@@ -4,7 +4,7 @@ cmd.new("Fix", function(opts)
 	local utils = require("utils")
 	local gpt = require("gpt")
 
-	local cleaner = require("message").Msg("Fixing...", "MatchParen", { timestamp = true, ret_cleaner = true })
+	vim.cmd("Msg Fixing...")
 
 	local text_selection = utils.get_selected_lines()
 	local bufnr = vim.api.nvim_get_current_buf()
@@ -18,7 +18,6 @@ cmd.new("Fix", function(opts)
 			-- if the buffer is not valid, open a popup. This can happen when the user closes the previous popup window before the request is finished.
 			Ui.popup(lines, utils.get_filetype(), bufnr, start_row, start_col, end_row, end_col)
 		end
-		cleaner()
 		vim.cmd("Ok Fixed!")
 	end
 
@@ -39,7 +38,7 @@ cmd.new("Doc", function(opts)
 	local utils = require("utils")
 	local gpt = require("gpt")
 
-	local cleaner = require("message").Msg("Adding Doc...", "Search", { timestamp = true, ret_cleaner = true })
+  vim.cmd("Msg Adding Doc...")
 
 	-- local CodeGptModule = require("codegpt")
 	local text_selection = utils.get_selected_lines()
@@ -54,8 +53,7 @@ cmd.new("Doc", function(opts)
 			-- if the buffer is not valid, open a popup. This can happen when the user closes the previous popup window before the request is finished.
 			Ui.popup(lines, utils.get_filetype(), bufnr, start_row, start_col, end_row, end_col)
 		end
-		cleaner()
-		vim.cmd("Ok Doc Added!")
+    vim.cmd("Ok Doc Added!")
 	end
 
 	local filename = vim.fn.expand("%")
@@ -75,7 +73,7 @@ cmd.new("Improve", function(opts)
 	local utils = require("utils")
 	local gpt = require("gpt")
 
-	local cleaner = require("message").Msg("Improving...", "Search", { timestamp = true, ret_cleaner = true })
+  vim.cmd("Msg Improving...")
 
 	-- local CodeGptModule = require("codegpt")
 	local text_selection = utils.get_selected_lines()
@@ -90,8 +88,7 @@ cmd.new("Improve", function(opts)
 			-- if the buffer is not valid, open a popup. This can happen when the user closes the previous popup window before the request is finished.
 			Ui.popup(lines, utils.get_filetype(), bufnr, start_row, start_col, end_row, end_col)
 		end
-		cleaner()
-		vim.cmd("Ok Improved!")
+    vim.cmd("Ok Improved!")
 	end
 
 	local filename = vim.fn.expand("%")

@@ -146,27 +146,27 @@ return {
 		end,
 	},
 
-	{
-		"tzachar/highlight-undo.nvim",
-		opts = {
-			duration = 1000,
-			undo = {
-				hlgroup = "DiffAdd",
-				mode = "n",
-				lhs = "u",
-				map = "undo",
-				opts = {},
-			},
-			redo = {
-				hlgroup = "DiffDelete",
-				mode = "n",
-				lhs = "<C-r>",
-				map = "redo",
-				opts = {},
-			},
-			highlight_for_count = true,
-		},
-	},
+	-- {
+	-- 	"tzachar/highlight-undo.nvim",
+	-- 	opts = {
+	-- 		duration = 1000,
+	-- 		undo = {
+	-- 			hlgroup = "HighlightUndo",
+	-- 			mode = "n",
+	-- 			lhs = "u",
+	-- 			map = "undo",
+	-- 			opts = {},
+	-- 		},
+	-- 		redo = {
+	-- 			hlgroup = "HighlightRedo",
+	-- 			mode = "n",
+	-- 			lhs = "<C-r>",
+	-- 			map = "redo",
+	-- 			opts = {},
+	-- 		},
+	-- 		highlight_for_count = true,
+	-- 	},
+	-- },
 
 	{
 		"chrisgrieser/nvim-spider",

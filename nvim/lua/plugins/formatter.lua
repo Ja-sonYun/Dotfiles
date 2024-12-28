@@ -7,16 +7,10 @@ return {
 			-- Customize or remove this keymap to your liking
 			"ql",
 			function()
-				local cleaner = require("message").Msg(
-					"Running Formatter...",
-					"MatchParen",
-					{ timestamp = true, ret_cleaner = true }
-				)
+				vim.cmd("Msg Running Formatter...")
 				require("conform").format({ async = true, lsp_fallback = true }, function(err)
-					cleaner()
 					if err then
 						vim.cmd("Err failed to format")
-						vim.notify(err)
 					else
 						vim.cmd("Ok format successful")
 					end

@@ -66,3 +66,40 @@ for _, event in ipairs({ "BufEnter", "FocusGained", "InsertLeave", "WinEnter", "
 		end,
 	})
 end
+
+-----------------------------------------------------------
+-- Dynamic on save callback
+-----------------------------------------------------------
+function is_file_in_glob(pattern, filename)
+	local patterns = vim.split(pattern, ",")
+	for _, pat in ipairs(patterns) do
+		local files = vim.fn.glob(pat, false, true)
+		for _, file in ipairs(files) do
+			if file == filename then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+auto.cmd("BufWritePost", {
+	pattern = "",
+	callback = function()
+		vim.cmd("Ok File saved!")
+
+		-- if VIM_ON_SAVE_HOOK_TRIGGER_RULES, assume that is like *.py
+		if vim.env.VIM_ON_SAVE_HOOK then
+			if vim.env.VIM_ON_SAVE_HOOK_TRIGGER_RULES == nil then
+				vim.cmd("!" .. vim.env.VIM_ON_SAVE_HOOK)
+			else
+				local file_hit = is_file_in_glob(vim.env.VIM_ON_SAVE_HOOK_TRIGGER_RULES, vim.fn.expand("%:t"))
+				if file_hit then
+					vim.cmd("!" .. vim.env.VIM_ON_SAVE_HOOK)
+				else
+					vim.cmd("Ok File not matched with VIM_ON_SAVE_HOOK_TRIGGER_RULES")
+				end
+			end
+		end
+	end,
+})

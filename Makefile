@@ -101,3 +101,9 @@ set_all:
 	$(MAKE) set_mac_window_manager
 	$(MAKE) set_newsboat
 	$(MAKE) set_zellij
+
+upgrade-all:
+	npm upgrade -g
+	pipx upgrade-all
+	cargo install-update -a
+	brew upgrade

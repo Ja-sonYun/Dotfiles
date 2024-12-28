@@ -20,7 +20,7 @@ map.n("<leader>R", ":source ~/.config/nvim/init.lua|Msg init.lua reloaded!<CR>")
 map.n("<leader>r", ":e!|LspStop<CR>:lua vim.diagnostic.reset()<CR>:Msg Reloaded<CR>:sleep 500m<CR>:LspStart<CR>")
 
 -- Fast saving with <leader> and s
-map.n("<leader>w", ":w|Msg file saved!<CR>")
+map.n("<leader>w", ":w<CR>")
 
 -- Replace
 map.u("n", "<C-s>r", "<ESC>*:%s///gc<left><left><left>")
@@ -74,7 +74,12 @@ map.n("qm", ":Shell make<CR>")
 
 map.n("qn", ":cnext<CR>")
 map.n("qp", ":cprev<CR>")
+map.n("qs", ":copen<CR>")
 
 map.u("n", "qf", ":Grep ")
 
 map.n("<leader>gd", ":DiffviewFileHistory %<CR>")
+
+map.u("n", "<leader>gg", ":Git<CR> ")
+
+map.n("<leader>c", "<nop>")

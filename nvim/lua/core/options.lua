@@ -49,7 +49,7 @@ opt.showmatch = true -- Highlight matching parenthesis
 opt.splitkeep = "screen"
 
 opt.fillchars = {
-	stl = "^",
+	stl = "~",
 	stlnc = "=",
 	horiz = "-",
 	horizup = "-",

@@ -27,6 +27,7 @@ return {
 	},
 	{ "tpope/vim-fugitive" },
 	{ "sindrets/diffview.nvim" },
+  { "jreybert/vimagit" },
 	{
 		"lewis6991/gitsigns.nvim",
 		init = function()

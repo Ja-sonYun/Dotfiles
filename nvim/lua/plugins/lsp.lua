@@ -1,27 +1,4 @@
-local get_python_path = function(path, workspace)
-	local venv_env_path = os.getenv("VIRTUAL_ENV")
-	-- Use activated virtualenv.
-	if venv_env_path ~= nil then
-		local venv_path = path.join(venv_env_path, "bin", "python3")
-		require("message").Msg(venv_path, "MatchParen", { timestamp = true })
-		return venv_path
-	end
-
-	-- Find and use virtualenv in workspace directory.
-	-- Search for parent dir, sometimes vim-rooter use src folder
-	for _, pattern in ipairs({ ".venv*" }) do
-		local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
-		if match ~= "" then
-			local venv_path = path.join(path.dirname(match), "bin", "python")
-			require("message").Msg(venv_path, "MatchParen", { timestamp = true })
-			return venv_path
-		end
-	end
-
-	-- Fallback to system Python.
-	require("message").Msg("Fallback to system Python", "MatchParen", { timestamp = true })
-	return "~/.globalpip/.venv/bin/python"
-end
+local resolver = require("resolve")
 
 -- This strips out &nbsp; and some ending escaped backslashes out of hover
 -- strings because the pyright LSP is... odd with how it creates hover strings.
@@ -82,7 +59,7 @@ vim.g.lsp_servers = {
 			before_init = function(_, config)
 				-- Remove html tags from hover, pyright do this weird thing where it
 				-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(hover_pydoc, {})
-				config.settings.python.pythonPath = get_python_path(path, config.root_dir)
+				config.settings.python.pythonPath = resolver.get_python_path(path, config.root_dir)
 			end,
 		}
 	end,
@@ -176,6 +153,11 @@ vim.g.lsp_servers = {
 	-- Clangd
 	----------------------
 	clangd = {},
+
+	----------------------
+	-- Terraform
+	----------------------
+	terraformls = {},
 }
 vim.g.native_lsp_servers = {}
 vim.g.native_lsp_servers["sourcekit-lsp"] = {}

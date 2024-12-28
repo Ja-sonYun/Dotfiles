@@ -1,3 +1,5 @@
+local resolver = require("resolve")
+
 local map = require("keymap")
 
 local dap = require("dap")
@@ -23,7 +25,7 @@ dap.adapters.python = {
 
 dap_python.setup(vim.g.global_python_path)
 dap_python.test_runner = "pytest"
-dap_python.resolve_python = resolve_python_path
+dap_python.resolve_python = resolver.get_python_path
 
 dap.configurations.python = {
 	{
@@ -32,7 +34,7 @@ dap.configurations.python = {
 		request = "launch",
 		name = "Launch file",
 		program = "${file}", -- This configuration will launch the current file if used.
-		pythonPath = resolve_python_path,
+		pythonPath = resolver.get_python_path,
 	},
 	{
 		type = "python",
@@ -40,7 +42,7 @@ dap.configurations.python = {
 		name = "Launch pytest",
 		module = "pytest",
 		args = { "-s", "-v" },
-		pythonPath = resolve_python_path,
+		pythonPath = resolver.get_python_path,
 		console = "integratedTerminal",
 	},
 	{
@@ -49,7 +51,7 @@ dap.configurations.python = {
 		name = "Launch current pytest file",
 		module = "pytest",
 		args = { "-s", "-v", "${relativeFile}" },
-		pythonPath = resolve_python_path,
+		pythonPath = resolver.get_python_path,
 		console = "integratedTerminal",
 	},
 }

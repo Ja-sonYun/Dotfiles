@@ -55,12 +55,19 @@ M.Msg = function(msg, hl, opts)
 			if v.bufnr == popup.bufnr or vim.api.nvim_buf_is_valid(v.bufnr) == false then
 				break
 			end
-			v:update_layout({
-				position = {
-					row = win_height - 1 - padding,
-					col = v._.layout.position.col,
-				},
-			})
+			local success, err = pcall(function()
+				v:update_layout({
+					position = {
+						row = win_height - 1 - padding,
+						col = v._.layout.position.col,
+					},
+				})
+			end)
+
+			if not success then
+				table.remove(messages, i)
+			end
+
 			padding = padding + 1
 		end
 	end
@@ -70,7 +77,10 @@ M.Msg = function(msg, hl, opts)
 
 	-- unmount component when cursor leaves buffer
 	local cleaner = function()
-		popup:unmount()
+		-- Unmount safely
+		local success, err = pcall(function()
+			popup:unmount()
+		end)
 
 		-- delete buffer from list of messages
 		for i, v in ipairs(messages) do
@@ -85,6 +95,21 @@ M.Msg = function(msg, hl, opts)
 	end
 
 	vim.defer_fn(cleaner, timeout)
+
+	vim.api.nvim_create_autocmd("BufHidden", {
+		buffer = current_buf,
+		callback = function()
+			M.ClearMsg()
+		end,
+		once = true, -- Ensure it only runs once
+	})
+end
+
+M.ClearMsg = function()
+	for _, v in ipairs(messages) do
+		v:unmount()
+	end
+	messages = {}
 end
 
 return M

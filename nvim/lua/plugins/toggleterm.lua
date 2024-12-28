@@ -92,6 +92,39 @@ return {
 				term:open()
 			end
 
+			function switch_to_filetype_buffer(filetype)
+				-- 모든 버퍼의 ID를 가져옴
+				local buffers = vim.api.nvim_list_bufs()
+
+				for _, buf in ipairs(buffers) do
+					-- 버퍼가 유효하고 로드된 상태인지 확인
+					if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+						-- 버퍼의 파일 유형을 가져옴
+						local buf_filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+						if buf_filetype == filetype then
+							-- 파일 유형이 일치하면 해당 버퍼로 전환
+							vim.api.nvim_set_current_buf(buf)
+							return
+						end
+					end
+				end
+
+				print("No buffer with filetype: " .. filetype)
+			end
+
+			function focus_shell()
+				local buffers = vim.api.nvim_list_bufs()
+				for _, buf in ipairs(buffers) do
+					if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+						local buf_filetype = vim.api.nvim_buf_get_option(buf, "filetype")
+						if buf_filetype == "toggleterm" then
+							vim.api.nvim_set_current_buf(buf)
+							return
+						end
+					end
+				end
+			end
+
 			local cmd = require("command")
 
 			cmd.new("Shell", function(opts)
@@ -107,6 +140,10 @@ return {
 			cmd.new("ShellClear", function(opts)
 				vim.g.shell_opened = 0
 				vim.cmd("set laststatus=2")
+			end, {})
+
+			cmd.new("FocusShell", function(opts)
+				focus_shell()
 			end, {})
 		end,
 	},

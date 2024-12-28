@@ -2,20 +2,6 @@ vim.g.global_python_path = vim.env.HOME .. "/.globalpip/.venv/bin/python"
 
 local map = require("keymap")
 
-local resolve_python_path = function()
-	-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-	-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
-	-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
-	local cwd = vim.fn.getcwd()
-	if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-		return cwd .. "/venv/bin/python"
-	elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-		return cwd .. "/.venv/bin/python"
-	else
-		return "/opt/homebrew/bin/python"
-	end
-end
-
 return {
 	{
 		"rcarriga/nvim-dap-ui",

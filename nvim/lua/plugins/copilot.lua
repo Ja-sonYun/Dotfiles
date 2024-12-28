@@ -39,6 +39,7 @@ return {
 				auto_set_keymaps = true,
 				auto_apply_diff_after_generation = false,
 				support_paste_from_clipboard = false,
+				minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
 			},
 			mappings = {
 				--- @class AvanteConflictMappings
@@ -98,8 +99,9 @@ return {
 					prefix = "> ",
 				},
 				edit = {
-					border = "rounded",
+					floating = false, -- Open the 'AvanteAsk' prompt in a floating window
 					start_insert = true, -- Start insert mode when opening the edit window
+					border = { ",", "-", ".", "|", "'", "-", "`", "|" },
 				},
 				ask = {
 					floating = false, -- Open the 'AvanteAsk' prompt in a floating window
@@ -126,7 +128,6 @@ return {
 		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
-			"stevearc/dressing.nvim",
 			"nvim-lua/plenary.nvim",
 			"MunifTanjim/nui.nvim",
 		},

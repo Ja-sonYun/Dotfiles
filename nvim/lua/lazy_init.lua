@@ -66,6 +66,16 @@ require("lazy").setup({
 	{ "tpope/vim-eunuch" },
 	{ "mechatroner/rainbow_csv" },
 
+	{
+		"sphamba/smear-cursor.nvim",
+		opts = {
+			opts = {
+				cterm_cursor_colors = { 240, 245, 250, 255 },
+				cterm_bg = 235,
+			},
+		},
+	},
+
 	-- load plugins under plugins
 	{ import = "plugins" },
 })
